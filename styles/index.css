@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.term_and_condition_point {
+  font-weight: 700;
+}
+.ant-select-item {
+  padding: 4px !important;
+}
+
+.ant-modal-content {
+  border-radius: 5px !important;
+  background: transparent !important;
+}
+
+.ant-modal-header,
+.ant-modal-footer {
+  height: 0px !important;
+  padding: 0px !important;
+  color: white !important;
+  background: #040403 !important;
+  border: none !important;
+  border-radius: none !important;
+}
+
+.ant-modal-confirm-body-wrapper {
+  background: #26282c;
+  padding: 20px;
+  color: white;
+}
+
+.ant-modal-confirm-body,
+.ant-modal-confirm-title,
+.ant-modal-confirm-content {
+  color: white !important;
+  margin-top: 10px;
+}
+
+.ant-modal-confirm-btns > .ant-btn-default {
+  background: #49de80;
+  border: none;
+  margin-right: 10px;
+}
+
+.ant-modal-confirm-btns > .ant-btn-dangerous {
+  background: #d9363e !important;
+  color: white !important;
+}
+
+.ant-modal-body {
+  padding: 0px !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #9ddbad !important;
+  border-color: #9ddbad !important;
+}
+
+.ant-checkbox-inner {
+  border-radius: 100% !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner::after {
+  display: none !important;
+}
+
+.active.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  border-top: inherit !important;
+}
+.ant-collapse {
+  background: inherit !important;
+  color: inherit !important;
+  border: none !important;
+}
+
+.ant-collapse > .ant-collapse-item {
+  border-bottom: 1px solid #292931 !important;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  color: inherit !important;
+  padding-left: 0px !important;
+}
+
+.ant-collapse-content {
+  background: inherit !important;
+  color: inherit !important;
+  border-top: 1px solid #292931 !important;
+}
+.ant-collapse-content > .ant-collapse-content-box {
+  padding: 0px !important;
+  padding-top: 10px !important;
+  color: inherit;
+}
+
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-input > .ant-input {
+  border-radius: 5px;
+  background: #242424;
+  color: white;
+}
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-focused {
+  border-color: #9ddaad !important;
+  border-right-width: 1px;
+}

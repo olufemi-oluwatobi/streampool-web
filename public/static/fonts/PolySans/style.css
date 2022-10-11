@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-MedianItalic.eot");
+  src: url("PolySans-MedianItalic.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-MedianItalic.woff2") format("woff2"),
+    url("PolySans-MedianItalic.woff") format("woff"),
+    url("PolySans-MedianItalic.ttf") format("truetype"),
+    url("PolySans-MedianItalic.svg#PolySans-MedianItalic") format("svg");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-Median.eot");
+  src: url("PolySans-Median.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Median.woff2") format("woff2"),
+    url("PolySans-Median.woff") format("woff"),
+    url("PolySans-Median.ttf") format("truetype"),
+    url("PolySans-Median.svg#PolySans-Median") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Bulky";
+  src: url("PolySans-Bulky.eot");
+  src: url("PolySans-Bulky.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Bulky.woff2") format("woff2"),
+    url("PolySans-Bulky.woff") format("woff"),
+    url("PolySans-Bulky.ttf") format("truetype"),
+    url("PolySans-Bulky.svg#PolySans-Bulky") format("svg");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-Median_1.eot");
+  src: url("PolySans-Median_1.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Median_1.woff2") format("woff2"),
+    url("PolySans-Median_1.woff") format("woff"),
+    url("PolySans-Median_1.ttf") format("truetype"),
+    url("PolySans-Median_1.svg#PolySans-Median") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-Median_2.eot");
+  src: url("PolySans-Median_2.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Median_2.woff2") format("woff2"),
+    url("PolySans-Median_2.woff") format("woff"),
+    url("PolySans-Median_2.ttf") format("truetype"),
+    url("PolySans-Median_2.svg#PolySans-Median") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-Median_3.eot");
+  src: url("PolySans-Median_3.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Median_3.woff2") format("woff2"),
+    url("PolySans-Median_3.woff") format("woff"),
+    url("PolySans-Median_3.ttf") format("truetype"),
+    url("PolySans-Median_3.svg#PolySans-Median") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Median";
+  src: url("PolySans-Median_4.eot");
+  src: url("PolySans-Median_4.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Median_4.woff2") format("woff2"),
+    url("PolySans-Median_4.woff") format("woff"),
+    url("PolySans-Median_4.ttf") format("truetype"),
+    url("PolySans-Median_4.svg#PolySans-Median") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Bulky";
+  src: url("PolySans-Bulky_1.eot");
+  src: url("PolySans-Bulky_1.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Bulky_1.woff2") format("woff2"),
+    url("PolySans-Bulky_1.woff") format("woff"),
+    url("PolySans-Bulky_1.ttf") format("truetype"),
+    url("PolySans-Bulky_1.svg#PolySans-Bulky") format("svg");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Neutral";
+  src: url("PolySans-NeutralItalic.eot");
+  src: url("PolySans-NeutralItalic.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-NeutralItalic.woff2") format("woff2"),
+    url("PolySans-NeutralItalic.woff") format("woff"),
+    url("PolySans-NeutralItalic.ttf") format("truetype"),
+    url("PolySans-NeutralItalic.svg#PolySans-NeutralItalic") format("svg");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Neutral";
+  src: url("PolySans-Neutral.eot");
+  src: url("PolySans-Neutral.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Neutral.woff2") format("woff2"),
+    url("PolySans-Neutral.woff") format("woff"),
+    url("PolySans-Neutral.ttf") format("truetype"),
+    url("PolySans-Neutral.svg#PolySans-Neutral") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Slim";
+  src: url("PolySans-SlimItalic.eot");
+  src: url("PolySans-SlimItalic.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-SlimItalic.woff2") format("woff2"),
+    url("PolySans-SlimItalic.woff") format("woff"),
+    url("PolySans-SlimItalic.ttf") format("truetype"),
+    url("PolySans-SlimItalic.svg#PolySans-SlimItalic") format("svg");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PolySans Slim";
+  src: url("PolySans-Slim.eot");
+  src: url("PolySans-Slim.eot?#iefix") format("embedded-opentype"),
+    url("PolySans-Slim.woff2") format("woff2"),
+    url("PolySans-Slim.woff") format("woff"),
+    url("PolySans-Slim.ttf") format("truetype"),
+    url("PolySans-Slim.svg#PolySans-Slim") format("svg");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}

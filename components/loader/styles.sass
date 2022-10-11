@@ -1,0 +1,74 @@
+@use 'sass:math'
+  
+$background-color: rgba(0, 0, 0, 0.39)
+$loader-size: 4rem
+$loader-color: rgb(60, 87, 221)
+$loader-time: 2.5s
+$loader-delay: 0s
+$item-size: 1rem
+$item-rotation: 0deg
+
+.loader-wrapper
+  background: $background-color
+  width: 100vw
+  height: 100vh
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  z-index: 2000
+  animation: fade 0.2s ease 
+
+    
+.loader
+  position: absolute
+  width: $loader-size
+  height: $loader-size
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
+  .center
+    width: $loader-size
+    height: $loader-size
+    background: $loader-color
+    border-radius: 50%
+    animation: center $loader-time ease-in-out infinite
+
+  .item
+    position: absolute
+    width: $item-size
+    height: $item-size
+    top: math.div($loader-size - $item-size, 2)
+    left: 0
+    right: 0
+    margin: auto
+    background: $loader-color
+    border-radius: 50%
+    
+@for $i from 1 through 8
+  $loader-delay: $loader-delay + 0.2
+  $item-rotation: $item-rotation + 45
+
+  .item-#{$i}
+    animation: anim-#{$i} $loader-time ease-in-out infinite $loader-delay
+    animation-fill-mode: backwards
+
+  @keyframes anim-#{$i}
+    0%, 60%, 100%
+      transform: rotate($item-rotation) translateX($loader-size) scale(1)
+    10%, 50%
+      transform: rotate($item-rotation) translateX(0) scale(1.5)
+
+  @keyframes center
+    0%, 10%, 90%, 100%
+      transform: scale(0.7)
+    45%, 55%
+      transform: scale(1)
+
+@keyframes fade 
+  0% 
+    opacity: 0
+  100%
+    opacity: 1
