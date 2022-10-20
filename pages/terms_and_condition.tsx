@@ -1,17 +1,11 @@
 import React from "react";
 import { FC } from "react";
-import { connect } from "react-redux";
 import Layout from "../components/Layout";
-import withAuth from "../utils/auth/withAuth";
 import Head from "next/head";
 
-import { handleFetchGiftCards, stageGiftCard } from "../store/actions";
-
-import { ThunkActionResponse } from "../interfaces";
 
 interface Props {
-    getGiftCards: (d?: { [key: string]: string }) => ThunkActionResponse;
-    selectGiftCard: (id: number | string) => void;
+
 }
 
 const IndexPage: FC<Props> = ({ }) => {
@@ -499,10 +493,5 @@ const IndexPage: FC<Props> = ({ }) => {
     );
 };
 
-const mapDispatchToProps = {
-    getGiftCards: handleFetchGiftCards,
-    selectGiftCard: stageGiftCard,
-};
 
-const Index = connect(null, mapDispatchToProps)(IndexPage);
-export default withAuth(Index, false);
+export default IndexPage

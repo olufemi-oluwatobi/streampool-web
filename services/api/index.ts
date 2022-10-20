@@ -5,9 +5,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from 'axios';
-import store from '../../store'
-import { handleFetchUserDetails } from '../../store/actions/handleUserActions';
-import userActions from '../../store/action-types/user';
 import { isFalsyValue } from '../../utils';
 
 /**
@@ -63,9 +60,9 @@ export const handleInitApp = (): void => {
   const headerInfo = JSON.parse(localStorage.getItem(accessToken) || '{}');
   const tempToken = localStorage.getItem(TEMP_TOKEN) || ''
   if (isFalsyValue(headerInfo) || (tempToken && !isValidToken(tempToken))) {
-    store.dispatch({ type: userActions.LOG_OUT })
+    // store.dispatch({ type: userActions.LOG_OUT })
   } else {
-    store.dispatch(handleFetchUserDetails() as any);
+    // store.dispatch(handleFetchUserDetails() as any);
   }
 }
 

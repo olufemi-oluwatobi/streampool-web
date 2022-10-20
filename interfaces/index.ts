@@ -5,7 +5,6 @@
 // import { User } from 'path/to/interfaces';
 
 export * from "./http";
-export * from "./react-redux";
 
 export type User = {
   id: number;
