@@ -95,7 +95,7 @@ const Header = (props: HeaderProps) => {
                         onClick={() => {
                             history.push("/signup");
                         }}
-                        className=" flex  justify-center items-center whitespace-nowrap  rounded-md text-black-300 border-none px-10   bg-[#9DDBAD] text-md h-10
+                        className=" flex  justify-center items-center whitespace-nowrap  rounded-md text-black-300 border-none px-10   bg-[#49DE80] text-md h-10
                   w-fit-content "
                     >
                         <span>Sign up</span>
@@ -107,6 +107,15 @@ const Header = (props: HeaderProps) => {
                 <div className="nav-button-group flex   justify-center items-center">
                     <Button
                         onClick={() => {
+                            history.push("/requests");
+                        }}
+                        className=" bg-transparent outline-none border-none flex items-center text-md  text-gray-1600 dark:text-dark-gray-400  w-fit-content px-2 mx-6 "
+                    >
+                        <span>Requests</span>
+
+                    </Button>
+                    <Button
+                        onClick={() => {
                             history.push("/settings");
                         }}
                         className=" bg-transparent outline-none border-none flex items-center text-md  text-gray-1600 dark:text-dark-gray-400  w-fit-content px-2 mx-6 "
@@ -114,11 +123,12 @@ const Header = (props: HeaderProps) => {
                         <span>Settings</span>
 
                     </Button>
+
                     <Button
                         onClick={() => {
                             history.push("/memberships");
                         }}
-                        className=" flex  justify-center items-center whitespace-nowrap  rounded-md text-black-300 border-none px-10   bg-[#9DDBAD] text-md h-10
+                        className=" flex font-bold  justify-center items-center whitespace-nowrap  rounded-lg text-black-300 border-none px-10   bg-[#49DE80] text-md h-10
                   w-fit-content "
                     >
                         <span>Memberships</span>
@@ -184,7 +194,7 @@ const Header = (props: HeaderProps) => {
     return isSearching ? (
         renderSearchInput()
     ) : (
-        <HeaderWrapper id="header_one" className="flex flex-row justify-between bg-black-700   items-center sm:px-10 px-6 py-6 sticky top-0 ">
+        <HeaderWrapper id="header_one" className="flex flex-row justify-between bg-black-700   items-center sm:px-[5%] px-6 py-6 sticky top-0 ">
             <div className=" sm:hidden flex flex-none">
                 <Image width='130' height="20" src={'/static/images/streamcel1.png'} onClick={() => history.push("/")} className="  " />
             </div>
@@ -194,7 +204,7 @@ const Header = (props: HeaderProps) => {
                     onClick={() => {
                         history.push("/");
                     }}
-                    className=" bg-transparent outline-none border-none flex items-center text-md  text-gray-1600 dark:text-dark-gray-400  w-fit-content px-2 mx-6 "
+                    className=" bg-transparent outline-none border-none flex items-center text-md  text-gray-1600 dark:text-dark-gray-400 px-0  w-fit-content "
                 >
                     <Image width='200' height="30" src={'/static/images/streamcel1.png'} onClick={() => history.push("/")} className="  " />
                 </Button>

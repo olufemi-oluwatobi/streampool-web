@@ -1,18 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect } from "react";
 import Link from "next/link";
 import { FormikProps } from "formik";
-import { useTheme } from "next-themes";
-import { useAuthContext } from "../providers/authProvider"
-import { handleUserLogin } from '..//store/actions/handleUserActions'
-import { connect } from 'react-redux'
+import { useAuthContext } from "../providers/authProvider";
+import { useNotification } from "../providers/notificationProvider";
 import { Form, Input, Button, Checkbox } from "antd";
 import { FormikProvider, useFormik } from "formik";
-import withAuth from "../utils/auth/withAuth";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { LoginPayload } from "../interfaces/http";
-
-import Head from "next/head";
+import {
+    GoogleLogin,
+    GoogleLoginResponse,
+    useGoogleLogin,
+} from "react-google-login";
 
 const { Item } = Form;
 
@@ -39,8 +39,7 @@ interface Props {
     // loading: boolean;
     // onSuccess?: () => void | undefined,
     // triggerSignup?: () => void | undefined,
-
-};
+}
 
 const LoginAccount = ({
     values,
@@ -100,17 +99,19 @@ const LoginAccount = ({
                     className=" text-black-500 rounded border-none   w-full flex justify-center items-center h-12 bg-[#9DDBAD] "
                 >
                     <div className=" flex justify-center items-center">
-
                         <span className="mr-5 text-lg font-bold">Login</span>
                     </div>
                 </Button>
             </div>
             <div className="flex text-white-200   justify-center mt-2">
-                <span>You haven't registered?  <Link href="/signup">
-                    <span className=" text-sm  text-[#9DDBAD] cursor-pointer  ">
-                        Sign up
-                    </span>
-                </Link></span>
+                <span>
+                    You haven't registered?{" "}
+                    <Link href="/signup">
+                        <span className=" text-sm  text-[#9DDBAD] cursor-pointer  ">
+                            Sign up
+                        </span>
+                    </Link>
+                </span>
             </div>
         </div>
     );
@@ -118,7 +119,21 @@ const LoginAccount = ({
 
 const IndexPage = (props: Props) => {
     const history = useRouter();
-    const { signIn } = useAuthContext()
+    const { signIn } = useAuthContext();
+    const { triggerNotification } = useNotification();
+    const { signIn: googleSignIn, loaded } = useGoogleLogin({
+        onSuccess: (e: GoogleLoginResponse) =>
+            signIn({
+                email: e?.profileObj?.email,
+                password: "password123",
+                accessToken: e.accessToken,
+                authBasis: "gmail",
+            }),
+        clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+        fetchBasicProfile: true,
+        onFailure: (e) => console.log(e),
+        scope: "profile",
+    });
 
 
     const accountCreationFormik = useFormik({
@@ -126,39 +141,49 @@ const IndexPage = (props: Props) => {
             email: "",
             password: "",
         },
-        onSubmit: (values) => {
-            signIn(values, { onSuccess: () => history.push('/'), onError: () => history.push('/') })
+        onSubmit: async (values) => {
+            try {
+                await signIn(values);
+                history.push("/");
+            } catch (error) {
+                const { response } = error;
+                if (response) {
+                    const { data } = response;
+                    triggerNotification(data.message, data.message, "error");
+                }
+                console.log(response);
+                console.log("error ====>", error);
+            }
         },
         validationSchema: AccountCreationValidationSchema,
     });
 
+    const onSuccess = (response) => { };
     return (
-        <div
-            className="  "
-        >
+        <div className="  ">
             <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
                 <div className=" flex flex-col justify-center items-center  sm:w-1/3 w-full ">
                     <div>
                         <Link href="/">
-                            <Image width='130' height="30" className="cursor-pointer" src={'/static/images/streamcel1.png'} />
-                        </Link>
-
-                    </div>
-                    <div className="mt-10 flex w-full justify-center items-center ">
-                        <FormikProvider value={accountCreationFormik}>
-                            <LoginAccount
-                                {...accountCreationFormik}
+                            <Image
+                                width="130"
+                                height="30"
+                                className="cursor-pointer"
+                                src={"/static/images/streamcel1.png"}
                             />
+                        </Link>
+                    </div>
+                    <div className="mt-10 flex w-full flex-col justify-center items-center ">
+                        <Button onClick={() => googleSignIn()}>Login With Google</Button>
+                        <FormikProvider value={accountCreationFormik}>
+                            <LoginAccount {...accountCreationFormik} />
                         </FormikProvider>
-
                     </div>
                 </div>
-
             </div>
         </div>
     );
 };
 
-const mapDispatchToProps = { handleLogin: handleUserLogin }
-const Index = connect(null, mapDispatchToProps)(IndexPage);
-export default Index
+const Index = IndexPage;
+export default Index;

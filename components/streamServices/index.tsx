@@ -1,7 +1,9 @@
 /* eslint-disable */
 import React, { useState, useMemo } from "react";
 import className from "classnames";
-import { Button } from "antd";
+import { decryptPassword } from "@utils/helpers"
+import useCopyToClipboard from "@hooks/useCopy"
+import { useNotification } from "@providers/notificationProvider"
 import {
     useStreamService,
     StreamService,
@@ -28,6 +30,14 @@ const ServiceCategory = ({
     category: string;
     verticalOnMobile?: boolean;
 }) => {
+    const { triggerNotification } = useNotification()
+    const [copiedText, copyToClipboard] = useCopyToClipboard()
+
+    const copyPoolPassword = (password: string) => {
+        const decryptedPassword = decryptPassword(password, process.env.NEXT_PUBLIC_ENCRYPTION_KEY)
+        copyToClipboard(decryptedPassword)
+        triggerNotification('Password Copied', "Password Copied!", "success")
+    }
     return (
         <div className=" w-full flex flex-col  justify-center items-center ">
             <div className="flex flex-col w-full justify-start items-start mb-6">
@@ -40,15 +50,15 @@ const ServiceCategory = ({
             })}>
                 <div
                     className={className("w-full", {
-                        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-8 md:gap-2 lg:gap-12":
+                        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-8 md:gap-2 lg:gap-6 xl:gap-12":
                             !verticalOnMobile,
-                        " sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-2 md:gap-2 lg:gap-12 flex flex-nowrap sm:px-0 px-6 ": verticalOnMobile,
+                        " sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-2 md:gap-2 lg:gap-6 xl:gap-12 flex flex-nowrap sm:px-0 px-6 ": verticalOnMobile,
                     })}
                 >
                     {services.length &&
                         isLoading === false &&
                         services?.map((service) => (
-                            <div className={className(" sm:ml-0", { "sm:min-w-0 min-w-[270px] mr-6": verticalOnMobile })}>
+                            <div className={className(" sm:ml-0", { "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile })}>
                                 <ServiceCard
                                     buttonProp={{
                                         label: "View Service", onClick: () => onClick(service)
@@ -78,6 +88,8 @@ const Index = () => {
     const [loadMore, setLoadMore] = useState(false);
     const className =
         "w-full   sm:w-full   md:mr-8  md:w-45%  lg:w-30 xl:w-100 mb-20 ";
+
+
 
     const categories = useMemo(() => {
         const data: string[] = [];

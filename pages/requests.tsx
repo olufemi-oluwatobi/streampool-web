@@ -15,6 +15,7 @@ import { useNotification } from "../providers/notificationProvider"
 
 import withAuth from "../utils/auth/withAuth";
 
+const { confirm } = Modal
 
 const calculateAmount = (amount: string, numberOfMembers: string) => {
     const amounNum = parseInt(amount, 10);
@@ -33,14 +34,14 @@ const EmptyState = () => {
 }
 const IndexPage = () => {
     const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
-    const { authData, verifyUser } = useAuthContext()
+    const { authData, verifyUser, fetchUserData } = useAuthContext()
     const { triggerNotification } = useNotification()
     const { query } = useRouter()
-    const { isLoading, streamService, requestMembership, streamServices, setStreamService } =
+    const { isLoading, streamService, cancelRequest, streamServices, setStreamService } =
         useStreamService();
 
     const services = useMemo(() => {
-        return authData?.user?.pools?.map(pool => streamServices.find(service => service.id === pool.stream_service_id)).filter(d => Boolean(d))
+        return authData?.user?.poolRequests?.map(pool => streamServices.find(service => service.id === pool.stream_service_id)).filter(d => Boolean(d))
     }, [authData])
 
     useEffect(() => {
@@ -129,9 +130,50 @@ const IndexPage = () => {
 
     console.log("services =====>", services)
 
+    const onCloseModal = () => {
+        setStreamService(null);
+        setSelectedPlan(null);
+    };
+
+    const onRequestCancel = async () => {
+        try {
+            await cancelRequest(serviceRequest.id);
+            triggerNotification("Request Cancelled", "Request Cancelled", "success")
+            await fetchUserData()
+        } catch (error) {
+            triggerNotification("Request Failed", "Request Failed: Failed to cancel your subscription", "error")
+        }
+    };
+
+    const showCancelRequestConfirm = () => {
+        confirm({
+            title: "Are you sure you want to cancel your request",
+            icon: (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                </svg>
+            ),
+            okText: "Yes",
+            okType: "danger",
+            cancelText: "No",
+            onOk() { onRequestCancel() },
+        });
+    };
+
     return (
         <Layout title="Creating Happiness">
-            <HeaderBanner title={"Memberships"} />
+            <HeaderBanner title={"Requests"} />
             <section
                 id="card_content_wrapper"
                 className=" w-full mt-2 mb-40 px-[5%] flex flex-col justify-center items-center     "
@@ -181,13 +223,13 @@ const IndexPage = () => {
                         isLoading={isLoading}
                         pool={getCurrentPool()}
                         buttonProps={{
-                            onClick: () => console.log(),
-                            label: "Cancel Membership",
+                            onClick: () => showCancelRequestConfirm(),
+                            label: "Cancel Request",
                             className: "text-[#BA1200] border-none bg-transparent"
                         }}
                         // status="active membership"
                         status={membershipStatus}
-                        onCancel={() => setStreamService(null)}
+                        onCancel={() => onCloseModal()}
                         onSelectPlan={(plan) => setSelectedPlan(plan)}
                     />
                 </div>

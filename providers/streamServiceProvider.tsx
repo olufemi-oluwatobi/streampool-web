@@ -1,54 +1,61 @@
 import React, { createContext, useEffect, useContext, useReducer } from "react";
-import StreamService from "../services/streamServices";
-
-
-
+import StreamService, { PoolPayload } from "../services/streamServices";
 
 export type StreamPlan = {
-    "id": number,
-    "name": string,
-    "currency": string,
-    "max_limit": string,
-    "amount": string,
-    "stream_service_id": number,
-    "created_at": string,
-    "updated_at": string
-}
+    id: number;
+    name: string;
+    currency: string;
+    max_limit: string;
+    amount: string;
+    stream_service_id: number;
+    created_at: string;
+    updated_at: string;
+};
 
 export type StreamService = {
-    "id": number,
-    "name": string,
-    "icon": string,
-    "entrance_type": "credentials" | "invites",
-    "created_at": string,
-    "updated_at": string,
-    "is_disabled": boolean,
-    "planCount": number,
-    "poolCount": string
-    "categories": Categories[]
-    "streamPlans": StreamPlan[]
-}
+    id: number;
+    name: string;
+    icon: string;
+    entrance_type: "credentials" | "invites";
+    created_at: string;
+    updated_at: string;
+    is_disabled: boolean;
+    planCount: number;
+    poolCount: string;
+    categories: Categories[];
+    streamPlans: StreamPlan[];
+};
 
 export interface Categories {
-    "is_active": boolean,
-    "id": number,
-    "name": string,
-    "created_at": string,
-    "updated_at": string
+    is_active: boolean;
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
 }
 
+export type RequestCallback = {
+    onSuccess: () => void;
+    onError: (error: Error) => void;
+};
 
 type StreamServiceContextType = {
-    streamServices: StreamService[],
-    streamService: StreamService | null,
-    setStreamServices: (data: any) => void,
-    setStreamService: (data: StreamService) => void,
-    isLoading: boolean,
-    setFetchingStreamService: (data: boolean) => void,
-    fetchStreamServives: () => Promise<void>,
-    requestMembership: (data: { streamServiceId: number, customEmail?: string }) => void
-}
-export const StreamServiceContext = createContext({} as StreamServiceContextType);
+    streamServices: StreamService[];
+    streamService: StreamService | null;
+    setStreamServices: (data: any) => void;
+    setStreamService: (data: StreamService) => void;
+    isLoading: boolean;
+    setFetchingStreamService: (data: boolean) => void;
+    fetchStreamServives: () => Promise<void>;
+    cancelRequest: (id: number) => Promise<void>;
+    requestMembership: (
+        data: { streamServiceId: number; customEmail?: string },
+    ) => Promise<void>;
+    createPool: (d: PoolPayload) => Promise<void>
+};
+export const StreamServiceContext = createContext(
+    {} as StreamServiceContextType
+);
 
 export const useStreamService = () => useContext(StreamServiceContext);
 
@@ -116,20 +123,55 @@ export const StreamServiceProvider = ({ children }) => {
             if (data?.success) {
                 setStreamServices(data?.data);
             }
-        } catch (error) { } finally {
-            setLoading(false)
+        } catch (error) {
+        } finally {
+            setLoading(false);
         }
     };
 
-    const requestMembership = async (requestData: { streamServiceId: number, customEmail?: string }) => {
+    const requestMembership = async (
+        requestData: { streamServiceId: number; customEmail?: string },
+    ) => {
         try {
             setLoading(true);
             const { data } = await StreamService.requestToJoin(requestData);
-
-        } catch (error) { } finally {
-            setLoading(false)
+            if (data.success) {
+                return Promise.resolve()
+            }
+        } catch (error) {
+            return Promise.reject()
+        } finally {
+            setLoading(false);
         }
     };
+
+    const cancelRequest = async (id: number) => {
+        try {
+            setLoading(true);
+            const { data } = await StreamService.cancelRequest(id);
+            if (data.success) {
+                return Promise.resolve()
+            }
+        } catch (error) {
+            return Promise.reject()
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const createPool = async (d: PoolPayload) => {
+        try {
+            console.log("isLoading", isLoading)
+            const { data } = await StreamService.createPool(d);
+            if (data.success) {
+                return Promise.resolve()
+            }
+        } catch (error) {
+            return Promise.reject()
+        } finally {
+        }
+    };
+
 
     return (
         <StreamServiceContext.Provider
@@ -141,7 +183,9 @@ export const StreamServiceProvider = ({ children }) => {
                 isLoading,
                 setFetchingStreamService: setLoading,
                 fetchStreamServives,
-                requestMembership
+                requestMembership,
+                cancelRequest,
+                createPool
             }}
         >
             {children}

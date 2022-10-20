@@ -13,9 +13,9 @@ export const ServiceCard = ({ image, oldAmount, name, amount, currency, type, bu
                 <span className='font-bold text-sm '></span>
             </div>
             <div className='w-full mt-5'>
-                <Image width='500' height='300' className='rounded-md ' src={image} />
+                <Image width='450' height='250' className='rounded-md ' src={image} />
             </div>
-            <Button onClick={() => onClick()} className='font-bold border-[1.5px] border-solid border-[#9DDBAD] text-[#9DDBAD] bg-transparent rounded-xl  mt-6 h-10 text-md '>{label}</Button>
+            <Button onClick={() => onClick()} className='font-bold border-[1.5px] border-solid border-[#49DE80] text-[#49DE80] bg-transparent rounded-xl  mt-6 h-10 text-md '>{label}</Button>
         </div>
     )
 }

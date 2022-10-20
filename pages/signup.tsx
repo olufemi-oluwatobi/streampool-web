@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { FormikProps } from "formik";
 import { useAuthContext } from "../providers/authProvider"
-import { handleRegisterPersonal } from '../store/actions/handleUserActions'
-import { connect } from 'react-redux'
 import { Form, Input, Button } from "antd";
 import { FormikProvider, useFormik } from "formik";
-import withAuth from "../utils/auth/withAuth";
 import { useRouter } from 'next/router'
 import Image from "next/image";
 import { PersonalRegistrationPayload } from "../interfaces/http";
@@ -15,6 +12,7 @@ import ShieldIcon from "../assets/images/icons/shield.svg";
 const { Item } = Form;
 
 import * as Yup from "yup";
+import { useNotification } from "@providers/notificationProvider";
 
 const AccountCreationValidationSchema = Yup.object().shape({
     password: Yup.string()
@@ -146,6 +144,7 @@ const LoginAccount = ({
 const IndexPage = (props: Props) => {
     const history = useRouter();
     const { signUp } = useAuthContext()
+    const { triggerNotification } = useNotification()
     const accountCreationFormik = useFormik({
         initialValues: {
             email: "",
@@ -155,8 +154,22 @@ const IndexPage = (props: Props) => {
         },
 
         onSubmit: async (values) => {
-            accountCreationFormik.setSubmitting(true)
-            await signUp(values, () => history.push('/'))
+            try {
+                accountCreationFormik.setSubmitting(true)
+                await signUp(values)
+                history.push("/")
+            } catch (error) {
+                const { response } = error;
+                if (response) {
+                    const { data } = response;
+                    triggerNotification(data.message, data.message, "error");
+                }
+                console.log(response);
+                console.log("error ====>", error);
+            } finally {
+                accountCreationFormik.setSubmitting(false)
+            }
+
             accountCreationFormik.setSubmitting(false)
 
         },
@@ -191,6 +204,5 @@ const IndexPage = (props: Props) => {
     );
 };
 
-const mapDispatchToProps = { handleSignUp: handleRegisterPersonal }
-const Index = connect(null, mapDispatchToProps)(IndexPage);
+const Index = IndexPage
 export default Index
