@@ -6,7 +6,6 @@
 
 export * from "./http";
 export * from "./react-redux";
-export * from "./store";
 
 export type User = {
   id: number;
