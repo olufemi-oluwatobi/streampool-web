@@ -4,6 +4,9 @@ import HTTP, { buildQueryString } from '../api';
 
 
 class GiftCards extends BaseService {
+  constructor() {
+    super()
+  }
   protected getUrl = (url: string) => `/api/v1/${url}`;
 
   async getTransactions(query: { [key: string]: any } = {}) {

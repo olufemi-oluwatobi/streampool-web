@@ -2,6 +2,9 @@ import BaseApi from "../api/new-index";
 
 export type PoolPayload = { "planId": number, "streamServiceId": number, "name": string, "maxMemberCount": number, "password"?: string, "email": string }
 class StreamService extends BaseApi {
+  constructor() {
+    super()
+  }
   formUrl = (url: string) => `/stream_service/${url}`;
 
   async getStreamServices() {

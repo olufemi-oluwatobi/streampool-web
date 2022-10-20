@@ -1,6 +1,9 @@
 import BaseApi from "../api/new-index";
 
 class AuthService extends BaseApi {
+    constructor() {
+        super()
+    }
     formUrl = (url: string) => `/auth/${url}`;
 
     async initializePayment() {

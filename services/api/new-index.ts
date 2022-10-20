@@ -17,13 +17,16 @@ class BaseApi {
         try {
             if (this.headers) return this.headers;
             const headers: AxiosRequestHeaders = {};
-            const authDataSerialized = window.localStorage.getItem("AuthData");
-            const authData = JSON.parse(authDataSerialized);
-            if (authDataSerialized) {
-                headers.Authorization = `${authData?.token?.type} ${authData?.token?.token}`;
+            if ((typeof window !== 'undefined')) {
+                const authDataSerialized = window.localStorage.getItem("AuthData");
+                const authData = JSON.parse(authDataSerialized);
+                if (authDataSerialized) {
+                    headers.Authorization = `${authData?.token?.type} ${authData?.token?.token}`;
+                }
+                this.headers = headers;
+                return headers;
             }
-            this.headers = headers;
-            return headers;
+
         } catch (error) {
             console.log(error)
         }

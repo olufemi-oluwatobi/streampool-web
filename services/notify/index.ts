@@ -1,6 +1,10 @@
 import BaseApi from "../api/new-index";
 
 class NotifyService extends BaseApi {
+
+    constructor() {
+        super()
+    }
     formUrl = (url: string) => `/stream_service/${url}`;
 
     async getStreamServices() {
