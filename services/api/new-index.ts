@@ -17,7 +17,7 @@ class BaseApi {
         try {
             if (this.headers) return this.headers;
             const headers: AxiosRequestHeaders = {};
-            const authDataSerialized = localStorage.getItem("AuthData");
+            const authDataSerialized = window.localStorage.getItem("AuthData");
             const authData = JSON.parse(authDataSerialized);
             if (authDataSerialized) {
                 headers.Authorization = `${authData?.token?.type} ${authData?.token?.token}`;
