@@ -42,7 +42,7 @@ export const handleCatchError = (err: Error & AxiosError<ApiResponse>) => {
   }
 
   // Toast all the errors
-  errorBag.forEach(error => NotifyService.setTitle('Error').setMessage(error).error());
+  // errorBag.forEach(error => NotifyService.setTitle('Error').setMessage(error).error());
 }
 
 /**
