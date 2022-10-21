@@ -102,7 +102,7 @@ const Index = () => {
         if (popularIndex !== 0 && popularIndex > -1) {
             const dataZero = data[0]
             data[popularIndex] = dataZero
-            data[0] = "Popular"
+            data[0] = "popular"
         }
         return data;
     }, [streamServices]);
