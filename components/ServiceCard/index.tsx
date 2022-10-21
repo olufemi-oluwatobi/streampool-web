@@ -3,7 +3,7 @@ import { Button } from "antd"
 
 export const ServiceCard = ({ image, oldAmount, name, amount, currency, type, buttonProp: { label, onClick } }: { image: string, name: string, type: string, amount: number, oldAmount: string, currency: string, buttonProp: { label: string, onClick: () => void } }) => {
     return (
-        <div className='p-6 shadow-elavation-2 cursor-pointer bg-[#23232d]  flex flex-col rounded-lg  w-full'>
+        <div className='p-6 shadow-elavation-2 cursor-pointer bg-[#967AA1]  flex flex-col rounded-lg  w-full'>
             <div className='w-full flex flex-col'>
                 <span className='font-bold text-sm text-white-200 '>{name}</span>
                 <span className='font-bold  mt-2 text-xl'>{currency} {Number(amount).toLocaleString()}/month</span>

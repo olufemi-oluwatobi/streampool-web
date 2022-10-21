@@ -328,7 +328,7 @@ const IndexPage = () => {
         !isMakingOffer ? setMakePool() : submitOffer();
       },
       label: isMakingOffer ? "Submit" : "Make a Subscription Pool",
-      className: classNames("bg-black-700 text-white-200 font-bold"),
+      className: classNames(" bg-[#49de80] text-black-500 font-bold"),
     };
 
     const cancelButtonProps = {
@@ -415,7 +415,7 @@ const IndexPage = () => {
           <span className=" text-[46px] leading-tight md:text-[46px] lg:text-[66px] xl:text-[76px] 2xl:text-[86px] sm:w-2/3 w-full font-bold sm:mb-2 mb-2 ">
             Stream More, for Less
           </span>
-          <span className="my-6 text-[#a9abb1] text-md w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose sm:font-medium font-bold  ">
+          <span className="my-6 text-[#a9abb1] text-md w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose sm:font-medium font-light ">
             Feel like you're missing out on a great deal of shows cos there are
             so many streaming services and you can't afford them all? Not to
             worry, we've got you covered. Streamcel allows you to save money on

@@ -3,6 +3,7 @@ import BaseApi from "../api/new-index";
 class AuthService extends BaseApi {
     constructor() {
         super()
+        this.loadRequest()
     }
     formUrl = (url: string) => `/auth/${url}`;
 

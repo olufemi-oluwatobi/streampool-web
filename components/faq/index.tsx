@@ -13,7 +13,7 @@ const text = `
 
 const FaqSection = () => {
     return (
-        <div className="w-full flex text-white-200  flex-col">
+        <div className="w-full flex mt-20  text-white-200  flex-col">
             <div className="w-full flex flex-col md:flex-row lg:flex-row justify-between items-center ">
                 <div className=" w-full flex flex-col md:w-full lg:w-7/12 ">
                     <span className=" text-3xl mb-10 ">Frequently Asked Questions</span>
