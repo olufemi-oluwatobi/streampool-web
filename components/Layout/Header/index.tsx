@@ -148,7 +148,7 @@ const Header = (props: HeaderProps) => {
             <HeaderWrapper
                 id="header_one"
                 // darkMode={theme === "dark"}
-                className="flex flex-row w-full justify-between dark:bg-black-700 bg-white-50   items-center sm:px-10 px-6 sm:py-0 md:py-6  py-6 sticky top-0"
+                className="flex flex-row w-full justify-between dark:bg-black-700 bg-white-50   items-center sm:px-10 px-6 sm:py-0 pb-0 sticky top-0"
             >
                 <svg
                     onClick={() => setIsSearching(false)}

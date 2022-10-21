@@ -307,7 +307,7 @@ const IndexPage = () => {
         };
 
         const setMakePool = () => {
-            if (!authData) return push("/");
+            if (!authData) return push("/login");
             setMakeOffer(true);
         };
 
@@ -398,7 +398,7 @@ const IndexPage = () => {
 
     return (
         <Layout title="Stream more for less">
-            {streamService && <Image src={streamService?.icon || ""} width="700" height="300" objectFit='cover' />}
+            {streamService && <Image src={streamService?.icon || ""} width="700" height="400" objectFit='cover' />}
             <div className=" flex sm:flex-row px-[5%] flex-col mt-10 w-full justify-between items-center ">
                 {renderContent()}
             </div>
