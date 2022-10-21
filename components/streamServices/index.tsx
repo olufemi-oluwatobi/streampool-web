@@ -98,6 +98,12 @@ const Index = () => {
                 (cat) => !data.includes(cat.name) && data.push(cat.name)
             )
         );
+        const popularIndex = data.findIndex(d => d.toLowerCase() === "popular")
+        if (popularIndex !== 0 && popularIndex > -1) {
+            const dataZero = data[0]
+            data[popularIndex] = dataZero
+            data[0] = "Popular"
+        }
         return data;
     }, [streamServices]);
 
