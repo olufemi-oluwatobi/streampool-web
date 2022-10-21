@@ -28,12 +28,18 @@ const IndexPage = () => {
   >("init");
   const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
   const [customEmail, setCustomEmail] = useState<string | null>(null);
+
+  const maxMemberCount = useMemo(() => {
+    return parseInt(selectedPlan?.max_limit) - 1;
+  }, [selectedPlan]);
+
   const fields = useFormik({
     initialValues: {
       email: "",
       password: "",
-      maxMemberCount: parseInt(selectedPlan?.max_limit) - 1,
+      maxMemberCount: maxMemberCount,
     },
+    enableReinitialize: true,
     onSubmit: async (values) => { },
   });
   const {
@@ -70,7 +76,7 @@ const IndexPage = () => {
 
   const submitOffer = async () => {
     try {
-      if (!authData) return push("/login")
+      if (!authData) return push("/login");
       await createPool({
         streamServiceId: streamService.id,
         email: fields.values.email,
@@ -83,6 +89,11 @@ const IndexPage = () => {
       await fetchUserData();
       setModalContentState("init");
     } catch (error) {
+      triggerNotification(
+        "Request Error",
+        "Sorry, Failed to submit request, kindly try again",
+        "error"
+      );
       //setModalContentState("error");
     }
   };
@@ -307,9 +318,9 @@ const IndexPage = () => {
     };
 
     const setMakePool = () => {
-      if (!authData) return push("/")
-      setMakeOffer(true)
-    }
+      if (!authData) return push("/");
+      setMakeOffer(true);
+    };
 
     const makeOwner = {
       onClick: () => {
