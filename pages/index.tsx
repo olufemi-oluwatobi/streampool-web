@@ -69,8 +69,8 @@ const IndexPage = () => {
   };
 
   const submitOffer = async () => {
-    console.log(fields);
     try {
+      if (!authData) return push("/login")
       await createPool({
         streamServiceId: streamService.id,
         email: fields.values.email,
@@ -306,9 +306,14 @@ const IndexPage = () => {
       }),
     };
 
+    const setMakePool = () => {
+      if (!authData) return push("/")
+      setMakeOffer(true)
+    }
+
     const makeOwner = {
       onClick: () => {
-        !isMakingOffer ? setMakeOffer(true) : submitOffer();
+        !isMakingOffer ? setMakePool() : submitOffer();
       },
       label: isMakingOffer ? "Submit" : "Make a Subscription Pool",
       className: classNames("bg-black-700 text-white-200 font-bold"),
