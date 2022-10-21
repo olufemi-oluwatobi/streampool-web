@@ -209,6 +209,7 @@ const IndexPage = () => {
   const onCloseModal = () => {
     setStreamService(null);
     setSelectedPlan(null);
+    setMakeOffer(null)
   };
 
   const requestEmail = () => {
