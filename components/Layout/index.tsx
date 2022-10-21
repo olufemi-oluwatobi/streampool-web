@@ -21,9 +21,9 @@ const Layout = ({ children, title, icon }: Props) => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className=' bg-black-700 overflow-hidden dark:text-white-50   w-screen min-h-screen flex '>
-                <div className='w-full h-full flex flex-col'>
+                <div className='w-full h-full min-h-screen  flex justify-between flex-col'>
                     <Header onSearch={({ q }) => console.log(q)} onSideMenuClick={() => setMobileSideMenu((mobile) => !mobile)} title={title} icon={icon} user={{ name: `john`, email: "doe" }} />
-                    {mobileSideMenu ? <SideBarMobile user={{ name: `john`, email: "doe" }} /> : <div className='flex flex-col h-[fit-content] sm:overflow-hidden overflow-auto '>
+                    {mobileSideMenu ? <SideBarMobile user={{ name: `john`, email: "doe" }} /> : <div style={{ minHeight: "70vh" }} className='flex flex-col h-full sm:overflow-hidden overflow-auto '>
                         {children}
                     </div>}
                     {!mobileSideMenu && <Footer />}

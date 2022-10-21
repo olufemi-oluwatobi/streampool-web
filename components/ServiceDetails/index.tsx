@@ -141,6 +141,7 @@ const ServiceDetails = ({
     buttonProps,
     offerBoxProps,
     isPoolOwner,
+
 }: {
     streamService: StreamService;
     selectedPlan: StreamPlan;
@@ -196,32 +197,9 @@ const ServiceDetails = ({
     };
 
     return (
-        <div className="flex flex-col justify-center text-center">
-            <div className="w-full flex mb-10 items-center justify-between text-white-200   ">
-                <div className="flex items-center mr-8  ">
-                    <span className=" text-base   ">Membership</span>
-                </div>
-                <button
-                    onClick={() => onCancel()}
-                    className=" outline-none bg-none  w-6 h-6 justify-center items-center bg-[#444444] flex rounded-full "
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-4 h-4"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
-                        />
-                    </svg>
-                </button>
-            </div>
-            <div className="flex justify-between border-0 border-b border-solid border-[#494949] mb-6 pb-4">
+        <div className="flex w-full flex-col justify-center text-center">
+
+            <div className="sm:flex hidden  justify-between border-0 border-b border-solid border-[#494949] mb-6 pb-4">
                 <div className="flex justify-start  items-center  ">
                     <img className=" h-14 w-14 rounded-full " src={streamService?.icon} />
                     <div className="flex flex-col justify-start  items-start text-white-200 ml-3">
@@ -459,5 +437,34 @@ const ServiceDetails = ({
         </div>
     );
 };
+
+export const ServiceDetailHeader = ({ title, onButtonClick }: { title: string, onButtonClick: () => void }) => {
+    return (
+        <div className="w-full flex mb-10 items-center justify-between text-white-200   ">
+            <div className="flex items-center mr-8  ">
+                <span className=" text-base   ">{title}</span>
+            </div>
+            <button
+                onClick={() => onButtonClick()}
+                className=" outline-none bg-none  w-6 h-6 justify-center items-center bg-[#444444] flex rounded-full "
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
+            </button>
+        </div>
+    )
+}
 
 export default ServiceDetails;

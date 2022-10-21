@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { useState, useMemo } from "react";
 import className from "classnames";
-import { decryptPassword } from "@utils/helpers"
+import { decryptPassword } from "@utils/helpers";
+import { useRouter } from "next/router";
 import useCopyToClipboard from "@hooks/useCopy"
+import useCheckMobileScreen from "@hooks/useIsMobile";
 import { useNotification } from "@providers/notificationProvider"
 import {
     useStreamService,
@@ -61,7 +63,9 @@ const ServiceCategory = ({
                             <div className={className(" sm:ml-0", { "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile })}>
                                 <ServiceCard
                                     buttonProp={{
-                                        label: "View Service", onClick: () => onClick(service)
+                                        label: "View Service", onClick: () => {
+                                            onClick(service)
+                                        }
                                     }}
                                     currency={service.streamPlans[0]?.currency}
                                     image={service.icon}
@@ -85,6 +89,8 @@ const ServiceCategory = ({
 
 const Index = () => {
     const { streamServices, setStreamService, isLoading } = useStreamService();
+    const isMobile = useCheckMobileScreen()
+    const router = useRouter()
     const [loadMore, setLoadMore] = useState(false);
     const className =
         "w-full   sm:w-full   md:mr-8  md:w-45%  lg:w-30 xl:w-100 mb-20 ";
@@ -126,7 +132,10 @@ const Index = () => {
                     isLoading={isLoading}
                     verticalOnMobile={category.toLowerCase() === "popular"}
                     category={category}
-                    onClick={(service) => setStreamService(service)}
+                    onClick={(service) => {
+                        setStreamService(service)
+                        if (isMobile) router.push(`/stream_service/${service.id}`)
+                    }}
                 />
             </div>
         );

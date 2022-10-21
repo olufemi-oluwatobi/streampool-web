@@ -48,7 +48,7 @@ const Footer = () => {
     return (
         <section
             id="footer_wrapper"
-            className=" px-5% font-inter border-t border-solid border-[#494949]   text-black   flex justify-between py-10 "
+            className=" px-5% font-inter mt-20 border-t border-solid border-[#494949]   text-black   flex justify-between py-10 "
         >
             <a>
                 <Image width='130' height="20" src={'/static/images/streamcel1.png'} />
