@@ -274,7 +274,7 @@ const IndexPage = () => {
   const detailButtonLabel = useMemo(() => {
     if (serviceMembership) return "Cancel Membership";
     if (serviceRequest) return "Cancel Request";
-    return "Request to Join a Pool";
+    return "Request a Pool";
   }, [authData, serviceRequest, serviceMembership]);
 
   const showCancelRequestConfirm = () => {
@@ -316,7 +316,7 @@ const IndexPage = () => {
         "font-bold": !membershipStatus,
         " font-bold  w-full text-black-500":
           membershipStatus === "pending request",
-        "text-[#BA1200] text-black-500 font-bold border-none w-fit-content h-fit-content bg-transparent":
+        "text-[#BA1200] text-black-500 font-bold border-none w-full bg-transparent":
           membershipStatus === "active membership",
       }),
     };
@@ -330,8 +330,8 @@ const IndexPage = () => {
       onClick: () => {
         !isMakingOffer ? setMakePool() : submitOffer();
       },
-      label: isMakingOffer ? "Submit" : "Make a Subscription Pool",
-      className: classNames(" bg-[#49de80] text-black-500 font-bold"),
+      label: isMakingOffer ? "Submit" : "Create a pool",
+      className: classNames(" bg-white-200 border border-solid border-[#999797]  w-full font-bold", { "bg-transparent text-white-200 font-bold": !isMakingOffer }),
     };
 
     const cancelButtonProps = {
@@ -339,11 +339,8 @@ const IndexPage = () => {
         setMakeOffer(false);
       },
       label: isPoolOwner ? "Disable Pool" : "Cancel",
-      className: classNames({
-        "bg-white-200 text-black-500 font-bold": !isPoolOwner,
-        "text-[#BA1200] text-black-500 font-bold border-none w-fit-content h-fit-content bg-transparent":
-          isPoolOwner,
-      }),
+      className: "bg-[#BA1200] text-white-400 font-bold border-none w-full"
+
     };
 
     if (isMakingOffer) return [makeOwner, cancelButtonProps];
@@ -480,7 +477,9 @@ const IndexPage = () => {
         destroyOnClose={true}
         closable={false}
       >
-        <div className="flex flex-col justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[500px] overflow-auto   bg-[#242424] text-center">
+        <div style={{
+          boxShadow: "rgb(255 255 255 / 20%) 0px 0px 15px, rgb(255 255 255 / 15%) 0px 0px 3px 1px"
+        }} className="flex flex-col drop-shadow-2xl bg-black-700 justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[500px] overflow-auto  text-center">
           {renderModalContent()}
         </div>
       </Modal>

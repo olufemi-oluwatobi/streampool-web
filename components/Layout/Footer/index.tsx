@@ -8,19 +8,6 @@ import LogoInvertedIcon from "../../../assets/images/logo/logo_inverted.svg";
 
 const Footer = () => {
     const { theme: colorTheme } = useTheme();
-    console.log(colorTheme);
-
-    const isDarkMode = colorTheme === "dark";
-
-    const ScrollUpIconDark = "/static/images/icons/scroll_up_dark.svg";
-    const ScrollUpIcon = "/static/images/icons/scroll_up_light.svg";
-
-    const Logo = isDarkMode ? LogoInvertedIcon : LogoIcon;
-
-    const ScrollUp = useMemo(
-        () => (isDarkMode ? ScrollUpIconDark : ScrollUpIcon),
-        [colorTheme, isDarkMode]
-    );
 
     const links = useMemo(
         () => [
@@ -48,13 +35,13 @@ const Footer = () => {
     return (
         <section
             id="footer_wrapper"
-            className=" px-5% font-inter border-t border-solid border-[#494949]   text-black   flex justify-between py-10 "
+            className=" px-5% font-inter border-t border-solid border-[#494949]   text-black   flex justify-between items-center py-4 "
         >
             <a>
                 <Image width='130' height="20" src={'/static/images/streamcel1.png'} />
             </a>
-            <div className="flex">
-                {links.map((link => <a className="ml-4"><img src={link.icon} /></a>))}
+            <div className="flex items-center">
+                {links.map((link => <a className="ml-4 w-4 h-4 "><img src={link.icon} /></a>))}
             </div>
         </section>
     );

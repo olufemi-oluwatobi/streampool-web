@@ -301,7 +301,7 @@ const IndexPage = () => {
                 "font-bold": !membershipStatus,
                 " font-bold  w-full text-black-500":
                     membershipStatus === "pending request",
-                "text-[#BA1200] text-black-500 font-bold border-none w-fit-content h-fit-content bg-transparent":
+                "text-[#BA1200] text-black-500 font-bold border-none w-full bg-transparent":
                     membershipStatus === "active membership",
             }),
         };
@@ -316,7 +316,7 @@ const IndexPage = () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
             label: isMakingOffer ? "Submit" : "Create a pool",
-            className: classNames(" bg-white-200 text-black-500 border border-solid border-[#999797]  w-full font-bold", { "bg-transparent text-white-200 font-bold": !isMakingOffer }),
+            className: classNames(" bg-white-200 border border-solid border-[#999797]  w-full font-bold", { "bg-transparent text-white-200 font-bold": !isMakingOffer }),
         };
 
         const cancelButtonProps = {
@@ -324,11 +324,7 @@ const IndexPage = () => {
                 setMakeOffer(false);
             },
             label: isPoolOwner ? "Disable Pool" : "Cancel",
-            className: classNames({
-                " bg-transparent text-white-200 font-bold": !isPoolOwner,
-                "text-white-200 mt-40 bg-red-500 w-full font-bold border border-solid border-[#999797]   bg-transparent":
-                    isPoolOwner,
-            }),
+            className: "bg-[#BA1200] text-white-400 font-bold border-none w-full"
         };
 
         if (isMakingOffer) return [makeOwner, cancelButtonProps];

@@ -182,10 +182,10 @@ const ServiceDetails = ({
                         onClick={() => buttonProp.onClick()}
                         style={buttonProp?.style}
                         className={classNames(
-                            ` sm:flex-1 sm:w-ful  h-12 rounded-3xl mt-4 justify-center items-center text-md`,
+                            ` flex-1 sm:w-full  h-12 rounded-3xl mt-4 justify-center items-center text-md`,
                             buttonProp?.className,
                             "ml-0 mr-0",
-                            { "sm:ml-5 ml-0 w-[45%]": buttons.length - 1 === index && index !== 0 }
+                            { "sm:ml-5 ml-5 w-[45%]": buttons.length - 1 === index && buttons.length > 1 }
                         )}
                     >
                         <span className="text-center" style={{ color: buttonProp?.style?.color }}>
