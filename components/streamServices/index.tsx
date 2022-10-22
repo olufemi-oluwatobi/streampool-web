@@ -75,7 +75,9 @@ const ServiceCategory = ({
                                     "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile,
                                 })}
                             >
-                                <ServiceCard
+                                <ServiceCardPlaceholder />
+
+                                {/* <ServiceCard
                                     buttonProp={{
                                         label: "View Service",
                                         onClick: () => {
@@ -92,7 +94,7 @@ const ServiceCategory = ({
                                     )}
                                     oldAmount={service.streamPlans[0]?.amount}
                                     key={`gift-card-key-${Math.random()}`}
-                                />
+                                /> */}
                             </div>
                         ))
                     ) : (
