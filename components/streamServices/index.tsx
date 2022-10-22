@@ -73,6 +73,7 @@ const ServiceCategory = ({
                             <div
                                 className={className(" w-full", {
                                     "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile,
+                                    "min-w-[350px]": !verticalOnMobile,
 
                                 })}
                             >
