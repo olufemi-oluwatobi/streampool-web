@@ -216,7 +216,6 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     ) => {
         try {
             const { data } = await AuthService.paymentInfo(email);
-            console.log(data);
             if (data.status) {
                 console.log("here bozo ", data.data);
                 setAuthData((v) => ({

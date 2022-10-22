@@ -326,7 +326,7 @@ const IndexPage = () => {
             label: isPoolOwner ? "Disable Pool" : "Cancel",
             className: classNames({
                 " bg-transparent text-white-200 font-bold": !isPoolOwner,
-                "text-white-200 mt-40 bg-red-300 w-full font-bold border border-solid border-[#999797]   bg-transparent":
+                "text-white-200 mt-40 bg-red-500 w-full font-bold border border-solid border-[#999797]   bg-transparent":
                     isPoolOwner,
             }),
         };
