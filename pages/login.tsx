@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { FormikProps } from "formik";
+import Layout from "../components/Layout";
 import { useAuthContext } from "../providers/authProvider";
 import { useNotification } from "../providers/notificationProvider";
 import { Form, Input, Button, Checkbox } from "antd";
@@ -160,20 +161,10 @@ const IndexPage = (props: Props) => {
 
     const onSuccess = (response) => { };
     return (
-        <div className="  ">
-            <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
-                <div className=" flex flex-col justify-center items-center  sm:w-1/3 w-full ">
-                    <div>
-                        <Link href="/">
-                            <Image
-                                width="130"
-                                height="30"
-                                className="cursor-pointer"
-                                src={"/static/images/streamcel1.png"}
-                            />
-                        </Link>
-                    </div>
-                    <div className="mt-10 flex w-full flex-col justify-center items-center ">
+        <Layout title="Stream more for less">
+            <div className=" bg-black-700 p-[5%]  h-screen flex justify-center ">
+                <div className=" flex flex-col items-center  sm:w-1/3 w-full ">
+                    <div className=" mt-20 flex w-full flex-col justify-center items-center ">
                         <Button onClick={() => googleSignIn()}>Login With Google</Button>
                         <FormikProvider value={accountCreationFormik}>
                             <LoginAccount {...accountCreationFormik} />
@@ -181,7 +172,7 @@ const IndexPage = (props: Props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </Layout>
     );
 };
 

@@ -259,7 +259,7 @@ const IndexPage = () => {
     const detailButtonLabel = useMemo(() => {
         if (serviceMembership) return "Cancel Membership";
         if (serviceRequest) return "Cancel Request";
-        return "Request to Join a Pool";
+        return "Join a pool";
     }, [authData, serviceRequest, serviceMembership]);
 
     const showCancelRequestConfirm = () => {
@@ -315,8 +315,8 @@ const IndexPage = () => {
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : "Make a Subscription Pool",
-            className: classNames(" bg-[#49de80] text-black-500 font-bold"),
+            label: isMakingOffer ? "Submit" : "Create a pool",
+            className: classNames(" bg-white-200 text-black-500 border border-solid border-[#999797]  w-full font-bold", { "bg-transparent text-white-200 font-bold": !isMakingOffer }),
         };
 
         const cancelButtonProps = {
@@ -325,8 +325,8 @@ const IndexPage = () => {
             },
             label: isPoolOwner ? "Disable Pool" : "Cancel",
             className: classNames({
-                "bg-white-200 text-black-500 font-bold": !isPoolOwner,
-                "text-white-200 mt-40 bg-[#BA1200] w-full font-bold border-none  bg-transparent":
+                " bg-transparent text-white-200 font-bold": !isPoolOwner,
+                "text-white-200 mt-40 bg-red-300 w-full font-bold border border-solid border-[#999797]   bg-transparent":
                     isPoolOwner,
             }),
         };
@@ -398,9 +398,13 @@ const IndexPage = () => {
 
     return (
         <Layout title="Stream more for less">
-            {streamService && <Image src={streamService?.icon || ""} width="700" height="400" objectFit='cover' />}
-            <div className=" flex sm:flex-row px-[5%] flex-col mt-10 w-full justify-between items-center ">
-                {renderContent()}
+            <div className="h-full flex justify-between flex-col">
+                {streamService && <Image src={streamService?.icon || ""} width="700" height="300" objectFit='cover' />}
+
+                <div className=" flex sm:flex-row px-[2%] flex-col mt-10 h-full w-full justify-between items-center ">
+                    {renderContent()}
+                </div>
+
             </div>
         </Layout>
     );

@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useMemo } from "react";
 import { Transition } from "@tailwindui/react";
+import Image from "next/image"
 import { Collapse, Avatar } from "antd";
 import { Tag, Input, Slider, Form, Badge } from "antd";
 import { decryptPassword } from "@utils/helpers";
@@ -57,7 +58,7 @@ const SubmitPoolCredentials = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
         >
-            <div className="w-full p-4  border rounded-md border-[#999797] modal-input flex flex-col">
+            <div className="w-full p-4  border rounded-md border-[#494949] modal-input flex flex-col">
                 <div className=" bg-[#ffffff] mb-10 flex font-medium  justify-start items-start  text-left text-black-500 rounded-md  p-2 ">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -174,20 +175,20 @@ const ServiceDetails = ({
 
     const renderMainButton = () => {
         return (
-            <div className="w-full flex sm:flex-row flex-col mt-5 justify-between font-bold items-start border-none bg-none  text-md">
+            <div className="w-full mb-4 flex flex-row  mt-5 justify-between font-bold items-start border-none bg-none  text-md">
                 {buttons.map((buttonProp, index) => (
                     <Button
                         loading={isLoading}
                         onClick={() => buttonProp.onClick()}
                         style={buttonProp?.style}
                         className={classNames(
-                            ` sm:flex-1 w-full h-12 rounded-md mt-4 justify-center items-center border-none text-md`,
+                            ` sm:flex-1 sm:w-ful  h-12 rounded-3xl mt-4 justify-center items-center text-md`,
                             buttonProp?.className,
                             "ml-0 mr-0",
-                            { "sm:ml-5 ml-0": buttons.length - 1 === index && index !== 0 }
+                            { "sm:ml-5 ml-0 w-[45%]": buttons.length - 1 === index && index !== 0 }
                         )}
                     >
-                        <span style={{ color: buttonProp?.style?.color }}>
+                        <span className="text-center" style={{ color: buttonProp?.style?.color }}>
                             {buttonProp.label}
                         </span>
                     </Button>
@@ -344,6 +345,7 @@ const ServiceDetails = ({
                     <Collapse
                         expandIconPosition="right"
                         accordion
+                        defaultActiveKey="one"
                         expandIcon={({ isActive }) => (
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -367,7 +369,10 @@ const ServiceDetails = ({
                                     <span className=" text-base text-white-200 mr-2 ">
                                         Pool Members
                                     </span>
-                                    <Badge
+                                    <div className="rounded-3xl w-10 bg-white-400  flex text-sm justify-center items-center text-black-400 ">
+                                        {pool.members_count || 0}
+                                    </div>
+                                    {/* <Badge
                                         title={"Member count"}
                                         showZero
                                         style={{
@@ -376,13 +381,18 @@ const ServiceDetails = ({
                                         }}
                                         className="h-4 text-md mb-1 "
                                         count={pool.members_count || 0}
-                                    />
+                                    /> */}
                                 </div>
                             }
                         >
-                            {pool.members.map((member, index) => (
+                            {pool.members.length ? pool.members.map((member, index) => (
                                 <MembersComponent member={member} />
-                            ))}
+                            )) : (
+                                <div className="flex flex-col mb-10 justify-center items-center">
+                                    <Image src="/static/images/empty_members.svg" width="150" height="150" />
+                                    <span className="text-sm sm:w-full w-2/3 text-white-300">Your membership pool is empty, you have no members, for now</span>
+                                </div>
+                            )}
                         </Collapse.Panel>
                     </Collapse>
                 </div>

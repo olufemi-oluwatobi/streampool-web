@@ -58,7 +58,6 @@ const ServiceCategory = ({
                     })}
                 >
                     {services.length &&
-                        isLoading === false &&
                         services?.map((service) => (
                             <div className={className(" sm:ml-0", { "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile })}>
                                 <ServiceCard
