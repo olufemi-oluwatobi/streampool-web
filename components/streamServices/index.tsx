@@ -76,9 +76,8 @@ const ServiceCategory = ({
 
                                 })}
                             >
-                                <ServiceCardPlaceholder />
 
-                                {/* <ServiceCard
+                                <ServiceCard
                                     buttonProp={{
                                         label: "View Service",
                                         onClick: () => {
@@ -95,7 +94,7 @@ const ServiceCategory = ({
                                     )}
                                     oldAmount={service.streamPlans[0]?.amount}
                                     key={`gift-card-key-${Math.random()}`}
-                                /> */}
+                                />
                             </div>
                         ))
                     ) : (
