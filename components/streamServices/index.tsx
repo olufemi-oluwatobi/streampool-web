@@ -71,8 +71,9 @@ const ServiceCategory = ({
                     {services.length ? (
                         services?.map((service) => (
                             <div
-                                className={className(" sm:ml-0", {
+                                className={className(" w-full", {
                                     "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile,
+
                                 })}
                             >
                                 <ServiceCardPlaceholder />

@@ -49,10 +49,10 @@ export const ServiceCard = ({
 export const ServiceCardPlaceholder = () => {
 
     return (
-        <div className="shadow-elavation-2 cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-lg w-full">
+        <div className="shadow-elavation-2 flex-1 cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-lg w-full">
             <div className="w-full relative">
-                <Image width="450" height="0" className="rounded-t-md invisible absolute " src={"https://res.cloudinary.com/drda29q8x/image/upload/v1664461277/stream%20service%20logos/Group_25_exwxtv.png"} />
-                <div className={` mt-[-23px] w-full animate-pulse h-[200px] relative z-10  bg-slate-700 rounded-t-md`}></div>
+                <img className="rounded-t-md w-[350px] h-0 invisible " src={"https://res.cloudinary.com/drda29q8x/image/upload/v1664460585/stream%20service%20logos/Group_24_j0h6cl.png"} />
+                <div className={` w-full animate-pulse h-[200px] relative z-10  bg-slate-700 rounded-t-md`}></div>
             </div>
             <div className="flex flex-col p-4">
                 <div className=" w-1/2  flex flex-col">
