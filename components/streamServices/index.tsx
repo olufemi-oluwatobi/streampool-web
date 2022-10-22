@@ -98,7 +98,8 @@ const ServiceCategory = ({
                             </div>
                         ))
                     ) : (
-                        <ServiceCardPlaceholder />
+                        new Array(4).fill("").map(_ => <ServiceCardPlaceholder />
+                        )
                     )}
                 </div>
             </div>
