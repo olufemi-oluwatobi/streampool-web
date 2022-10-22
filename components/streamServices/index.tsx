@@ -68,16 +68,14 @@ const ServiceCategory = ({
                             verticalOnMobile,
                     })}
                 >
-                    {services.length ? (
-                        services?.map((service) => (
+                    {services.length
+                        ? services?.map((service) => (
                             <div
                                 className={className(" w-full", {
                                     "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile,
-                                    "min-w-[350px]": !verticalOnMobile,
-
+                                    "min-w-[300px]": !verticalOnMobile,
                                 })}
                             >
-
                                 <ServiceCard
                                     buttonProp={{
                                         label: "View Service",
@@ -98,10 +96,16 @@ const ServiceCategory = ({
                                 />
                             </div>
                         ))
-                    ) : (
-                        new Array(4).fill("").map(_ => <ServiceCardPlaceholder />
-                        )
-                    )}
+                        : new Array(4).fill("").map((_) => (
+                            <div
+                                className={className(" w-full", {
+                                    "sm:min-w-0 min-w-[270px] sm:mr-0 mr-6": verticalOnMobile,
+                                    "min-w-[300px]": !verticalOnMobile,
+                                })}
+                            >
+                                <ServiceCardPlaceholder />
+                            </div>
+                        ))}
                 </div>
             </div>
         </div>
