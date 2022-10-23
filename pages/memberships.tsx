@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import HeaderBanner from "@components/pageBanner";
-import Image from "next/image"
+import Image from "next/image";
+import useCheckMobileScreen from "@hooks/useIsMobile";
 import { PoolRequestType, PoolType } from "../interfaces/index";
 import className from "classnames";
 import { ServiceCard } from "../components/ServiceCard";
@@ -10,11 +11,10 @@ import Layout from "../components/Layout";
 import { useStreamService } from "../providers/streamServiceProvider";
 import { Modal } from "antd";
 import { StreamPlan } from "../interfaces/index";
-import { useAuthContext } from "../providers/authProvider"
-import { useNotification } from "../providers/notificationProvider"
+import { useAuthContext } from "../providers/authProvider";
+import { useNotification } from "../providers/notificationProvider";
 
 import withAuth from "../utils/auth/withAuth";
-
 
 const calculateAmount = (amount: string, numberOfMembers: string) => {
     const amounNum = parseInt(amount, 10);
@@ -22,26 +22,41 @@ const calculateAmount = (amount: string, numberOfMembers: string) => {
     return Math.ceil((amounNum / numberOfMembersNum + 200) / 100) * 100;
 };
 
-
 const EmptyState = () => {
     return (
         <div className="flex flex-col mt-20 justify-center items-center">
-            <Image width="400px" height="300px" src="/static/images/membership_empty_4.svg"></Image>
-            <span className=" text-[#898e92] font-light  text-xl ">Oops, You have no membership</span>
+            <Image
+                width="400px"
+                height="300px"
+                src="/static/images/membership_empty_4.svg"
+            ></Image>
+            <span className=" text-[#898e92] font-light  text-xl ">
+                Oops, You have no membership
+            </span>
         </div>
-    )
-}
+    );
+};
 const IndexPage = () => {
     const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
-    const { authData, verifyUser } = useAuthContext()
-    const { triggerNotification } = useNotification()
-    const { query } = useRouter()
-    const { isLoading, streamService, requestMembership, streamServices, setStreamService } =
-        useStreamService();
+    const { authData, verifyUser } = useAuthContext();
+    const { triggerNotification } = useNotification();
+    const isMobile = useCheckMobileScreen();
+    const { query, push } = useRouter();
+    const {
+        isLoading,
+        streamService,
+        requestMembership,
+        streamServices,
+        setStreamService,
+    } = useStreamService();
 
     const services = useMemo(() => {
-        return authData?.user?.pools?.map(pool => streamServices.find(service => service.id === pool.stream_service_id)).filter(d => Boolean(d))
-    }, [authData])
+        return authData?.user?.pools
+            ?.map((pool) =>
+                streamServices.find((service) => service.id === pool.stream_service_id)
+            )
+            .filter((d) => Boolean(d));
+    }, [authData]);
 
     useEffect(() => {
         if (streamService) {
@@ -51,28 +66,34 @@ const IndexPage = () => {
         }
     }, [streamService]);
 
-
     useEffect(() => {
-        const { token } = query
-        console.log(token, query)
+        const { token } = query;
+        console.log(token, query);
         if (token) {
             verifyUser(token as string, {
                 onSuccess: () => {
-                    console.log("successful")
-                    triggerNotification("Verification Success", "Your account has been verified", "success")
-                }, onError: () => {
-                    console.log("error")
-                    triggerNotification("Verification Error", "Invalid Token", "error")
-                }
-            })
+                    console.log("successful");
+                    triggerNotification(
+                        "Verification Success",
+                        "Your account has been verified",
+                        "success"
+                    );
+                },
+                onError: () => {
+                    console.log("error");
+                    triggerNotification("Verification Error", "Invalid Token", "error");
+                },
+            });
         }
-    }, [query])
+    }, [query]);
 
     const serviceRequest = useMemo<PoolRequestType | null>(() => {
         if (!authData) return null;
 
         const request = authData?.user?.poolRequests?.find(
-            (poolRequest) => poolRequest?.stream_service_id === streamService?.id && poolRequest.status === "pending"
+            (poolRequest) =>
+                poolRequest?.stream_service_id === streamService?.id &&
+                poolRequest.status === "pending"
         );
         return request;
     }, [authData, streamService]);
@@ -80,43 +101,54 @@ const IndexPage = () => {
     const serviceMembership = useMemo<PoolType | null>(() => {
         if (!authData) return null;
         return authData?.user?.pools?.find(
-            (pool) => pool?.stream_service_id === streamService?.id)
+            (pool) => pool?.stream_service_id === streamService?.id
+        );
     }, [authData, streamService]);
 
     const membershipStatus = useMemo(() => {
-        if (serviceRequest) return "pending request"
+        if (serviceRequest) return "pending request";
         if (serviceMembership) return "active membership";
         return null;
-    }, [serviceRequest, serviceMembership])
+    }, [serviceRequest, serviceMembership]);
 
     const getMembershipStatus = () => {
-        if (!authData) return null
-        const request = authData?.user?.poolRequests?.find(poolRequest => poolRequest?.stream_service_id === streamService?.id)
-        if (request) return "pending request"
-        const membership = authData?.user?.pools?.find(pool => pool?.stream_service_id === streamService?.id)
-        if (membership) return "active membership"
-        return null
-    }
+        if (!authData) return null;
+        const request = authData?.user?.poolRequests?.find(
+            (poolRequest) => poolRequest?.stream_service_id === streamService?.id
+        );
+        if (request) return "pending request";
+        const membership = authData?.user?.pools?.find(
+            (pool) => pool?.stream_service_id === streamService?.id
+        );
+        if (membership) return "active membership";
+        return null;
+    };
 
     const getCurrentStreamPlan = () => {
-        const status = getMembershipStatus()
-        if (!status) return selectedPlan
+        const status = getMembershipStatus();
+        if (!status) return selectedPlan;
         if (status === "pending request") {
-            const plan = streamService.streamPlans[0]
-            return plan
+            const plan = streamService.streamPlans[0];
+            return plan;
         }
         if (status === "active membership") {
-            const pool = authData?.user?.pools?.find(pool => pool?.stream_service_id === streamService?.id)
-            const plan = streamService.streamPlans.find(plan => plan.id === pool.stream_plan_id)
-            return plan
+            const pool = authData?.user?.pools?.find(
+                (pool) => pool?.stream_service_id === streamService?.id
+            );
+            const plan = streamService.streamPlans.find(
+                (plan) => plan.id === pool.stream_plan_id
+            );
+            return plan;
         }
-    }
+    };
 
     const getCurrentPool = () => {
-        if (!authData) return null
-        const pool = authData?.user?.pools?.find(pool => pool?.stream_service_id === streamService?.id)
-        return pool
-    }
+        if (!authData) return null;
+        const pool = authData?.user?.pools?.find(
+            (pool) => pool?.stream_service_id === streamService?.id
+        );
+        return pool;
+    };
 
     const serviceEmail = useMemo(() => {
         if (!authData) return null;
@@ -127,7 +159,7 @@ const IndexPage = () => {
         return email?.email;
     }, [streamService]);
 
-    console.log("services =====>", services)
+    console.log("services =====>", services);
 
     return (
         <Layout title="Creating Happiness">
@@ -137,61 +169,76 @@ const IndexPage = () => {
                 className=" w-full mt-2 mb-40 px-[5%] flex flex-col justify-center items-center     "
             >
                 <section className="flex w-full justify-center items-center">
-                    {services && services?.length ? <div
-                        className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-8 md:gap-2 lg:gap-12"}
-                    >
-                        {services?.length ?
-                            isLoading === false &&
-                            services?.map((service) => (
-                                <div className={className(" sm:ml-0 sm:min-w-0 min-w-[270px]")}>
-                                    <ServiceCard
-                                        buttonProp={{
-                                            label: "View Membership", onClick: () => setStreamService(service)
-
-                                        }}
-                                        currency={service?.streamPlans[0]?.currency}
-                                        image={service?.icon}
-                                        name={service?.name}
-                                        type="Audio Streaming Service"
-                                        amount={calculateAmount(
-                                            service?.streamPlans[0]?.amount,
-                                            service?.streamPlans[0]?.max_limit
-                                        )}
-                                        oldAmount={service?.streamPlans[0]?.amount}
-                                        key={`gift-card-key-${Math.random()}`}
-                                    />
-                                </div>
-                            )) : ""}
-                    </div> : <EmptyState />}
+                    {services && services?.length ? (
+                        <div
+                            className={
+                                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2x:grid-cols-4 gap-8 md:gap-2 lg:gap-12"
+                            }
+                        >
+                            {services?.length
+                                ? isLoading === false &&
+                                services?.map((service) => (
+                                    <div
+                                        className={className(" sm:ml-0 sm:min-w-0 min-w-[270px]")}
+                                    >
+                                        <ServiceCard
+                                            buttonProp={{
+                                                label: "View Membership",
+                                                onClick: () => {
+                                                    setStreamService(service);
+                                                    if (isMobile)
+                                                        push(`/stream__service/${service.id}`);
+                                                },
+                                            }}
+                                            currency={service?.streamPlans[0]?.currency}
+                                            image={service?.icon}
+                                            name={service?.name}
+                                            type="Audio Streaming Service"
+                                            amount={calculateAmount(
+                                                service?.streamPlans[0]?.amount,
+                                                service?.streamPlans[0]?.max_limit
+                                            )}
+                                            oldAmount={service?.streamPlans[0]?.amount}
+                                            key={`gift-card-key-${Math.random()}`}
+                                        />
+                                    </div>
+                                ))
+                                : ""}
+                        </div>
+                    ) : (
+                        <EmptyState />
+                    )}
                 </section>
             </section>
-            <Modal
-                className=" rounded-lg "
-                cancelButtonProps={{ style: { display: "none" } }}
-                visible={Boolean(streamService)}
-                footer={null}
-                destroyOnClose={true}
-                closable={true}
-            >
-                <div className="flex flex-col justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[462px]   bg-[#242424] text-center">
-                    <ServiceDetails
-                        email={serviceEmail}
-                        streamService={streamService}
-                        selectedPlan={getCurrentStreamPlan()}
-                        isLoading={isLoading}
-                        pool={getCurrentPool()}
-                        buttonProps={{
-                            onClick: () => console.log(),
-                            label: "Cancel Membership",
-                            className: "text-[#BA1200] border-none bg-transparent"
-                        }}
-                        // status="active membership"
-                        status={membershipStatus}
-                        onCancel={() => setStreamService(null)}
-                        onSelectPlan={(plan) => setSelectedPlan(plan)}
-                    />
-                </div>
-            </Modal>
+            {!isMobile && (
+                <Modal
+                    className=" rounded-lg "
+                    cancelButtonProps={{ style: { display: "none" } }}
+                    visible={Boolean(streamService)}
+                    footer={null}
+                    destroyOnClose={true}
+                    closable={true}
+                >
+                    <div className="flex flex-col justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[462px]   bg-[#242424] text-center">
+                        <ServiceDetails
+                            email={serviceEmail}
+                            streamService={streamService}
+                            selectedPlan={getCurrentStreamPlan()}
+                            isLoading={isLoading}
+                            pool={getCurrentPool()}
+                            buttonProps={{
+                                onClick: () => console.log(),
+                                label: "Cancel Membership",
+                                className: "text-[#BA1200] border-none bg-transparent",
+                            }}
+                            // status="active membership"
+                            status={membershipStatus}
+                            onCancel={() => setStreamService(null)}
+                            onSelectPlan={(plan) => setSelectedPlan(plan)}
+                        />
+                    </div>
+                </Modal>
+            )}
         </Layout>
     );
 };
