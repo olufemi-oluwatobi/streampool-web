@@ -126,24 +126,26 @@ const IndexPage = () => {
           </div>
         </section>
       </section>
-      <Modal
-        className=" rounded-lg "
-        cancelButtonProps={{ style: { display: "none" } }}
-        visible={!isMobile && Boolean(streamService)}
-        footer={null}
-        destroyOnClose={true}
-        closable={false}
-      >
-        <div
-          style={{
-            boxShadow:
-              "rgb(255 255 255 / 20%) 0px 0px 15px, rgb(255 255 255 / 15%) 0px 0px 3px 1px",
-          }}
-          className="flex flex-col drop-shadow-2xl bg-black-700 justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[500px] overflow-auto  text-center"
+      {!isMobile && (
+        <Modal
+          className=" rounded-lg "
+          cancelButtonProps={{ style: { display: "none" } }}
+          visible={!isMobile && Boolean(streamService)}
+          footer={null}
+          destroyOnClose={true}
+          closable={false}
         >
-          <StreamServiceActionPage onHeaderClick={() => onCloseModal()} />
-        </div>
-      </Modal>
+          <div
+            style={{
+              boxShadow:
+                "rgb(255 255 255 / 20%) 0px 0px 15px, rgb(255 255 255 / 15%) 0px 0px 3px 1px",
+            }}
+            className="flex flex-col drop-shadow-2xl bg-black-700 justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[500px] overflow-auto  text-center"
+          >
+            <StreamServiceActionPage onHeaderClick={() => onCloseModal()} />
+          </div>
+        </Modal>
+      )}
     </Layout>
   );
 };

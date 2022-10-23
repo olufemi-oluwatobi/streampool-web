@@ -15,6 +15,7 @@ const { confirm } = Modal;
 
 const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void }) => {
     const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
+    const isMobile = useCheckMobileScreen()
     const [modalContentState, setModalContentState] = useState<
         | "init"
         | "requesting_email"
@@ -211,7 +212,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
     const requestEmail = () => {
         return (
             <div className="w-full py-4 px-2 modal-input flex flex-col">
-                <ServiceDetailHeader title="Select Email" onButtonClick={() => onCloseModal()} />
+                {!isMobile && <ServiceDetailHeader title="Select Email" onButtonClick={() => onCloseModal()} />}
                 <div className="w-full flex mb-6 items-center justify-between text-white-200   ">
                     <div className="flex items-center mr-8  ">
                         <button
@@ -351,7 +352,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
                 return (
                     <FormikProvider value={fields}>
                         <div className="w-full">
-                            <ServiceDetailHeader title="Membership" onButtonClick={() => onCloseModal()} />
+                            {!isMobile && <ServiceDetailHeader title="Membership" onButtonClick={() => onCloseModal()} />}
                             <ServiceDetails
                                 email={serviceEmail}
                                 streamService={streamService}
