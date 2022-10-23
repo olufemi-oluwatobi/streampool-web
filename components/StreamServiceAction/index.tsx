@@ -268,10 +268,21 @@ const StreamServiceActionPage = ({
                         }
                     }}
                     className={
-                        "w-full h-full mt-6 font-bold border-none  text-md rounded-md text-black-300 bg-[#9DDBAD]  "
+                        "w-full h-12 mt-6 font-bold border-none  text-md text-black-700 rounded-3xl bg-white-500  "
                     }
                 >
                     Submit Request
+                </Button>
+                <Button
+                    loading={isLoading}
+                    onClick={() => {
+                        setModalContentState("init");
+                    }}
+                    className={
+                        "w-full h-12 mt-2 font-bold border-none  text-md text-white-300 rounded-3xl bg-black-700  "
+                    }
+                >
+                    Cancel
                 </Button>
             </div>
         );
@@ -318,9 +329,8 @@ const StreamServiceActionPage = ({
                     ? showCancelRequestConfirm()
                     : setModalContentState("requesting_email"),
             label: detailButtonLabel,
-            className: classNames("bg-white-200 text-black-500", {
-                "font-bold": !membershipStatus,
-                " font-bold  w-full text-black-500":
+            className: classNames("bg-white-200 font-bold text-black-500", {
+                "font-bold  w-full text-black-500":
                     membershipStatus === "pending request",
                 "text-[#BA1200] text-black-500 font-bold border-none w-full bg-transparent":
                     membershipStatus === "active membership",
