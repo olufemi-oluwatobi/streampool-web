@@ -329,12 +329,13 @@ const StreamServiceActionPage = ({
                     ? showCancelRequestConfirm()
                     : setModalContentState("requesting_email"),
             label: detailButtonLabel,
-            className: classNames("bg-white-200 font-bold text-black-500", {
-                "font-bold  w-full text-black-500":
-                    membershipStatus === "pending request",
-                "text-[#BA1200] text-black-500 font-bold border-none w-full bg-transparent":
-                    membershipStatus === "active membership",
-            }),
+            className: classNames(
+                " border border-solid border-[#999797] bg-black-700  text-white-200 font-bold",
+                {
+                    "text-[#BA1200] text-black-500 font-bold border-none w-full bg-transparent":
+                        membershipStatus === "active membership",
+                }
+            ),
         };
 
         const setMakePool = () => {
@@ -350,7 +351,7 @@ const StreamServiceActionPage = ({
             label: isMakingOffer ? "Submit" : "Create a pool",
             className: classNames(
                 " border border-solid border-[#999797] w-full font-bold",
-                { " bg-black-700  text-white-200": !isMakingOffer },
+                { " bg-white-400  text-black-700": !isMakingOffer },
                 { "bg-white-200 text-black-400": isMakingOffer }
             ),
         };
