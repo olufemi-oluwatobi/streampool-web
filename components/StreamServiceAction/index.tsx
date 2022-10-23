@@ -326,7 +326,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : "Create a pool",
+            label: isMakingOffer ? "Submit" : (!isMakingOffer ? "Not making offer" : "Create a pool"),
             className: classNames(" bg-white-200 text-black-400 border border-solid border-[#999797]  w-full font-bold", { " bg-black-700  text-white-200 font-bold": !isMakingOffer }),
         };
 
