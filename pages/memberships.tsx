@@ -187,7 +187,7 @@ const IndexPage = () => {
                                                 onClick: () => {
                                                     setStreamService(service);
                                                     if (isMobile)
-                                                        push(`/stream__service/${service.id}`);
+                                                        push(`/stream_service/${service.id}`);
                                                 },
                                             }}
                                             currency={service?.streamPlans[0]?.currency}
