@@ -3,7 +3,9 @@ import { useRouter } from "next/router";
 import PaymentOption from "@components/PaymentOption";
 import { useFormik, FormikProvider } from "formik";
 import useCheckMobileScreen from "@hooks/useIsMobile";
-import ServiceDetails, { ServiceDetailHeader } from "@components/ServiceDetails";
+import ServiceDetails, {
+    ServiceDetailHeader,
+} from "@components/ServiceDetails";
 import { useStreamService } from "@providers/streamServiceProvider";
 import { Button, Modal, Input } from "antd";
 import { PoolRequestType, PoolType, StreamPlan } from "@interfaces/index";
@@ -13,9 +15,13 @@ import classNames from "classnames";
 
 const { confirm } = Modal;
 
-const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void }) => {
+const StreamServiceActionPage = ({
+    onHeaderClick,
+}: {
+    onHeaderClick: () => void;
+}) => {
     const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
-    const isMobile = useCheckMobileScreen()
+    const isMobile = useCheckMobileScreen();
     const [modalContentState, setModalContentState] = useState<
         | "init"
         | "requesting_email"
@@ -206,13 +212,18 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
     const onCloseModal = () => {
         setStreamService(null);
         setSelectedPlan(null);
-        setMakeOffer(null)
+        setMakeOffer(null);
     };
 
     const requestEmail = () => {
         return (
             <div className="w-full py-4 px-2 modal-input flex flex-col">
-                {!isMobile && <ServiceDetailHeader title="Select Email" onButtonClick={() => onCloseModal()} />}
+                {!isMobile && (
+                    <ServiceDetailHeader
+                        title="Select Email"
+                        onButtonClick={() => onCloseModal()}
+                    />
+                )}
                 <div className="w-full flex mb-6 items-center justify-between text-white-200   ">
                     <div className="flex items-center mr-8  ">
                         <button
@@ -320,14 +331,18 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
             if (!authData) return push("/");
             setMakeOffer(true);
         };
-        console.log(isMakingOffer)
+        console.log(isMakingOffer);
 
         const makeOwner = {
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : (!isMakingOffer ? "Not making offer" : "Create a pool"),
-            className: classNames(" bg-white-200 text-black-400 border border-solid border-[#999797]  w-full font-bold", { " bg-black-700  text-white-200 font-bold": !isMakingOffer }),
+            label: isMakingOffer ? "Submit" : "Create a pool",
+            className: classNames(
+                " border border-solid border-[#999797] w-full font-bold",
+                { " bg-black-700  text-white-200": !isMakingOffer },
+                { "bg-white-200 text-black-400": isMakingOffer }
+            ),
         };
 
         const cancelButtonProps = {
@@ -335,8 +350,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
                 setMakeOffer(false);
             },
             label: isPoolOwner ? "Disable Pool" : "Cancel",
-            className: "bg-[#BA1200] text-white-400 font-bold border-none w-full"
-
+            className: "bg-[#BA1200] text-white-400 font-bold border-none w-full",
         };
 
         if (isMakingOffer) return [makeOwner, cancelButtonProps];
@@ -352,7 +366,12 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
                 return (
                     <FormikProvider value={fields}>
                         <div className="w-full">
-                            {!isMobile && <ServiceDetailHeader title="Membership" onButtonClick={() => onCloseModal()} />}
+                            {!isMobile && (
+                                <ServiceDetailHeader
+                                    title="Membership"
+                                    onButtonClick={() => onCloseModal()}
+                                />
+                            )}
                             <ServiceDetails
                                 email={serviceEmail}
                                 streamService={streamService}
@@ -375,7 +394,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
                                 onSelectPlan={(plan) => setSelectedPlan(plan)}
                             />
                         </div>
-                    </FormikProvider >
+                    </FormikProvider>
                 );
             case "requesting_email":
                 return requestEmail();
@@ -407,7 +426,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
         }
     };
 
-    return renderContent()
+    return renderContent();
 };
 
 export default StreamServiceActionPage;
