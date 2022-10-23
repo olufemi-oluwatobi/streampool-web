@@ -42,6 +42,12 @@ const IndexPage = () => {
             }
         }
     }, [streamServices])
+
+    useEffect(() => {
+        return () => {
+            setStreamService(null)
+        }
+    }, [])
     useEffect(() => {
         if (streamService) {
             if (streamService.streamPlans?.length === 1) {
