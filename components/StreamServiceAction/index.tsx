@@ -327,7 +327,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
             label: isMakingOffer ? "Submit" : "Create a pool",
-            className: classNames(" bg-white-200 text-red-200 border border-solid border-[#999797]  w-full font-bold", { "bg-transparent text-white-200 font-bold": !isMakingOffer }),
+            className: classNames(" bg-white-200 text-black-400 border border-solid border-[#999797]  w-full font-bold", { " bg-black-700  text-white-200 font-bold": !isMakingOffer }),
         };
 
         const cancelButtonProps = {
