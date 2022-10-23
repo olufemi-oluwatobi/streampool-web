@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent: any, isPrivate = true) => {
       if (!authData) {
         router.push("/");
       }
-    }, []);
+    }, [authData]);
 
     return <WrappedComponent {...props} />;
   };

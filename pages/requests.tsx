@@ -232,7 +232,7 @@ const IndexPage = () => {
                                     >
                                         <ServiceCard
                                             buttonProp={{
-                                                label: "View Membership",
+                                                label: "View Request",
                                                 onClick: () => {
                                                     setStreamService(service);
                                                     if (isMobile)
