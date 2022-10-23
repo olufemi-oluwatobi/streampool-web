@@ -113,15 +113,24 @@ export const StreamServiceProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        loadStreamServices()
         fetchStreamServives();
     }, []);
 
+    const loadStreamServices = () => {
+        let services = localStorage.getItem("StreamServices")
+        if (services) {
+            services = JSON.parse(services)
+            setStreamServices(services)
+        }
+    }
     const fetchStreamServives = async () => {
         try {
             setLoading(true);
             const { data } = await StreamService.getStreamServices();
             if (data?.success) {
                 setStreamServices(data?.data);
+                localStorage.setItem("StreamServices", JSON.stringify(data?.data))
             }
         } catch (error) {
         } finally {

@@ -319,6 +319,7 @@ const StreamServiceActionPage = ({ onHeaderClick }: { onHeaderClick: () => void 
             if (!authData) return push("/");
             setMakeOffer(true);
         };
+        console.log(isMakingOffer)
 
         const makeOwner = {
             onClick: () => {
