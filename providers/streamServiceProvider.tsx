@@ -170,7 +170,6 @@ export const StreamServiceProvider = ({ children }) => {
 
     const createPool = async (d: PoolPayload) => {
         try {
-            console.log("isLoading", isLoading)
             const { data } = await StreamService.createPool(d);
             if (data.success) {
                 return Promise.resolve()

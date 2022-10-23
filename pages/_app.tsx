@@ -34,8 +34,6 @@ const FormWrapperComponent = ({ children }: any) => {
 
 const setUpGapi = async () => {
     const gapi = await import('gapi-script').then((pack) => pack.gapi);
-    console.log("here")
-    console.log("profile", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
     const initClient = () => {
         gapi.client.init({
             clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,

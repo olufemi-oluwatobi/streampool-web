@@ -40,6 +40,7 @@ type AuthContextType = {
         amount: number,
         callback: { onSuccess: () => void; onClose: () => void }
     ) => void;
+    loadStorageData: () => void
     setAuthData: (data: (v: AuthDataType) => AuthDataType | AuthDataType) => void;
 };
 export const AuthContext = createContext<AuthContextType>(
@@ -200,7 +201,6 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             const { data } = await AuthService.me();
             if (data.success) {
                 setAuthData(v => ({ ...v, user: data.data }));
-                console.log(data);
                 // callback?.onSuccess && callback?.onSuccess();
             }
             //Try get the data from Async Storage
@@ -217,7 +217,6 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         try {
             const { data } = await AuthService.paymentInfo(email);
             if (data.status) {
-                console.log("here bozo ", data.data);
                 setAuthData((v) => ({
                     ...v,
                     paymentDetails: data.data.authorizations,
@@ -258,6 +257,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
 
     const loadStorageData = async () => {
         try {
+            console.log("ONEEE")
             //Try get the data from Async Storage
             const authDataSerialized = localStorage.getItem("AuthData");
             if (authDataSerialized) {
@@ -365,6 +365,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 deleteAuthorization,
                 fetchUserData,
                 setAuthData,
+                loadStorageData
             }}
         >
             {children}

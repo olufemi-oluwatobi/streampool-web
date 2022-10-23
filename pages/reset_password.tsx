@@ -123,7 +123,6 @@ const LoginAccount = ({
 const IndexPage = () => {
     const { query, push } = useRouter();
     const token = query.token;
-    console.log(token);
 
     const { triggerNotification } = useNotification();
     const { setAuthData } = useAuthContext();

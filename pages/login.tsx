@@ -132,7 +132,7 @@ const IndexPage = (props: Props) => {
             }),
         clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
         fetchBasicProfile: true,
-        onFailure: (e) => console.log(e),
+        onFailure: (e) => { },
         scope: "profile",
     });
 
@@ -152,8 +152,7 @@ const IndexPage = (props: Props) => {
                     const { data } = response;
                     triggerNotification(data.message, data.message, "error");
                 }
-                console.log(response);
-                console.log("error ====>", error);
+
             }
         },
         validationSchema: AccountCreationValidationSchema,

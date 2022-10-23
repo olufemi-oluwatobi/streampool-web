@@ -28,12 +28,11 @@ const EmptyState = () => {
     return (
         <div className="flex flex-col mt-20 justify-center items-center">
             <Image
-                width="400px"
-                height="300px"
+                width="150" height="150"
                 src="/static/images/membership_empty_4.svg"
             ></Image>
             <span className=" text-[#898e92] font-light  text-xl ">
-                Oops, You have no membership
+                Oops, You have no active request
             </span>
         </div>
     );
@@ -70,11 +69,9 @@ const IndexPage = () => {
 
     useEffect(() => {
         const { token } = query;
-        console.log(token, query);
         if (token) {
             verifyUser(token as string, {
                 onSuccess: () => {
-                    console.log("successful");
                     triggerNotification(
                         "Verification Success",
                         "Your account has been verified",
@@ -82,7 +79,6 @@ const IndexPage = () => {
                     );
                 },
                 onError: () => {
-                    console.log("error");
                     triggerNotification("Verification Error", "Invalid Token", "error");
                 },
             });
@@ -161,7 +157,6 @@ const IndexPage = () => {
         return email?.email;
     }, [streamService]);
 
-    console.log("services =====>", services);
 
     const onCloseModal = () => {
         setStreamService(null);

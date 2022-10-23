@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
+import _ from "lodash"
 import HeaderBanner from "@components/pageBanner";
 import Image from "next/image";
 import useCheckMobileScreen from "@hooks/useIsMobile";
@@ -26,12 +27,11 @@ const EmptyState = () => {
     return (
         <div className="flex flex-col mt-20 justify-center items-center">
             <Image
-                width="400px"
-                height="300px"
+                width="150" height="150"
                 src="/static/images/membership_empty_4.svg"
             ></Image>
-            <span className=" text-[#898e92] font-light  text-xl ">
-                Oops, You have no membership
+            <span className=" text-[#898e92] mt-[-20px] text-sm ">
+                Oops, You have no active membership
             </span>
         </div>
     );
@@ -51,12 +51,20 @@ const IndexPage = () => {
     } = useStreamService();
 
     const services = useMemo(() => {
-        return authData?.user?.pools
+        let requests = authData?.user?.pools
             ?.map((pool) =>
                 streamServices.find((service) => service.id === pool.stream_service_id)
             )
             .filter((d) => Boolean(d));
-    }, [authData]);
+        let poolsOwned = authData?.user?.offeredSubs
+            ?.map((pool) =>
+                streamServices.find((service) => service.id === pool.stream_service_id)
+            )
+            .filter((d) => Boolean(d))
+        poolsOwned = poolsOwned || []
+        requests = requests || []
+        return _.uniqBy([...requests, ...poolsOwned], "id")
+    }, [authData, streamServices]);
 
     useEffect(() => {
         if (streamService) {
@@ -68,11 +76,9 @@ const IndexPage = () => {
 
     useEffect(() => {
         const { token } = query;
-        console.log(token, query);
         if (token) {
             verifyUser(token as string, {
                 onSuccess: () => {
-                    console.log("successful");
                     triggerNotification(
                         "Verification Success",
                         "Your account has been verified",
@@ -80,7 +86,6 @@ const IndexPage = () => {
                     );
                 },
                 onError: () => {
-                    console.log("error");
                     triggerNotification("Verification Error", "Invalid Token", "error");
                 },
             });
@@ -159,7 +164,6 @@ const IndexPage = () => {
         return email?.email;
     }, [streamService]);
 
-    console.log("services =====>", services);
 
     return (
         <Layout title="Creating Happiness">
@@ -227,7 +231,7 @@ const IndexPage = () => {
                             isLoading={isLoading}
                             pool={getCurrentPool()}
                             buttonProps={{
-                                onClick: () => console.log(),
+                                onClick: () => { },
                                 label: "Cancel Membership",
                                 className: "text-[#BA1200] border-none bg-transparent",
                             }}

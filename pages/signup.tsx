@@ -164,8 +164,7 @@ const IndexPage = (props: Props) => {
                     const { data } = response;
                     triggerNotification(data.message, data.message, "error");
                 }
-                console.log(response);
-                console.log("error ====>", error);
+
             } finally {
                 accountCreationFormik.setSubmitting(false)
             }

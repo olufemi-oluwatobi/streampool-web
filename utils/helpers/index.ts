@@ -12,7 +12,6 @@ export const isFalsyValue = (value: any): boolean => {
 
 
 export const decryptPassword = (password: string, key: string) => {
-  console.log("password", password)
   const bytes = CryptoJs.AES.decrypt(password, key)
   const x = bytes.toString(CryptoJs.enc.Utf8)
   return JSON.parse(bytes.toString(CryptoJs.enc.Utf8))

@@ -134,7 +134,6 @@ const StreamServiceActionPage = ({
         if (token) {
             verifyUser(token as string, {
                 onSuccess: () => {
-                    console.log("successful");
                     triggerNotification(
                         "Verification Success",
                         "Your account has been verified",
@@ -142,7 +141,6 @@ const StreamServiceActionPage = ({
                     );
                 },
                 onError: () => {
-                    console.log("error");
                     triggerNotification("Verification Error", "Invalid Token", "error");
                 },
             });
@@ -342,7 +340,6 @@ const StreamServiceActionPage = ({
             if (!authData) return push("/");
             setMakeOffer(true);
         };
-        console.log(isMakingOffer);
 
         const makeOwner = {
             onClick: () => {
@@ -394,9 +391,7 @@ const StreamServiceActionPage = ({
                                 offerBoxProps={{
                                     isVisible: isMakingOffer,
                                     onChange: (e) => {
-                                        console.log(e.target.value, e.target.name);
                                         fields.handleChange(e);
-                                        console.log(fields.values);
                                     },
                                 }}
                                 // status="active membership"
@@ -420,11 +415,10 @@ const StreamServiceActionPage = ({
                             }
                             addPaymentDetails(50, {
                                 onSuccess: () => {
-                                    console.log("in here");
                                     setModalContentState("init");
                                     submitRequest();
                                 },
-                                onClose: () => console.log("close"),
+                                onClose: () => { },
                             });
                             if (authData.paymentDetails) {
                                 submitRequest();

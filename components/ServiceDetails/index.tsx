@@ -99,7 +99,6 @@ const SubmitPoolCredentials = ({
                     <Form.Item label="Number of Members" name="maxMemberCount">
                         <Slider
                             onChange={(value) => {
-                                console.log(value)
                                 onChange({
                                     target: { name: "maxMemberCount", value },
                                 } as ChangeEvent<HTMLInputElement>)
@@ -164,7 +163,6 @@ const ServiceDetails = ({
     const [copiedText, copyToClipboard] = useCopyToClipboard();
 
     const copyPoolPassword = (password: string) => {
-        console.log(process.env.NEXT_PUBLIC_ENCRYPTION_KEY);
         const decryptedPassword = decryptPassword(
             password,
             process.env.NEXT_PUBLIC_ENCRYPTION_KEY

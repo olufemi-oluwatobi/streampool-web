@@ -169,7 +169,7 @@ const UpdateProfile = ({
                 );
                 fetchUserCardDetails();
             },
-            onClose: () => console.log("close"),
+            onClose: () => { },
         });
     };
 

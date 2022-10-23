@@ -7,7 +7,6 @@ class BaseApi {
     loadRequest() {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         this.loadHeaders()
-        console.log(this.headers)
         this.request = axios.create({
             baseURL: baseUrl,
             headers: this.headers
@@ -18,7 +17,6 @@ class BaseApi {
             if (this.headers) return this.headers;
             const headers: AxiosRequestHeaders = {};
             if ((typeof window !== 'undefined')) {
-                console.log('in here')
                 const authDataSerialized = window.localStorage.getItem("AuthData");
                 const authData = JSON.parse(authDataSerialized);
                 if (authDataSerialized) {
