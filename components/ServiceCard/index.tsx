@@ -44,7 +44,7 @@ export const ServiceCard = ({
                             viewBox="0 0 24 24"
                             strokeWidth={3}
                             stroke="currentColor"
-                            className="w-4 text-white-400 bg-red-500 font-extrabold animate-bounce h-4"
+                            className="w-4 text-red-500 font-extrabold animate-bounce h-4"
                         >
                             <path
                                 strokeLinecap="round"

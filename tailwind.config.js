@@ -11,6 +11,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      animation: {
+        "animate-bounce": "bounce 0.5s linear infinite",
+      },
       backgroundImage: {
         "static-bg": "url('/static/images/static_bg.png')",
         "patterned-blue": "url('/static/images/patterned_static_bg.png')",
