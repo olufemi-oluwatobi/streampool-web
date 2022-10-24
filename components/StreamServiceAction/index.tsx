@@ -387,6 +387,7 @@ const StreamServiceActionPage = ({
                                 selectedPlan={getCurrentStreamPlan()}
                                 isLoading={isLoading || isAuthLoading}
                                 pool={currentPool}
+                                poolRequests={authData?.user.membershipRequests}
                                 isPoolOwner={isPoolOwner}
                                 buttonProps={buttonProps}
                                 offerBoxProps={{

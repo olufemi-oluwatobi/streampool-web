@@ -100,7 +100,7 @@ export type PoolRequestType = {
   status: string;
   id: number;
   user_id: string;
-  user?: User;
+  user?: UserType;
   streamService: StreamService;
   pool?: PoolType;
   pool_id: number;
