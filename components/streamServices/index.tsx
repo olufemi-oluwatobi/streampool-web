@@ -12,6 +12,7 @@ import {
 } from "../../providers/streamServiceProvider";
 import { ServiceCard, ServiceCardPlaceholder } from "../ServiceCard";
 import { FLAG_SHIP_CARDS } from "../../constants";
+import { useAuthContext } from "@providers/authProvider";
 
 const calculateAmount = (amount: string, numberOfMembers: string) => {
     const amounNum = parseInt(amount, 10);
@@ -33,6 +34,7 @@ const ServiceCategory = ({
     verticalOnMobile?: boolean;
 }) => {
     const { triggerNotification } = useNotification();
+    const { authData } = useAuthContext()
     const [copiedText, copyToClipboard] = useCopyToClipboard();
 
     const copyPoolPassword = (password: string) => {
@@ -83,6 +85,7 @@ const ServiceCategory = ({
                                             onClick(service);
                                         },
                                     }}
+                                    hasNotification={authData?.user?.membershipRequests?.some(request => request.stream_service_id === service.id)}
                                     currency={service.streamPlans[0]?.currency}
                                     image={service.icon}
                                     name={service.name}
