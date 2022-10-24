@@ -103,6 +103,9 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     const [reference, setReference] = useState(null);
     const [paymentPrice, setPaymentPrice] = useState<null | number>(null);
     const [initPaymentDetails, setInitPayment] = useState(null);
+    useEffect(() => {
+        console.log(authData)
+    }, [authData])
 
     // const [isAuthLoading, setAuthLoading] = useState(false);
 

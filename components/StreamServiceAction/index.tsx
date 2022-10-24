@@ -259,6 +259,7 @@ const StreamServiceActionPage = ({
                         if (!authData) {
                             push("/login");
                         }
+                        console.log("auth data ===>>>>", authData.paymentDetails)
                         if (authData.paymentDetails) {
                             submitRequest();
                         } else {

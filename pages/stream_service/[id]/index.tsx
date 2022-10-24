@@ -71,7 +71,7 @@ const IndexPage = () => {
             <div className="h-full flex justify-between flex-col">
                 {streamService && <Image src={streamService?.icon || ""} width="700" height="300" objectFit='cover' />}
 
-                <div className=" flex sm:flex-row px-[2%] flex-col mt-4 h-full w-full justify-between items-center ">
+                <div className=" flex sm:flex-row p-5 flex-col mt-4 h-full w-full justify-between items-center ">
                     <StreamServiceActionPage onHeaderClick={() => onCloseModal()} />
                 </div>
 

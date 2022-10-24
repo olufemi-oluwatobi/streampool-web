@@ -100,6 +100,9 @@ export type PoolRequestType = {
   status: string;
   id: number;
   user_id: string;
+  user?: User;
+  streamService: StreamService;
+  pool?: PoolType;
   pool_id: number;
   created_at: string;
   updated_at: string;
@@ -120,6 +123,7 @@ export type UserType = {
   created_at: string;
   updated_at: string;
   poolRequests: PoolRequestType[];
+  membershipRequests: PoolRequestType[];
   pools: PoolType[];
   emails: ServiceEmails[];
   offeredSubs: PoolType[]
