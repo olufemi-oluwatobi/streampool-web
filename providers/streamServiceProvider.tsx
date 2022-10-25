@@ -48,10 +48,15 @@ type StreamServiceContextType = {
     setFetchingStreamService: (data: boolean) => void;
     fetchStreamServives: () => Promise<void>;
     cancelRequest: (id: number) => Promise<void>;
-    requestMembership: (
-        data: { streamServiceId: number; customEmail?: string },
+    requestMembership: (data: {
+        streamServiceId: number;
+        customEmail?: string;
+    }) => Promise<void>;
+    createPool: (d: PoolPayload) => Promise<void>;
+    acceptRequest: (
+        poolRequestId: number,
+        requestData: { userId: string; poolId: number }
     ) => Promise<void>;
-    createPool: (d: PoolPayload) => Promise<void>
 };
 export const StreamServiceContext = createContext(
     {} as StreamServiceContextType
@@ -113,24 +118,24 @@ export const StreamServiceProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        loadStreamServices()
+        loadStreamServices();
         fetchStreamServives();
     }, []);
 
     const loadStreamServices = () => {
-        let services = localStorage.getItem("StreamServices")
+        let services = localStorage.getItem("StreamServices");
         if (services) {
-            services = JSON.parse(services)
-            setStreamServices(services)
+            services = JSON.parse(services);
+            setStreamServices(services);
         }
-    }
+    };
     const fetchStreamServives = async () => {
         try {
             setLoading(true);
             const { data } = await StreamService.getStreamServices();
             if (data?.success) {
                 setStreamServices(data?.data);
-                localStorage.setItem("StreamServices", JSON.stringify(data?.data))
+                localStorage.setItem("StreamServices", JSON.stringify(data?.data));
             }
         } catch (error) {
         } finally {
@@ -138,17 +143,18 @@ export const StreamServiceProvider = ({ children }) => {
         }
     };
 
-    const requestMembership = async (
-        requestData: { streamServiceId: number; customEmail?: string },
-    ) => {
+    const requestMembership = async (requestData: {
+        streamServiceId: number;
+        customEmail?: string;
+    }) => {
         try {
             setLoading(true);
             const { data } = await StreamService.requestToJoin(requestData);
             if (data.success) {
-                return Promise.resolve()
+                return Promise.resolve();
             }
         } catch (error) {
-            return Promise.reject()
+            return Promise.reject();
         } finally {
             setLoading(false);
         }
@@ -159,12 +165,30 @@ export const StreamServiceProvider = ({ children }) => {
             setLoading(true);
             const { data } = await StreamService.cancelRequest(id);
             if (data.success) {
-                return Promise.resolve()
+                return Promise.resolve();
             }
         } catch (error) {
-            return Promise.reject()
+            return Promise.reject();
         } finally {
             setLoading(false);
+        }
+    };
+
+    const acceptRequest = async (
+        poolRequestId: number,
+        requestData: { userId: string; poolId: number }
+    ) => {
+        try {
+            const { data } = await StreamService.addToPool(
+                poolRequestId,
+                requestData
+            );
+            if (data.success) {
+                return Promise.resolve();
+            }
+        } catch (error) {
+            return Promise.reject();
+        } finally {
         }
     };
 
@@ -172,14 +196,13 @@ export const StreamServiceProvider = ({ children }) => {
         try {
             const { data } = await StreamService.createPool(d);
             if (data.success) {
-                return Promise.resolve()
+                return Promise.resolve();
             }
         } catch (error) {
-            return Promise.reject()
+            return Promise.reject();
         } finally {
         }
     };
-
 
     return (
         <StreamServiceContext.Provider
@@ -193,7 +216,8 @@ export const StreamServiceProvider = ({ children }) => {
                 fetchStreamServives,
                 requestMembership,
                 cancelRequest,
-                createPool
+                createPool,
+                acceptRequest,
             }}
         >
             {children}

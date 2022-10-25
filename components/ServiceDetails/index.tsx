@@ -130,7 +130,7 @@ const MembersComponent = ({ member }: { member: UserType }) => {
     );
 };
 
-const UserRequest = ({ member }: { member: UserType }) => {
+const UserRequest = ({ member, onAccept }: { member: UserType, onAccept: (userId: string) => void }) => {
     const [copiedText, copyToClipboard] = useCopyToClipboard();
     const { triggerNotification } = useNotification();
     const copyPoolPassword = (email: string) => {
@@ -177,7 +177,7 @@ const UserRequest = ({ member }: { member: UserType }) => {
                             </svg>
                         </button>
                     ) : (
-                        <Button className=" bg-white-200 p-2  flex justify-center items-center text-sm border-none text-black-500 rounded-3xl ">
+                        <Button onClick={() => onAccept(member.id)} className=" bg-white-200 p-2  flex justify-center items-center text-sm border-none text-black-500 rounded-3xl ">
 
                             <span className="text-black-500 mt-[0.5px] mr-2">Accept</span>
                             <svg
@@ -214,7 +214,7 @@ const ServiceDetails = ({
     buttonProps,
     offerBoxProps,
     isPoolOwner,
-    poolRequests,
+    poolRequestsProps,
 }: {
     streamService: StreamService;
     selectedPlan: StreamPlan;
@@ -224,7 +224,7 @@ const ServiceDetails = ({
     status?: "pending request" | "active membership" | null | undefined;
     pool?: PoolType;
     email?: string;
-    poolRequests?: PoolRequestType[];
+    poolRequestsProps?: { requests: PoolRequestType[], onAccept: (requestPoolId: number, data: { userId: string, poolId: number }) => void };
     offerBoxProps?: {
         isVisible: boolean;
         onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -247,17 +247,16 @@ const ServiceDetails = ({
 
     const renderMainButton = () => {
         return (
-            <div className="w-full mb-4 flex flex-row  mt-5 justify-between font-bold items-start border-none bg-none  text-md">
+            <div className="w-full mb-4 flex sm:flex-row flex-col  mt-5 justify-between font-bold items-start border-none bg-none  text-md">
                 {buttons.map((buttonProp, index) => (
                     <Button
                         loading={isLoading}
                         onClick={() => buttonProp.onClick()}
                         style={buttonProp?.style}
                         className={classNames(
-                            ` flex-1 sm:w-full  h-12 rounded-3xl mt-4 justify-center items-center text-md`,
+                            ` flex-1 sm:w-full w-full h-20 py-3 rounded-3xl mt-4 justify-center items-center text-md`,
                             buttonProp?.className,
-
-                            { "sm:ml-5 ml-5": buttons.length > 1 && index > 0 }
+                            { "sm:ml-5": buttons.length > 1 && index > 0 }
                         )}
                     >
                         <span
@@ -521,7 +520,7 @@ const ServiceDetails = ({
                                         Pool Requests
                                     </span>
                                     <div className="rounded-3xl w-10 bg-white-400  flex text-sm justify-center items-center text-black-400 ">
-                                        {poolRequests?.length || 0}
+                                        {poolRequestsProps?.requests?.length || 0}
                                     </div>
                                     {/* <Badge
                                         title={"Member count"}
@@ -536,9 +535,9 @@ const ServiceDetails = ({
                                 </div>
                             }
                         >
-                            {poolRequests.length ? (
-                                poolRequests.map((request, index) => (
-                                    <UserRequest member={request.user} />
+                            {poolRequestsProps.requests.length ? (
+                                poolRequestsProps?.requests.map((request, index) => (
+                                    <UserRequest onAccept={(userId) => poolRequestsProps.onAccept(request?.id, { userId, poolId: request.pool_id })} member={request.user} />
                                 ))
                             ) : (
                                 <div className="flex flex-col mb-10 justify-center items-center">

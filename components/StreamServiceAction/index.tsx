@@ -61,6 +61,7 @@ const StreamServiceActionPage = ({
         createPool,
         setStreamService,
         cancelRequest,
+        acceptRequest,
     } = useStreamService();
 
     const submitRequest = async () => {
@@ -259,7 +260,7 @@ const StreamServiceActionPage = ({
                         if (!authData) {
                             push("/login");
                         }
-                        console.log("auth data ===>>>>", authData.paymentDetails)
+                        console.log("auth data ===>>>>", authData.paymentDetails);
                         if (authData.paymentDetails) {
                             submitRequest();
                         } else {
@@ -288,9 +289,9 @@ const StreamServiceActionPage = ({
     };
 
     const detailButtonLabel = useMemo(() => {
-        if (serviceMembership) return "Cancel Membership";
+        if (serviceMembership) return "Cancel membership";
         if (serviceRequest) return "Cancel Request";
-        return "Request a Pool";
+        return "Request a membership";
     }, [authData, serviceRequest, serviceMembership]);
 
     const showCancelRequestConfirm = () => {
@@ -321,6 +322,52 @@ const StreamServiceActionPage = ({
         });
     };
 
+    const confirmAcceptRequest = (
+        requestId: number,
+        d: { userId: string; poolId: number }
+    ) => {
+        confirm({
+            title: "Are you sure you've added the user's email to your membership?",
+            icon: (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                </svg>
+            ),
+            okText: "Yes",
+            okType: "danger",
+            cancelText: "No",
+            async onOk() {
+                try {
+                    const user = await acceptRequest(requestId, d);
+                    triggerNotification(
+                        "Request Sucess",
+                        "User's request has been accepted",
+                        "success"
+                    );
+                    await fetchUserData();
+                } catch (error) {
+                    triggerNotification(
+                        "Request Sucess",
+                        "User wasn't succesfully added, please try again",
+                        "success"
+                    );
+                    console.log(error);
+                }
+            },
+        });
+    };
+
     const buttonProps = useMemo(() => {
         const isRequestButtonProps = {
             onClick: () =>
@@ -346,7 +393,7 @@ const StreamServiceActionPage = ({
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : "Create a pool",
+            label: isMakingOffer ? "Submit" : "Create a membership",
             className: classNames(
                 " border border-solid border-[#999797] w-full font-bold",
                 { " bg-white-400  text-black-700": !isMakingOffer },
@@ -358,13 +405,13 @@ const StreamServiceActionPage = ({
             onClick: () => {
                 setMakeOffer(false);
             },
-            label: isPoolOwner ? "Disable Pool" : "Cancel",
+            label: isPoolOwner ? "Disable Membership" : "Cancel",
             className: "bg-[#BA1200] text-white-400 font-bold border-none w-full",
         };
 
         if (isMakingOffer) return [makeOwner, cancelButtonProps];
         if (!isPoolOwner && !membershipStatus)
-            return [isRequestButtonProps, makeOwner];
+            return [makeOwner, isRequestButtonProps];
         if (isPoolOwner) return cancelButtonProps;
         else return isRequestButtonProps;
     }, [authData, streamService, isMakingOffer]);
@@ -387,7 +434,11 @@ const StreamServiceActionPage = ({
                                 selectedPlan={getCurrentStreamPlan()}
                                 isLoading={isLoading || isAuthLoading}
                                 pool={currentPool}
-                                poolRequests={authData?.user.membershipRequests}
+                                poolRequestsProps={{
+                                    requests: authData?.user.membershipRequests,
+                                    onAccept: (requestId, d) =>
+                                        confirmAcceptRequest(requestId, d),
+                                }}
                                 isPoolOwner={isPoolOwner}
                                 buttonProps={buttonProps}
                                 offerBoxProps={{

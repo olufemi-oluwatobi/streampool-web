@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import className from "classnames";
 import { decryptPassword } from "@utils/helpers";
 import { useRouter } from "next/router";
@@ -13,7 +13,6 @@ import {
 import { ServiceCard, ServiceCardPlaceholder } from "../ServiceCard";
 import { FLAG_SHIP_CARDS } from "../../constants";
 import { useAuthContext } from "@providers/authProvider";
-
 const calculateAmount = (amount: string, numberOfMembers: string) => {
     const amounNum = parseInt(amount, 10);
     const numberOfMembersNum = parseInt(numberOfMembers, 10);
@@ -34,7 +33,8 @@ const ServiceCategory = ({
     verticalOnMobile?: boolean;
 }) => {
     const { triggerNotification } = useNotification();
-    const { authData } = useAuthContext()
+    const { authData } = useAuthContext();
+    const { streamServices } = useStreamService();
     const [copiedText, copyToClipboard] = useCopyToClipboard();
 
     const copyPoolPassword = (password: string) => {
@@ -45,6 +45,20 @@ const ServiceCategory = ({
         copyToClipboard(decryptedPassword);
         triggerNotification("Password Copied", "Password Copied!", "success");
     };
+    const getButtonText = useCallback(
+        (streamService: StreamService) => {
+            const isOwner = authData?.user?.offeredSubs?.some(
+                (sub) => sub.stream_service_id === streamService?.id
+            );
+            const isMember = authData?.user?.pools?.find(
+                (pool) => pool?.stream_service_id === streamService?.id
+            );
+            if (isOwner) return "View My Membership";
+            if (isMember) return "View Membership";
+            return "View Service";
+        },
+        [authData, streamServices]
+    );
     return (
         <div className=" w-full flex flex-col  justify-center items-center ">
             <div className="flex flex-col w-full justify-start items-start mb-6">
@@ -80,12 +94,14 @@ const ServiceCategory = ({
                             >
                                 <ServiceCard
                                     buttonProp={{
-                                        label: "View Service",
+                                        label: getButtonText(service),
                                         onClick: () => {
                                             onClick(service);
                                         },
                                     }}
-                                    hasNotification={authData?.user?.membershipRequests?.some(request => request.stream_service_id === service.id)}
+                                    hasNotification={authData?.user?.membershipRequests?.some(
+                                        (request) => request.stream_service_id === service.id
+                                    )}
                                     currency={service.streamPlans[0]?.currency}
                                     image={service.icon}
                                     name={service.name}
