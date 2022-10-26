@@ -79,7 +79,7 @@ const IndexPage = () => {
             Feel like you're losing out on a lot of shows because there are so
             many streaming services to choose from and you can't afford them
             all? Not to worry, we've got your back. By sharing subscriptions
-            with other users, you can save money on streaming.
+            with others, you can save money on streaming.
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
