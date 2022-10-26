@@ -143,6 +143,7 @@ const PaymentCard = ({
 const UpdateProfile = ({
     values,
     errors,
+    isSubmitting,
     ...props
 }: FormikProps<FormValues>) => {
     const {
@@ -256,6 +257,7 @@ const UpdateProfile = ({
                     ))}
                 </div>
                 <Button
+                    loading={isSubmitting}
                     onClick={() => addAuthorization()}
                     className=" w-fit-content   rounded border-none mt-4 p-0   flex  bg-transparent "
                 >
@@ -294,7 +296,7 @@ const UpdateProfile = ({
 };
 
 const IndexPage = () => {
-    const { authData } = useAuthContext();
+    const { authData, updateUser, isAuthLoading } = useAuthContext();
     const { triggerNotification } = useNotification();
 
     const initValues = useMemo(
@@ -309,7 +311,16 @@ const IndexPage = () => {
     const accountCreationFormik = useFormik({
         initialValues: initValues,
         enableReinitialize: true,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
+            try {
+                accountCreationFormik.setSubmitting(true);
+                triggerNotification("Profile Changed", "Profile Updated", "success")
+                updateUser(values);
+            } catch (error) {
+            } finally {
+                accountCreationFormik.setSubmitting(false);
+            }
+
             // signIn(values, { onSuccess: () => history.push('/'), onError: () => history.push('/') })
         },
         validationSchema: AccountVerificationSchemaValidation,

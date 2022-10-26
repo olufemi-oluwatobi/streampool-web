@@ -5,13 +5,13 @@ import { useRouter } from "next/router";
 
 const withAuth = (WrappedComponent: any, isPrivate = true) => {
   return (props) => {
-    const { authData, loadStorageData } = useAuthContext();
+    const { authData, hydrateUserData } = useAuthContext();
     const [hasLoadedAuth, setHasLoadedAuth] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
       if (!authData) {
-        loadStorageData();
+        hydrateUserData();
         setHasLoadedAuth(true);
       } else {
         setHasLoadedAuth(true);
@@ -20,7 +20,6 @@ const withAuth = (WrappedComponent: any, isPrivate = true) => {
 
     useEffect(() => {
       if (hasLoadedAuth) {
-        console.log("TWOEEE");
         if (!authData) {
           router.push("/");
         }

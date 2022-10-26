@@ -1,9 +1,9 @@
 import BaseApi from "../api/new-index";
-
+import { UserType } from "@interfaces/index";
 class AuthService extends BaseApi {
     constructor() {
-        super()
-        this.loadRequest()
+        super();
+        this.loadRequest();
     }
     formUrl = (url: string) => `/auth/${url}`;
 
@@ -22,6 +22,10 @@ class AuthService extends BaseApi {
         return this.request.get(this.formUrl("me"));
     }
 
+    async update(data: Partial<UserType>) {
+        return this.request.post(this.formUrl("update"), data);
+    }
+
     async forgotPassword(data: { email: string }) {
         return this.request.post(this.formUrl("forgot_password"), data);
     }
@@ -31,8 +35,8 @@ class AuthService extends BaseApi {
         newPassword: string;
         token: string;
     }) {
-        const { token } = data
-        delete data.token
+        const { token } = data;
+        delete data.token;
         return this.request.post(
             this.formUrl(`reset_password?token=${token}`),
             data
@@ -73,7 +77,12 @@ class AuthService extends BaseApi {
         });
     }
 
-    async login(data: { email: string; password: string, accessToken?: string, authBasis?: "gmail" }) {
+    async login(data: {
+        email: string;
+        password: string;
+        accessToken?: string;
+        authBasis?: "gmail";
+    }) {
         return this.request.post(this.formUrl("login"), data);
     }
 }

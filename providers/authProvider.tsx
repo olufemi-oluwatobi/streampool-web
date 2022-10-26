@@ -8,7 +8,7 @@ import React, {
     useCallback,
 } from "react";
 import AuthService from "../services/auth";
-import { AuthDataType, PoolRequestType } from "../interfaces/index";
+import { AuthDataType, PoolRequestType, UserType } from "../interfaces/index";
 import useStateCallback from "@hooks/useStateCallback";
 import { usePaystackPayment } from "react-paystack";
 import { useNotification } from "../providers/notificationProvider";
@@ -48,10 +48,11 @@ type AuthContextType = {
         amount: number,
         callback: { onSuccess: () => void; onClose: () => void }
     ) => void;
-    loadStorageData: () => void;
+    hydrateUserData: () => void;
     setAuthData: (data: AuthDataType) => void;
     addPoolRequest: (data: PoolRequestType) => void;
     removePoolRequest: (data: number) => void;
+    updateUser: (data: Partial<UserType>) => Promise<void>;
 };
 export const AuthContext = createContext<AuthContextType>(
     {} as AuthContextType
@@ -79,11 +80,14 @@ const initialState: InitData = {
     },
 };
 const reducer = (state = initialState, action) => {
-    console.log("payload =====> ", state, action);
     switch (action.type) {
         case "REQUEST_AUTH_DATA":
             return update(state, {
-                meta: { $merge: action.payload },
+                meta: {
+                    isAuthLoading: {
+                        $set: action.payload,
+                    },
+                },
             });
         case "SET_AUTH_DATA":
             return update(state, {
@@ -91,6 +95,17 @@ const reducer = (state = initialState, action) => {
                     return update(authData || ({} as AuthDataType), {
                         $merge: action.payload,
                     });
+                },
+            });
+        case "UPDATE_USER_DATA":
+            console.log(action.payload);
+            return update(state, {
+                authData: {
+                    user: (user) => {
+                        return update(user || ({} as UserType), {
+                            $merge: action.payload,
+                        });
+                    },
                 },
             });
 
@@ -146,20 +161,16 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     const [reference, setReference] = useState(null);
     const [paymentPrice, setPaymentPrice] = useState<null | number>(null);
     const [initPaymentDetails, setInitPayment] = useState(null);
-    useEffect(() => {
-        console.log(authData);
-    }, [authData]);
 
     // const [isAuthLoading, setAuthLoading] = useState(false);
 
     useEffect(() => {
         fetchUserData();
-        loadStorageData();
+        hydrateUserData();
     }, []);
 
     const setAuthData = useCallback(
         (data: Partial<AuthDataType>) => {
-            console.log(data);
             dispatch({
                 type: "SET_AUTH_DATA",
                 payload: data,
@@ -168,8 +179,15 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         [authData]
     );
 
+
+
     const setAuthLoading = (data) => {
         dispatch({ type: "REQUEST_AUTH_DATA", payload: data });
+    };
+
+    const updateAuthData = (data) => {
+        console.log(data);
+        dispatch({ type: "UPDATE_USER_DATA", payload: data });
     };
 
     const addPoolRequest = (data) => {
@@ -194,6 +212,12 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             fetchUserCardDetails();
         }, onClose);
     }, [paymentPrice]);
+
+    useEffect(() => {
+        if (authData) {
+            persistUserData()
+        }
+    }, [authData])
 
     const addPaymentDetails = (
         amount: number,
@@ -274,12 +298,26 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         try {
             const { data } = await AuthService.paymentInfo(email);
             if (data.status) {
-                setAuthData({ paymentDetails: data.data });
+                setAuthData({ paymentDetails: data.data?.["authorizations"] });
 
                 setHasRequestedPaymentDetails(true);
             }
         } catch (error) {
         } finally {
+            //loading finished
+        }
+    };
+
+    const updateUser = async (user: Partial<UserType>) => {
+        try {
+            setAuthLoading(true);
+            const { data } = await AuthService.update(user);
+            if (data.status) {
+                updateAuthData(data.data);
+            }
+        } catch (error) {
+        } finally {
+            setAuthLoading(false);
             //loading finished
         }
     };
@@ -310,9 +348,8 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         );
     };
 
-    const loadStorageData = async () => {
+    const hydrateUserData = async () => {
         try {
-            console.log("ONEEE");
             //Try get the data from Async Storage
             const authDataSerialized = localStorage.getItem("AuthData");
             if (authDataSerialized) {
@@ -324,6 +361,17 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 //If there are data, it's converted to an Object and the state is updated.
                 setAuthData(_authData);
             }
+        } catch (error) {
+        } finally {
+            //loading finished
+        }
+    };
+
+    const persistUserData = () => {
+        try {
+            //Try get the data from Async Storage
+            const authDataSerialized = localStorage.setItem("AuthData", JSON.stringify(authData));
+
         } catch (error) {
         } finally {
             //loading finished
@@ -425,8 +473,9 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 deleteAuthorization,
                 fetchUserData,
                 setAuthData,
-                loadStorageData,
+                hydrateUserData,
                 addPoolRequest,
+                updateUser,
                 removePoolRequest,
             }}
         >

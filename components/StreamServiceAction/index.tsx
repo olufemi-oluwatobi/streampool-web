@@ -73,7 +73,6 @@ const StreamServiceActionPage = ({
                 customEmail,
             });
             if (data) {
-                console.log(data?.data?.data)
                 addPoolRequest(data?.data?.data)
             }
             triggerNotification("Request Succesful", "Request Succesful", "success");
@@ -116,7 +115,7 @@ const StreamServiceActionPage = ({
             triggerNotification("Request Cancelled", "Request Cancelled", "success");
             setModalContentState("init");
         } catch (error) {
-            setModalContentState("error");
+            triggerNotification("Sorry! Failed to complete request", "Sorry! Failed to complete request", "error");
         }
     };
 
@@ -267,7 +266,6 @@ const StreamServiceActionPage = ({
                         if (!authData) {
                             push("/login");
                         }
-                        console.log("auth data ===>>>>", authData.paymentDetails);
                         if (authData.paymentDetails) {
                             submitRequest();
                         } else {
@@ -369,7 +367,6 @@ const StreamServiceActionPage = ({
                         "User wasn't succesfully added, please try again",
                         "success"
                     );
-                    console.log(error);
                 }
             },
         });
