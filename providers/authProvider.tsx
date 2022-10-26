@@ -5,13 +5,14 @@ import React, {
     useEffect,
     useMemo,
     useReducer,
+    useCallback,
 } from "react";
 import AuthService from "../services/auth";
 import { AuthDataType } from "../interfaces/index";
 import useStateCallback from "@hooks/useStateCallback";
 import { usePaystackPayment } from "react-paystack";
 import { useNotification } from "../providers/notificationProvider";
-import update from "immutability-helper"
+import update from "immutability-helper";
 // import { authService } from "../services/authService";
 type RequestCallback = {
     onSuccess: () => void;
@@ -21,13 +22,20 @@ type AuthContextType = {
     authData: AuthDataType | null;
     isAuthLoading: boolean;
     signIn: (
-        data: { email: string; password: string, accessToken?: string, authBasis?: "gmail" },
+        data: {
+            email: string;
+            password: string;
+            accessToken?: string;
+            authBasis?: "gmail";
+        },
         callback?: RequestCallback
     ) => Promise<void>;
     verifyUser: (token: string, callback?: RequestCallback) => Promise<void>;
-    signUp: (
-        data: { email: string; password: string; username: string }
-    ) => Promise<void>;
+    signUp: (data: {
+        email: string;
+        password: string;
+        username: string;
+    }) => Promise<void>;
     setAuthLoading: (data: boolean) => void;
     signOut: () => Promise<void>;
     onboardingStatus: any;
@@ -40,8 +48,8 @@ type AuthContextType = {
         amount: number,
         callback: { onSuccess: () => void; onClose: () => void }
     ) => void;
-    loadStorageData: () => void
-    setAuthData: (data: (v: AuthDataType) => AuthDataType | AuthDataType) => void;
+    loadStorageData: () => void;
+    setAuthData: (data: AuthDataType) => void;
 };
 export const AuthContext = createContext<AuthContextType>(
     {} as AuthContextType
@@ -69,20 +77,25 @@ const initialState: InitData = {
     },
 };
 const reducer = (state = initialState, action) => {
+    console.log("payload =====> ", state, action);
     switch (action.type) {
         case "REQUEST_AUTH_DATA":
             return update(state, {
-                meta: { $set: action.payload, }
-            })
+                meta: { $merge: action.payload },
+            });
         case "SET_AUTH_DATA":
             return update(state, {
-                authData: { $set: action.payload }
-            })
+                authData: (authData) => {
+                    return update(authData || ({} as AuthDataType), {
+                        $merge: action.payload,
+                    });
+                },
+            });
 
         case "GET_AUTH_DATA":
             return update(state, {
-                authData: { $set: action.payload }
-            })
+                authData: { $set: action.payload },
+            });
         default:
             return state;
     }
@@ -104,8 +117,8 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     const [paymentPrice, setPaymentPrice] = useState<null | number>(null);
     const [initPaymentDetails, setInitPayment] = useState(null);
     useEffect(() => {
-        console.log(authData)
-    }, [authData])
+        console.log(authData);
+    }, [authData]);
 
     // const [isAuthLoading, setAuthLoading] = useState(false);
 
@@ -114,14 +127,16 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         loadStorageData();
     }, []);
 
-    const setAuthData = (
-        data: (v: AuthDataType) => AuthDataType | AuthDataType
-    ) => {
-        dispatch({
-            type: "SET_AUTH_DATA",
-            payload: typeof data === "function" ? data(authData) : data,
-        });
-    };
+    const setAuthData = useCallback(
+        (data: Partial<AuthDataType>) => {
+            console.log(data);
+            dispatch({
+                type: "SET_AUTH_DATA",
+                payload: data,
+            });
+        },
+        [authData]
+    );
 
     const setAuthLoading = (data) => {
         dispatch({ type: "REQUEST_AUTH_DATA", payload: data });
@@ -203,7 +218,8 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         try {
             const { data } = await AuthService.me();
             if (data.success) {
-                setAuthData(v => ({ ...v, user: data.data }));
+                setAuthData({ user: data.data });
+
                 // callback?.onSuccess && callback?.onSuccess();
             }
             //Try get the data from Async Storage
@@ -220,10 +236,8 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         try {
             const { data } = await AuthService.paymentInfo(email);
             if (data.status) {
-                setAuthData((v) => ({
-                    ...v,
-                    paymentDetails: data.data.authorizations,
-                }));
+                setAuthData({ paymentDetails: data.data });
+
                 setHasRequestedPaymentDetails(true);
             }
         } catch (error) {
@@ -260,7 +274,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
 
     const loadStorageData = async () => {
         try {
-            console.log("ONEEE")
+            console.log("ONEEE");
             //Try get the data from Async Storage
             const authDataSerialized = localStorage.getItem("AuthData");
             if (authDataSerialized) {
@@ -278,9 +292,12 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         }
     };
 
-    const signIn = async (
-        reqData: { email: string; password: string, accessToken?: string, authBasis?: "gmail" },
-    ) => {
+    const signIn = async (reqData: {
+        email: string;
+        password: string;
+        accessToken?: string;
+        authBasis?: "gmail";
+    }) => {
         setAuthLoading(true);
 
         try {
@@ -313,9 +330,11 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
         }
     };
 
-    const signUp = async (
-        reqData: { email: string; password: string; username: string },
-    ) => {
+    const signUp = async (reqData: {
+        email: string;
+        password: string;
+        username: string;
+    }) => {
         try {
             setAuthLoading(true);
             //call the service passing credential (email and password).
@@ -329,7 +348,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 const _authData = data.data;
                 setAuthData(_authData);
                 localStorage.setItem("AuthData", JSON.stringify(_authData));
-                return Promise.resolve()
+                return Promise.resolve();
             }
 
             // authService.signIn("lucasgarcez@email.com", "123456");
@@ -337,7 +356,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             //Set the data in the context, so the App can be notified
             //and send the user to the AuthStack
         } catch (error) {
-            return Promise.reject(error)
+            return Promise.reject(error);
         } finally {
             setAuthLoading(false);
         }
@@ -368,7 +387,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 deleteAuthorization,
                 fetchUserData,
                 setAuthData,
-                loadStorageData
+                loadStorageData,
             }}
         >
             {children}
