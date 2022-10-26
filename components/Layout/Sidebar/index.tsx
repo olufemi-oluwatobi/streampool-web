@@ -23,11 +23,9 @@ const SideBar = () => {
                 </div>
             </div>
             <div className="flex flex-1 flex-col pt-20">
-                {NAV_ITEMS.filter((item) =>
-                    authData
-                        ? !["login", "signup"].includes(item.title.toLowerCase())
-                        : item
-                ).map((item) => (
+                {NAV_ITEMS.filter((item) => {
+                    return authData ? item : !item.isPrivate
+                }).map((item) => (
                     <Link key={Math.random()} href={item.path}>
                         <div
                             style={{ padding: "8px 4px 8px 16px", cursor: "pointer" }}

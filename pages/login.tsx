@@ -45,7 +45,9 @@ interface Props {
 const LoginAccount = ({
     values,
     errors,
+    isSubmitting,
     ...props
+
 }: FormikProps<FormValues>) => {
     const handleChange = (e) => {
         const { name } = e.target;
@@ -96,6 +98,7 @@ const LoginAccount = ({
             </div>
             <div className="w-full border-none mt-10 mb-5">
                 <Button
+                    loading={isSubmitting}
                     onClick={() => props.handleSubmit()}
                     className=" text-black-500 rounded border-none   w-full flex justify-center items-center h-12 bg-[#9DDBAD] "
                 >
@@ -144,6 +147,7 @@ const IndexPage = (props: Props) => {
         },
         onSubmit: async (values) => {
             try {
+                accountCreationFormik.setSubmitting(true)
                 await signIn(values);
                 history.push("/");
             } catch (error) {
@@ -152,7 +156,8 @@ const IndexPage = (props: Props) => {
                     const { data } = response;
                     triggerNotification(data.message, data.message, "error");
                 }
-
+            } finally {
+                accountCreationFormik.setSubmitting(false)
             }
         },
         validationSchema: AccountCreationValidationSchema,

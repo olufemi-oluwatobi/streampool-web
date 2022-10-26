@@ -211,28 +211,11 @@ const Header = (props: HeaderProps) => {
             </div>
 
 
-            {/* <div className=" sm:flex hidden md:hidden lg:flex xl:flex 2xl:flex w-4/12 ">{renderSearchInput()}</div> */}
             <div className=" sm:flex hidden md:hidden lg:flex xl:flex 2xl:flex justify-between items-center  ">
-                {/* <Switch
-                    className="border-none"
-                    checked={theme === "dark"}
-                    checkedChildren={<Image src={DarkModeIcon} />}
-                    unCheckedChildren={<Image src={LightModeIcon} />}
-                    onChange={() => setTheme(NEXT_COLOR)}
-                /> */}
+
                 <div className="flex ml-10 ">
                     {renderDesktopOptions()}
-                    {/* <Dropdown overlay={menu} placement="bottomLeft">
-                        <Image src={Avatar} className="  " />
-                    </Dropdown>
-                    <div className="flex flex-initial  flex-col ml-4">
-                        <span className=" text-black-500 dark:text-white-50 font-extrabold  text-base ">
-                            {props?.user?.name}
-                        </span>
-                        <span className=" text-gray-50   text-sm space-x-2 ">
-                            {props?.user?.email}
-                        </span>   
-                    </div> */}
+
                 </div>
             </div>
             <div className=" sm:hidden md:flex lg:hidden xl:hidden flex justify-center items-center   ">
