@@ -21,8 +21,8 @@ export const ServiceCard = ({
     buttonProp: { label: string; onClick: () => void };
 }) => {
     return (
-        <div className="shadow-light-grey relative cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-xl  w-full">
-            <div className="w-full p-2  shadow-light-grey">
+        <div className="drop-shadow-xl relative cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-2xl  w-full">
+            <div className="w-full p-[10px]  drop-shadow-xl">
                 <Image width="450" height="250" className="rounded-lg " src={image} />
             </div>
             <div className="flex flex-col  p-4">
