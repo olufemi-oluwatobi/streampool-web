@@ -22,8 +22,8 @@ export const ServiceCard = ({
 }) => {
     return (
         <div className="drop-shadow-xl relative cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-3xl  w-full">
-            <div className="w-full p-[10px]  drop-shadow-xl">
-                <Image width="450" height="250" className="rounded-xl " src={image} />
+            <div className="w-full p-3 drop-shadow-xl">
+                <Image width="450" height="250" className="rounded-2xl " src={image} />
             </div>
             <div className="flex flex-col  p-4">
                 <div className="w-full flex justify-between">
