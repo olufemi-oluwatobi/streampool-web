@@ -75,11 +75,11 @@ const IndexPage = () => {
           <span className=" text-[46px] leading-tight md:text-[46px] lg:text-[66px] xl:text-[76px] 2xl:text-[86px] sm:w-2/3 w-full font-bold sm:mb-2 mb-2 ">
             Stream More, for Less
           </span>
-          <span className="my-6 text-[#a9abb1] text-md w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose sm:font-medium font-light ">
-            Feel like you're missing out on a great deal of shows cos there are
-            so many streaming services and you can't afford them all? Not to
-            worry, we've got you covered. Streamcel allows you to save money on
-            streaming by sharing subscriptions with other users.
+          <span className="my-6 text-[#95999c] text-base w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose text-justify sm:font-medium font-normal ">
+            Feel like you're losing out on a lot of shows because there are so
+            many streaming services to choose from and you can't afford them
+            all? Not to worry, we've got your back. By sharing subscriptions
+            with other users, you can save money on streaming.
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
