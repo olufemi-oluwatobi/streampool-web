@@ -247,7 +247,7 @@ const ServiceDetails = ({
 
     const renderMainButton = () => {
         return (
-            <div className="w-full mb-4 flex sm:flex-row flex-col  mt-5 justify-between font-bold items-start border-none bg-none  text-md">
+            <div className="w-full mb-4 flex sm:flex-row flex-col  sm:mt-5 mt-[15vh] justify-between font-bold items-start border-none bg-none  text-md">
                 {buttons.map((buttonProp, index) => (
                     <Button
                         loading={isLoading}

@@ -1,5 +1,7 @@
 import React, { createContext, useEffect, useContext, useReducer } from "react";
-import StreamService, { PoolPayload } from "../services/streamServices";
+import StreamService, { PoolPayload } from "@services/streamServices";
+import { AxiosResponse } from "axios"
+import { PoolRequestType } from "@interfaces/index";
 
 export type StreamPlan = {
     id: number;
@@ -47,11 +49,11 @@ type StreamServiceContextType = {
     isLoading: boolean;
     setFetchingStreamService: (data: boolean) => void;
     fetchStreamServives: () => Promise<void>;
-    cancelRequest: (id: number) => Promise<void>;
+    cancelRequest: (id: number) => Promise<number>;
     requestMembership: (data: {
         streamServiceId: number;
         customEmail?: string;
-    }) => Promise<void>;
+    }) => Promise<AxiosResponse<{ success: true, data: PoolRequestType }>>;
     createPool: (d: PoolPayload) => Promise<void>;
     acceptRequest: (
         poolRequestId: number,
@@ -146,12 +148,12 @@ export const StreamServiceProvider = ({ children }) => {
     const requestMembership = async (requestData: {
         streamServiceId: number;
         customEmail?: string;
-    }) => {
+    }): Promise<AxiosResponse<{ success: true, data: PoolRequestType }>> => {
         try {
             setLoading(true);
-            const { data } = await StreamService.requestToJoin(requestData);
-            if (data.success) {
-                return Promise.resolve();
+            const data = await StreamService.requestToJoin(requestData);
+            if (data) {
+                return Promise.resolve(data);
             }
         } catch (error) {
             return Promise.reject();
@@ -165,7 +167,7 @@ export const StreamServiceProvider = ({ children }) => {
             setLoading(true);
             const { data } = await StreamService.cancelRequest(id);
             if (data.success) {
-                return Promise.resolve();
+                return Promise.resolve(id);
             }
         } catch (error) {
             return Promise.reject();

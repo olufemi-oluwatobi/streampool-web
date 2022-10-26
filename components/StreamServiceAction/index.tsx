@@ -51,6 +51,8 @@ const StreamServiceActionPage = ({
         addPaymentDetails,
         fetchUserData,
         isAuthLoading,
+        addPoolRequest,
+        removePoolRequest
     } = useAuthContext();
     const { triggerNotification } = useNotification();
     const { query, push } = useRouter();
@@ -66,12 +68,15 @@ const StreamServiceActionPage = ({
 
     const submitRequest = async () => {
         try {
-            await requestMembership({
+            const data = await requestMembership({
                 streamServiceId: streamService.id,
                 customEmail,
             });
+            if (data) {
+                console.log(data?.data?.data)
+                addPoolRequest(data?.data?.data)
+            }
             triggerNotification("Request Succesful", "Request Succesful", "success");
-            await fetchUserData();
             setModalContentState("init");
         } catch (error) {
             setModalContentState("error");
@@ -104,9 +109,11 @@ const StreamServiceActionPage = ({
 
     const onRequestCancel = async () => {
         try {
-            await cancelRequest(serviceRequest.id);
+            const id = await cancelRequest(serviceRequest.id);
+            if (id) {
+                removePoolRequest(id)
+            }
             triggerNotification("Request Cancelled", "Request Cancelled", "success");
-            await fetchUserData();
             setModalContentState("init");
         } catch (error) {
             setModalContentState("error");

@@ -8,7 +8,7 @@ import React, {
     useCallback,
 } from "react";
 import AuthService from "../services/auth";
-import { AuthDataType } from "../interfaces/index";
+import { AuthDataType, PoolRequestType } from "../interfaces/index";
 import useStateCallback from "@hooks/useStateCallback";
 import { usePaystackPayment } from "react-paystack";
 import { useNotification } from "../providers/notificationProvider";
@@ -50,6 +50,8 @@ type AuthContextType = {
     ) => void;
     loadStorageData: () => void;
     setAuthData: (data: AuthDataType) => void;
+    addPoolRequest: (data: PoolRequestType) => void;
+    removePoolRequest: (data: number) => void;
 };
 export const AuthContext = createContext<AuthContextType>(
     {} as AuthContextType
@@ -89,6 +91,34 @@ const reducer = (state = initialState, action) => {
                     return update(authData || ({} as AuthDataType), {
                         $merge: action.payload,
                     });
+                },
+            });
+
+        case "ADD_USER_REQUEST":
+            return update(state, {
+                authData: {
+                    user: {
+                        poolRequests: (poolRequests) => {
+                            return update(poolRequests || ([] as PoolRequestType[]), {
+                                $push: [action.payload],
+                            });
+                        },
+                    },
+                },
+            });
+        case "REMOVE_POOL_REQUEST":
+            return update(state, {
+                authData: {
+                    user: {
+                        poolRequests: (poolRequests) => {
+                            const index = poolRequests.findIndex(
+                                (d) => d.id === action.payload
+                            );
+                            return update(poolRequests || ([] as PoolRequestType[]), {
+                                $splice: [[index, 1]],
+                            });
+                        },
+                    },
                 },
             });
 
@@ -140,6 +170,14 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
 
     const setAuthLoading = (data) => {
         dispatch({ type: "REQUEST_AUTH_DATA", payload: data });
+    };
+
+    const addPoolRequest = (data) => {
+        dispatch({ type: "ADD_USER_REQUEST", payload: data });
+    };
+
+    const removePoolRequest = (data: number) => {
+        dispatch({ type: "REMOVE_POOL_REQUEST", payload: data });
     };
 
     const config = {
@@ -388,6 +426,8 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
                 fetchUserData,
                 setAuthData,
                 loadStorageData,
+                addPoolRequest,
+                removePoolRequest,
             }}
         >
             {children}
