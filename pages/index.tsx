@@ -37,7 +37,7 @@ const HowItWorks = () => {
     {
       heading: "Enjoy More Streaming!",
       content:
-        "And in the same way, you can get more services at a lower cost. Membership owners will receive shared subscription costs at the end of each month.",
+        "Now you can get more services at a lower cost. Membership owners will receive shared subscription costs at the end of each month.",
     },
   ];
   return (
