@@ -21,6 +21,47 @@ import classNames from "classnames";
 
 const { confirm } = Modal;
 
+type Steps = { heading: string; content: string };
+const HowItWorks = () => {
+  const steps: Array<Steps> = [
+    {
+      heading: "Select a Stream Service",
+      content:
+        "We provide a variety of streaming options that might meet your demands, whether you want to view a movie or listen to your favorite singer.",
+    },
+    {
+      heading: "Request or Share a Membership",
+      content:
+        "If you have an active membership, you can list it for sharing. If you want to join a membership, simply submit a membership request and you'll be added to a membership ASAP. You will only be charged a portion of the real subscription cost of the stream service that you subscribed to.",
+    },
+    {
+      heading: "Enjoy More Streaming!",
+      content:
+        "And in the same way, you can get more services at a lower cost. Membership owners will receive shared subscription money at the end of each month.",
+    },
+  ];
+  return (
+    <div className="w-full px-[5%] justify-center items-center flex flex-col">
+      <span className=" font-bold mb-10 text-3xl ">How Does It Work?</span>
+      <div className="w-full  flex sm:flex-row flex-col justify-between items-start">
+        {steps.map((step, index) => (
+          <div className="flex mt-10 sm:px-10  justify-end items-center flex-col">
+            <div className="rounded-full h-32 w-32 mb-10 border-2 border-[#95999c]  border-solid flex justify-center items-center">
+              <span className=" font-bold text-6xl  ">{index + 1}</span>
+            </div>
+            <span className="font-bold text-2xl text-center mb-10">
+              {step.heading}
+            </span>
+            <span className="w-full max-w-[450px] text-[#95999c] text-base leading-loose  text-center">
+              {step.content}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const IndexPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
   const isMobile = useCheckMobileScreen();
@@ -98,6 +139,9 @@ const IndexPage = () => {
           />
         </div>
       </div>
+      <section className="w-full my-20">
+        <HowItWorks />
+      </section>
       {/* <Banner {...bannerButtonContent} /> */}
       <section
         id="card_content_wrapper"
@@ -106,6 +150,7 @@ const IndexPage = () => {
         <section className="flex">
           <StreamServices />
         </section>
+
         <section className=" my-10 ">
           <FaqSection />
         </section>

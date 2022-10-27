@@ -24,7 +24,7 @@ const questionAndAnswers = [
     {
         question: "How can I offer a membership?",
         answer:
-            "You can create a membership by clicking on the streaming service you want to offer. Click on create a membership button. Your membership would be open for requests, membership requests will be sent to you",
+            "You can share a membership by clicking on the streaming service you want to offer. Click on share a membership button. Your membership would be open for requests, membership requests will be sent to you",
     },
     {
         question: "How do I receive payment for memberships I created?",

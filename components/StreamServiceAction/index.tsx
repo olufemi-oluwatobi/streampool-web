@@ -397,7 +397,7 @@ const StreamServiceActionPage = ({
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : "Create a membership",
+            label: isMakingOffer ? "Submit" : "Share a membership",
             className: classNames(
                 " border border-solid border-[#999797] w-full font-bold",
                 { " bg-white-400  text-black-700": !isMakingOffer },
