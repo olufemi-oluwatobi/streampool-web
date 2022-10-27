@@ -49,10 +49,10 @@ const HowItWorks = () => {
             <div className="rounded-full h-32 w-32 mb-10 border-2 border-[#95999c]  border-solid flex justify-center items-center">
               <span className=" font-bold text-6xl  ">{index + 1}</span>
             </div>
-            <span className="font-bold text-2xl text-center mb-10">
+            <span className="font-bold text-[#95999c] text-2xl text-center mb-10">
               {step.heading}
             </span>
-            <span className="w-full max-w-[450px] text-[#95999c] text-base leading-loose  text-center">
+            <span className="w-full max-w-[450px]  text-base leading-loose  text-center">
               {step.content}
             </span>
           </div>
