@@ -63,7 +63,7 @@ const HeaderWrapper = Styled.div<{ darkMode: boolean }>`
 `;
 
 const Header = (props: HeaderProps) => {
-    const { authData } = useAuthContext()
+    const { authData, signOut } = useAuthContext()
 
 
     const history = useRouter();
@@ -132,6 +132,15 @@ const Header = (props: HeaderProps) => {
                   w-fit-content "
                     >
                         <span>Memberships</span>
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            signOut();
+                        }}
+                        className=" bg-transparent outline-none border-none flex items-center text-md  text-gray-1600 dark:text-dark-gray-400  w-fit-content px-2 mx-6 "
+                    >
+                        <span>Sign out</span>
+
                     </Button>
                 </div>
             </div>

@@ -48,8 +48,8 @@ const HowItWorks = () => {
   }
 
   return (
-    <div className="w-full px-[5%] justify-center items-center flex flex-col">
-      <span className=" font-bold mb-10 text-3xl ">How Does It Work?</span>
+    <div className="w-full mt-20 px-[5%] justify-center items-center flex flex-col">
+      <span className=" font-bold mb-4 text-3xl ">How Does It Work?</span>
       <div className="w-full  flex sm:flex-row flex-col justify-between items-start">
         {steps.map((step, index) => (
           <div className="flex mt-10 sm:px-10  justify-end items-center flex-col">

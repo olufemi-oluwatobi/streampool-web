@@ -38,6 +38,14 @@ const SideBarMobile = (props: SideBarProps) => {
                         </div>
                     </Link>
                 ))}
+                {authData && (
+                    <div
+                        onClick={() => signOut()}
+                        className={` text-white-200 flex justify-start p-2 mb-5 font-bold bg-[#23232d] rounded-md    items-center cursor-pointer`}
+                    >
+                        <span className=" font-medium   text-sm ml-5 ">Sign Out</span>
+                    </div>
+                )}
             </div>
         </aside>
     );
