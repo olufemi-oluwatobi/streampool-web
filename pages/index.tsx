@@ -40,14 +40,21 @@ const HowItWorks = () => {
         "Now you can get more services at a lower cost. Membership owners will receive shared subscription costs at the end of each month.",
     },
   ];
+  const scrollToComponent = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <div className="w-full px-[5%] justify-center items-center flex flex-col">
       <span className=" font-bold mb-10 text-3xl ">How Does It Work?</span>
       <div className="w-full  flex sm:flex-row flex-col justify-between items-start">
         {steps.map((step, index) => (
           <div className="flex mt-10 sm:px-10  justify-end items-center flex-col">
-            <div className="rounded-full h-32 w-32 mb-10 border-2 border-[#95999c]  border-solid flex justify-center items-center">
-              <span className=" font-bold text-6xl  ">{index + 1}</span>
+            <div className="rounded-full sm:h-32 h-20 sm:w-32 w-20 mb-10 border-2 border-[#95999c]  border-solid flex justify-center items-center">
+              <span className=" font-bold sm:text-6xl text-3xl  ">{index + 1}</span>
             </div>
             <span className="font-bold text-[#95999c] text-2xl text-center mb-4">
               {step.heading}
@@ -58,6 +65,13 @@ const HowItWorks = () => {
           </div>
         ))}
       </div>
+      <Button
+        onClick={() => scrollToComponent("stream_services")}
+        className=" ml-5 mt-10 flex justify-center rounded-lg items-center
+    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
+      >
+        <span className="">Explore Services</span>
+      </Button>
     </div>
   );
 };
@@ -109,6 +123,13 @@ const IndexPage = () => {
     setMakeOffer(null);
   };
 
+  const scrollToComponent = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <Layout title="Stream more for less">
       <div className=" flex sm:flex-row flex-col px-[5%] mt-10 w-full justify-between items-center ">
@@ -124,10 +145,20 @@ const IndexPage = () => {
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
+              onClick={() => scrollToComponent("stream_services")}
               className="  flex justify-center rounded-lg items-center
     w-fit-content bg-[#49DE80]  font-bold border-none text-black-500 px-7 py-5 "
             >
               <span>Explore Services</span>
+            </Button>
+            <Button
+              onClick={() => scrollToComponent("how_it_works")}
+              className=" ml-5  flex justify-center rounded-lg items-center
+    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
+            >
+              <span className="">See how it works</span>
+
+
             </Button>
           </div>
         </div>
@@ -139,18 +170,18 @@ const IndexPage = () => {
           />
         </div>
       </div>
-      <section className="w-full my-20">
-        <HowItWorks />
-      </section>
+
       {/* <Banner {...bannerButtonContent} /> */}
       <section
         id="card_content_wrapper"
         className=" w-full px-[5%] flex flex-col     "
       >
-        <section className="flex">
+        <section id="stream_services" className="flex ">
           <StreamServices />
         </section>
-
+        <section id="how_it_works" className="w-full my-20">
+          <HowItWorks />
+        </section>
         <section className=" my-10 ">
           <FaqSection />
         </section>
