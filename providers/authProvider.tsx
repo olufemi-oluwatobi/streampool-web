@@ -97,6 +97,10 @@ const reducer = (state = initialState, action) => {
                     });
                 },
             });
+        case "CLEAR_AUTH":
+            return update(state, {
+                authData: { $set: null }
+            });
         case "UPDATE_USER_DATA":
             console.log(action.payload);
             return update(state, {
@@ -451,7 +455,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     const signOut = async () => {
         //Remove data from context, so the App can be notified
         //and send the user to the AuthStack
-        setAuthData(undefined);
+        dispatch({ type: "CLEAR_AUTH" });
         localStorage.removeItem("AuthData");
     };
 
