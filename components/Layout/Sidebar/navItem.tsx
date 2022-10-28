@@ -86,7 +86,7 @@ export const NAV_ITEMS = [
     },
     {
         title: "Sign Up",
-        path: "/sign_up",
+        path: "/signup",
         isPrivate: false,
         svgPath: (
             <svg
