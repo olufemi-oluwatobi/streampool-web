@@ -63,15 +63,15 @@ class AuthService extends BaseApi {
         );
     }
 
-    async register(data: {
+    async signup(data: {
         email: string;
         password: string;
         userRole: string;
         username: string;
     }) {
         const baseUrl = window.location.origin;
-
-        return this.request.post(this.formUrl("register"), {
+        console.log("called signup")
+        return this.request.post(this.formUrl("signup"), {
             ...data,
             verificationUrl: baseUrl,
         });

@@ -429,7 +429,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             setAuthLoading(true);
             //call the service passing credential (email and password).
             //In a real App this data will be provided by the user from some InputText components.
-            const { data } = await AuthService.register({
+            const { data } = await AuthService.signup({
                 ...reqData,
                 userRole: "basic",
             });
@@ -446,6 +446,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             //Set the data in the context, so the App can be notified
             //and send the user to the AuthStack
         } catch (error) {
+            console.log(error)
             return Promise.reject(error);
         } finally {
             setAuthLoading(false);
