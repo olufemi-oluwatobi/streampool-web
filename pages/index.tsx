@@ -53,10 +53,10 @@ const HowItWorks = () => {
       <div className="w-full  flex sm:flex-row flex-col justify-between items-start">
         {steps.map((step, index) => (
           <div className="flex mt-10 sm:px-10  justify-end items-center flex-col">
-            <div className="rounded-full sm:h-32 h-20 sm:w-32 w-20 mb-10 border-2 border-[#95999c]  border-solid flex justify-center items-center">
+            <div className="rounded-full sm:h-32 h-20 sm:w-32 w-20 mb-10 border-2 border-[#5f6163]  border-solid flex justify-center items-center">
               <span className=" font-bold sm:text-6xl text-3xl  ">{index + 1}</span>
             </div>
-            <span className="font-bold text-[#95999c] text-2xl text-center mb-4">
+            <span className="font-bold text-[#5f6163] text-2xl text-center mb-4">
               {step.heading}
             </span>
             <span className="w-full max-w-[450px]  text-base leading-loose  text-center">
@@ -166,7 +166,7 @@ const IndexPage = () => {
           <Image
             width={800}
             height={800}
-            src="/static/images/streamcel_hero_main_3.svg"
+            src="/static/images/streamcel_hero_main_3.png"
           />
         </div>
       </div>
