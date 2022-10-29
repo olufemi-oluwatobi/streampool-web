@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
+import { Checkbox } from "antd";
 import PaymentOption from "@components/PaymentOption";
 import { useFormik, FormikProvider } from "formik";
 import useCheckMobileScreen from "@hooks/useIsMobile";
@@ -12,7 +13,7 @@ import { PoolRequestType, PoolType, StreamPlan } from "@interfaces/index";
 import { useAuthContext } from "@providers/authProvider";
 import { useNotification } from "@providers/notificationProvider";
 import classNames from "classnames";
-
+import StreamOptions from "@components/streamplanOptions";
 const { confirm } = Modal;
 
 const StreamServiceActionPage = ({
@@ -52,7 +53,7 @@ const StreamServiceActionPage = ({
         fetchUserData,
         isAuthLoading,
         addPoolRequest,
-        removePoolRequest
+        removePoolRequest,
     } = useAuthContext();
     const { triggerNotification } = useNotification();
     const { query, push } = useRouter();
@@ -73,7 +74,7 @@ const StreamServiceActionPage = ({
                 customEmail,
             });
             if (data) {
-                addPoolRequest(data?.data?.data)
+                addPoolRequest(data?.data?.data);
             }
             triggerNotification("Request Succesful", "Request Succesful", "success");
             setModalContentState("init");
@@ -110,12 +111,16 @@ const StreamServiceActionPage = ({
         try {
             const id = await cancelRequest(serviceRequest.id);
             if (id) {
-                removePoolRequest(id)
+                removePoolRequest(id);
             }
             triggerNotification("Request Cancelled", "Request Cancelled", "success");
             setModalContentState("init");
         } catch (error) {
-            triggerNotification("Sorry! Failed to complete request", "Sorry! Failed to complete request", "error");
+            triggerNotification(
+                "Sorry! Failed to complete request",
+                "Sorry! Failed to complete request",
+                "error"
+            );
         }
     };
 
@@ -222,39 +227,22 @@ const StreamServiceActionPage = ({
 
     const requestEmail = () => {
         return (
-            <div className="w-full py-4 px-2 modal-input flex flex-col">
+            <div className="w-full  modal-input flex flex-col">
                 {!isMobile && (
                     <ServiceDetailHeader
                         title="Select Email"
                         onButtonClick={() => onCloseModal()}
                     />
                 )}
-                <div className="w-full flex mb-6 items-center justify-between text-white-200   ">
-                    <div className="flex items-center mr-8  ">
-                        <button
-                            onClick={() => setModalContentState("init")}
-                            className=" outline-none bg-none mr-4  w-6 h-6 justify-center items-center bg-[#444444] flex rounded-full "
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-4 h-4"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                                />
-                            </svg>
-                        </button>
-                        <span className=" text-base   ">
-                            Add your {streamService.name} membership email
-                        </span>
-                    </div>
-                </div>
+                <span className="mb-2">Select a plan</span>
+                {streamService?.streamPlans?.map((plan) => (
+                    <StreamOptions
+                        isSelected={selectedPlan?.id === plan.id}
+                        plan={plan}
+                        onSelectPlan={() => setSelectedPlan(plan)}
+                    />
+                ))}
+                <span className="mb-2 mt-4">Enter stream service email address(optional)</span>
                 <Input
                     onChange={(e) => setCustomEmail(e.target.value)}
                     className="h-10"
@@ -397,7 +385,7 @@ const StreamServiceActionPage = ({
             onClick: () => {
                 !isMakingOffer ? setMakePool() : submitOffer();
             },
-            label: isMakingOffer ? "Submit" : "Share a membership",
+            label: isMakingOffer ? "Submit Membership" : "Share a membership",
             className: classNames(
                 " border border-solid border-[#999797] w-full font-bold",
                 { " bg-white-400  text-black-700": !isMakingOffer },

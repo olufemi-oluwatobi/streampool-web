@@ -14,6 +14,7 @@ import {
     UserType,
     PoolRequestType,
 } from "../../interfaces";
+import StreamOptions from "@components/streamplanOptions";
 import { Button, Checkbox, Modal } from "antd";
 import classNames from "classnames";
 
@@ -130,7 +131,13 @@ const MembersComponent = ({ member }: { member: UserType }) => {
     );
 };
 
-const UserRequest = ({ member, onAccept }: { member: UserType, onAccept: (userId: string) => void }) => {
+const UserRequest = ({
+    member,
+    onAccept,
+}: {
+    member: UserType;
+    onAccept: (userId: string) => void;
+}) => {
     const [copiedText, copyToClipboard] = useCopyToClipboard();
     const { triggerNotification } = useNotification();
     const copyPoolPassword = (email: string) => {
@@ -158,9 +165,7 @@ const UserRequest = ({ member, onAccept }: { member: UserType, onAccept: (userId
                             onClick={() => copyPoolPassword(member.email)}
                             className="w-fit-content flex items-center ml-1 text-white-200 h-fit-content"
                         >
-                            <span className="mr-2  text-white-200 text-sm ">
-                                Copy Email
-                            </span>
+                            <span className="mr-2  text-white-200 text-sm ">Copy Email</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -177,8 +182,10 @@ const UserRequest = ({ member, onAccept }: { member: UserType, onAccept: (userId
                             </svg>
                         </button>
                     ) : (
-                        <Button onClick={() => onAccept(member.id)} className=" bg-white-200 p-2  flex justify-center items-center text-sm border-none text-black-500 rounded-3xl ">
-
+                        <Button
+                            onClick={() => onAccept(member.id)}
+                            className=" bg-white-200 p-2  flex justify-center items-center text-sm border-none text-black-500 rounded-3xl "
+                        >
                             <span className="text-black-500 mt-[0.5px] mr-2">Accept</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +231,13 @@ const ServiceDetails = ({
     status?: "pending request" | "active membership" | null | undefined;
     pool?: PoolType;
     email?: string;
-    poolRequestsProps?: { requests: PoolRequestType[], onAccept: (requestPoolId: number, data: { userId: string, poolId: number }) => void };
+    poolRequestsProps?: {
+        requests: PoolRequestType[];
+        onAccept: (
+            requestPoolId: number,
+            data: { userId: string; poolId: number }
+        ) => void;
+    };
     offerBoxProps?: {
         isVisible: boolean;
         onChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -247,16 +260,17 @@ const ServiceDetails = ({
 
     const renderMainButton = () => {
         return (
-            <div className="w-full mb-4 flex sm:flex-row flex-col  sm:mt-5 mt-[15vh] justify-between font-bold items-start border-none bg-none  text-md">
+            <div className="w-full mb-4 flex sm:flex-row flex-col justify-between font-bold items-start border-none bg-none  text-md">
                 {buttons.map((buttonProp, index) => (
                     <Button
                         loading={isLoading}
                         onClick={() => buttonProp.onClick()}
                         style={buttonProp?.style}
                         className={classNames(
-                            ` flex-1 sm:w-full w-full h-20 py-3 rounded-3xl mt-4 justify-center items-center text-md`,
+                            ` flex-1 sm:w-full w-full h-10 sm:py-0 py-3 rounded-3xl mt-4 text-md`,
                             buttonProp?.className,
-                            { "sm:ml-5": buttons.length > 1 && index > 0 }
+                            { "sm:ml-5": buttons.length > 1 && index > 0 },
+                            "justify-center items-center"
                         )}
                     >
                         <span
@@ -522,22 +536,21 @@ const ServiceDetails = ({
                                     <div className="rounded-3xl w-10 bg-white-400  flex text-sm justify-center items-center text-black-400 ">
                                         {poolRequestsProps?.requests?.length || 0}
                                     </div>
-                                    {/* <Badge
-                                        title={"Member count"}
-                                        showZero
-                                        style={{
-                                            backgroundColor: "#00000",
-                                            width: "20px",
-                                        }}
-                                        className="h-4 text-md mb-1 "
-                                        count={pool.members_count || 0}
-                                    /> */}
+
                                 </div>
                             }
                         >
                             {poolRequestsProps.requests.length ? (
                                 poolRequestsProps?.requests.map((request, index) => (
-                                    <UserRequest onAccept={(userId) => poolRequestsProps.onAccept(request?.id, { userId, poolId: request.pool_id })} member={request.user} />
+                                    <UserRequest
+                                        onAccept={(userId) =>
+                                            poolRequestsProps.onAccept(request?.id, {
+                                                userId,
+                                                poolId: request.pool_id,
+                                            })
+                                        }
+                                        member={request.user}
+                                    />
                                 ))
                             ) : (
                                 <div className="flex flex-col mb-10 justify-center items-center">
@@ -555,27 +568,16 @@ const ServiceDetails = ({
                     </Collapse>
                 </div>
             )}
-            {!status &&
-                !isPoolOwner &&
+            {!status && offerBoxProps?.isVisible && !isPoolOwner &&
                 streamService?.streamPlans.map((plan) => (
-                    <div className="w-full rounded-md flex justify-between items-center px-4 py-2 mb-4 border-[#494949] border-solid border ">
-                        <div className="flex flex-col items-start justify-start  ">
-                            <span className=" text-base font-bold text-white-200 ">
-                                {plan.name}
-                            </span>
-                            <span className=" text-md text-gray-300 ">
-                                {plan.currency} {Number(plan.amount)?.toLocaleString()} -{" "}
-                                {plan.max_limit} members
-                            </span>
-                        </div>
-                        <Checkbox
-                            checked={
-                                plan.id === selectedPlan?.id ||
-                                streamService?.streamPlans.length === 1
-                            }
-                            onClick={() => onSelectPlan(plan)}
-                        />
-                    </div>
+                    <StreamOptions
+                        isSelected={
+                            plan.id === selectedPlan?.id ||
+                            streamService?.streamPlans.length === 1
+                        }
+                        plan={plan}
+                        onSelectPlan={(plan) => onSelectPlan(plan)}
+                    />
                 ))}
 
             {!status && offerBoxProps?.isVisible && !isPoolOwner && (
@@ -587,18 +589,37 @@ const ServiceDetails = ({
                 />
             )}
 
-            {!status && !isPoolOwner && (
-                <div className=" w-full flex justify-start  flex-col items-start my-4 i text-white-200 ">
-                    <span className=" font-bold text-5xl">
-                        {selectedPlan?.currency}{" "}
-                        {calculateAmount(
-                            selectedPlan?.amount,
-                            selectedPlan?.max_limit
-                        )?.toLocaleString()}
-                    </span>
-                    <span className=" line-through text-red-300  text-md ">
-                        {selectedPlan?.currency} {selectedPlan?.amount}
-                    </span>
+            {!status && !isPoolOwner && !offerBoxProps?.isVisible && (
+                <div className=" w-full flex justify-start  flex-col items-start my-4 mt-0 i text-white-200 ">
+                    <div className="w-full flex mt-2  justify-between">
+                        <span className="text-gray-300">Stream Service Name</span>
+                        <span className=" font-bold  text-white-200  text-md ">
+                            {streamService?.name}
+                        </span>
+                    </div>
+                    <div className="w-full flex mt-2  justify-between">
+                        <span className="text-gray-300">No of Subscription Plans</span>
+                        <span className=" font-bold  text-white-200  text-md ">
+                            {streamService?.streamPlans.length}
+                        </span>
+                    </div>
+                    <div className="w-full flex mt-2  justify-between">
+                        <span className="text-gray-300">Billing Period</span>
+                        <span className=" font-bold  text-white-200  text-md ">
+                            Monthly
+                        </span>
+                    </div>
+                    <div className="w-full flex mt-2  justify-between">
+                        <span className="text-gray-300">Price</span>
+                        <span className=" font-bold  text-white-200  text-lg ">
+                            {selectedPlan?.currency}{" "}
+                            {calculateAmount(
+                                selectedPlan?.amount,
+                                selectedPlan?.max_limit
+                            )?.toLocaleString()}
+
+                        </span>
+                    </div>
                 </div>
             )}
             {renderMainButton()}
