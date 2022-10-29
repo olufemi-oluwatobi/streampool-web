@@ -67,7 +67,7 @@ const HowItWorks = () => {
       </div>
       <Button
         onClick={() => scrollToComponent("stream_services")}
-        className=" ml-5 mt-10 flex justify-center rounded-lg items-center
+        className=" mt-10 flex justify-center rounded-lg items-center
     w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
       >
         <span className="">Explore Services</span>
