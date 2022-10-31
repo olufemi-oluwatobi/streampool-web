@@ -1,6 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/router";
-import { Checkbox } from "antd";
 import PaymentOption from "@components/PaymentOption";
 import { useFormik, FormikProvider } from "formik";
 import useCheckMobileScreen from "@hooks/useIsMobile";
@@ -8,11 +7,12 @@ import ServiceDetails, {
     ServiceDetailHeader,
 } from "@components/ServiceDetails";
 import { useStreamService } from "@providers/streamServiceProvider";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Form } from "antd";
 import { PoolRequestType, PoolType, StreamPlan } from "@interfaces/index";
 import { useAuthContext } from "@providers/authProvider";
 import { useNotification } from "@providers/notificationProvider";
 import classNames from "classnames";
+import * as Yup from "yup";
 import StreamOptions from "@components/streamplanOptions";
 const { confirm } = Modal;
 
@@ -31,21 +31,12 @@ const StreamServiceActionPage = ({
         | "error"
     >("init");
     const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
-    const [customEmail, setCustomEmail] = useState<string | null>(null);
+    // const [customEmail, setCustomEmail] = useState<string | null>(null);
 
     const maxMemberCount = useMemo(() => {
         return parseInt(selectedPlan?.max_limit) - 1;
     }, [selectedPlan]);
 
-    const fields = useFormik({
-        initialValues: {
-            email: "",
-            password: "",
-            maxMemberCount: maxMemberCount,
-        },
-        enableReinitialize: true,
-        onSubmit: async (values) => { },
-    });
     const {
         authData,
         verifyUser,
@@ -67,11 +58,69 @@ const StreamServiceActionPage = ({
         acceptRequest,
     } = useStreamService();
 
+
+    const fields = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+            maxMemberCount: maxMemberCount,
+            requiresPassword: streamService?.entrance_type === "credentials",
+        },
+        validationSchema: Yup.object().shape({
+            requiresPassword: Yup.boolean(),
+            email: Yup.string().email().required(),
+            maxMemberCount: Yup.number().required(),
+            password: Yup.string().when("requiresPassword", {
+                is: true,
+                then: Yup.string().required("Must enter email address"),
+            }),
+        }),
+        enableReinitialize: true,
+        onSubmit: async (values) => { },
+    });
+
+    const customEmailFormik = useFormik({
+        initialValues: {
+            email: "",
+        },
+        validationSchema: Yup.object().shape({
+            email: Yup.string().email(),
+        }),
+        enableReinitialize: true,
+        onSubmit: async (values) => {
+            try {
+                if (!authData) return push("/login?redirect=true");
+                await createPool({
+                    streamServiceId: streamService.id,
+                    email: fields.values.email,
+                    planId: selectedPlan.id,
+                    maxMemberCount: fields.values.maxMemberCount,
+                    password: fields.values.password,
+                    name: `${authData?.user?.username}-${streamService?.name}`,
+                });
+                triggerNotification(
+                    "Request Succesful",
+                    "Request Succesful",
+                    "success"
+                );
+                await fetchUserData();
+                setModalContentState("init");
+            } catch (error) {
+                triggerNotification(
+                    "Request Error",
+                    "Sorry, Failed to submit request, kindly try again",
+                    "error"
+                );
+                //setModalContentState("error");
+            }
+        },
+    });
+
     const submitRequest = async () => {
         try {
             const data = await requestMembership({
                 streamServiceId: streamService.id,
-                customEmail,
+                customEmail: customEmailFormik.values.email,
             });
             if (data) {
                 addPoolRequest(data?.data?.data);
@@ -83,9 +132,12 @@ const StreamServiceActionPage = ({
         }
     };
 
-    const submitOffer = async () => {
+
+    const submitOffer = useCallback(async () => {
         try {
-            if (!authData) return push("/login");
+            if (!authData) return push("/login?redirect=true");
+            const errors = await fields.validateForm();
+            if (Object.values(errors).some((d) => Boolean(d))) return;
             await createPool({
                 streamServiceId: streamService.id,
                 email: fields.values.email,
@@ -97,6 +149,7 @@ const StreamServiceActionPage = ({
             triggerNotification("Request Succesful", "Request Succesful", "success");
             await fetchUserData();
             setModalContentState("init");
+            setMakeOffer(false)
         } catch (error) {
             triggerNotification(
                 "Request Error",
@@ -105,7 +158,7 @@ const StreamServiceActionPage = ({
             );
             //setModalContentState("error");
         }
-    };
+    }, [authData]);
 
     const onRequestCancel = async () => {
         try {
@@ -242,19 +295,34 @@ const StreamServiceActionPage = ({
                         onSelectPlan={() => setSelectedPlan(plan)}
                     />
                 ))}
-                <span className="mb-2 mt-4">Enter stream service email address(optional)</span>
-                <Input
-                    onChange={(e) => setCustomEmail(e.target.value)}
-                    className="h-10"
-                    placeholder="(optional) Enter the email you wish to use for this service"
-                />
+
+                <Form className="w-full items-center" layout="vertical">
+                    <Form.Item
+                        className="mt-4"
+                        validateStatus={
+                            customEmailFormik.errors?.email ? "error" : "success"
+                        }
+                        help={
+                            customEmailFormik.errors?.email && customEmailFormik.errors?.email
+                        }
+                        label="Enter membership email address"
+                        name="email"
+                    >
+                        <Input
+                            onChange={(e) => customEmailFormik.handleChange(e)}
+                            className="h-10 "
+                            name="email"
+                            placeholder="Enter membership email address"
+                        />
+                    </Form.Item>
+                </Form>
                 <Button
                     loading={isLoading}
                     onClick={() => {
                         if (!authData) {
-                            push("/login");
+                            push("/login?redirect=true");
                         }
-                        if (authData.paymentDetails) {
+                        if (authData?.paymentDetails) {
                             submitRequest();
                         } else {
                             setModalContentState("requesting_payment_details");
@@ -377,7 +445,7 @@ const StreamServiceActionPage = ({
         };
 
         const setMakePool = () => {
-            if (!authData) return push("/");
+            if (!authData) return push("/login?redirect=true");
             setMakeOffer(true);
         };
 
@@ -422,6 +490,7 @@ const StreamServiceActionPage = ({
                             )}
                             <ServiceDetails
                                 email={serviceEmail}
+                                errors={fields.errors}
                                 streamService={streamService}
                                 selectedPlan={getCurrentStreamPlan()}
                                 isLoading={isLoading || isAuthLoading}
@@ -456,7 +525,7 @@ const StreamServiceActionPage = ({
                         onCancel={() => onCloseModal()}
                         onClick={() => {
                             if (!authData) {
-                                return push("/login");
+                                return push("/login?redirect=true");
                             }
                             addPaymentDetails(50, {
                                 onSuccess: () => {
@@ -465,7 +534,7 @@ const StreamServiceActionPage = ({
                                 },
                                 onClose: () => { },
                             });
-                            if (authData.paymentDetails) {
+                            if (authData?.paymentDetails) {
                                 submitRequest();
                             } else {
                                 setModalContentState("requesting_payment_details");
@@ -476,7 +545,7 @@ const StreamServiceActionPage = ({
         }
     };
 
-    return renderContent();
+    return <FormikProvider value={fields}>{renderContent()}</FormikProvider>;
 };
 
 export default StreamServiceActionPage;

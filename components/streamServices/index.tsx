@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useMemo, useCallback } from "react";
 import className from "classnames";
 import { decryptPassword } from "@utils/helpers";
 import { useRouter } from "next/router";
@@ -11,8 +11,8 @@ import {
     StreamService,
 } from "../../providers/streamServiceProvider";
 import { ServiceCard, ServiceCardPlaceholder } from "../ServiceCard";
-import { FLAG_SHIP_CARDS } from "../../constants";
 import { useAuthContext } from "@providers/authProvider";
+
 const calculateAmount = (amount: string, numberOfMembers: string) => {
     const amounNum = parseInt(amount, 10);
     const numberOfMembersNum = parseInt(numberOfMembers, 10);
@@ -135,10 +135,6 @@ const Index = () => {
     const { streamServices, setStreamService, isLoading } = useStreamService();
     const isMobile = useCheckMobileScreen();
     const router = useRouter();
-    const [loadMore, setLoadMore] = useState(false);
-    const className =
-        "w-full   sm:w-full   md:mr-8  md:w-45%  lg:w-30 xl:w-100 mb-20 ";
-
     const categories = useMemo(() => {
         let data: string[] = [];
         if (streamServices.length) {
@@ -159,14 +155,8 @@ const Index = () => {
         return data;
     }, [streamServices]);
 
-    // const renderPlaceholder = () => {
-    //     return new Array(15)
-    //         .fill(16)
-    //         .map((card) => FLAG_SHIP_CARDS.includes(card.code))
-    //         // .map((giftCard) => <PlaceholderCard className={className} />);
-    // };
 
-    const renderData = (category: string) => {
+    const renderData = useCallback((category: string) => {
         const services = streamServices.filter(
             (service) =>
                 service.categories.filter((cat) => cat.name === category).length
@@ -185,7 +175,7 @@ const Index = () => {
                 />
             </div>
         );
-    };
+    }, [streamServices])
 
     return (
         <div

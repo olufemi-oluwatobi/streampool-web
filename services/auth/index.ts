@@ -70,7 +70,6 @@ class AuthService extends BaseApi {
         username: string;
     }) {
         const baseUrl = window.location.origin;
-        console.log("called signup")
         return this.request.post(this.formUrl("signup"), {
             ...data,
             verificationUrl: baseUrl,

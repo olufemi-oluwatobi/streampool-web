@@ -10,7 +10,6 @@ import Deal from "../../../assets/images/deals/super_deal.svg";
 const SideBar = () => {
     const router = useRouter();
     const { authData } = useAuthContext()
-    console.log("authdata =====>", authData)
     return (
         <aside className="w-full sm:flex sm:max-w-[230px] hidden flex-col justify-between p-8  sticky h-full border-r border-solid border-gray-100 dark:border-black-800 ">
             <div className="flex flex-none">
@@ -18,8 +17,7 @@ const SideBar = () => {
             </div>
             <div className="flex flex-1 flex-col pt-20">
                 {NAV_ITEMS.filter((item) => {
-                    if (authData) return item.isPrivate
-                    return !item.isPrivate
+                    return authData ? item : item.isPrivate
                 }).map((item) => (
                     <Link key={Math.random()} href={item.path}>
                         <div

@@ -27,7 +27,6 @@ class BaseApi {
             }
 
         } catch (error) {
-            console.log(error)
         }
     }
 }

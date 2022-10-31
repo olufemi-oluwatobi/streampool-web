@@ -102,7 +102,6 @@ const reducer = (state = initialState, action) => {
                 authData: { $set: null }
             });
         case "UPDATE_USER_DATA":
-            console.log(action.payload);
             return update(state, {
                 authData: {
                     user: (user) => {
@@ -190,7 +189,6 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     };
 
     const updateAuthData = (data) => {
-        console.log(data);
         dispatch({ type: "UPDATE_USER_DATA", payload: data });
     };
 
@@ -446,7 +444,6 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
             //Set the data in the context, so the App can be notified
             //and send the user to the AuthStack
         } catch (error) {
-            console.log(error)
             return Promise.reject(error);
         } finally {
             setAuthLoading(false);
