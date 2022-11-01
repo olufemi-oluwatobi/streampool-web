@@ -191,11 +191,11 @@ const IndexPage = (props: Props) => {
   return (
     <div className="  ">
       <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
-        <div className=" flex flex-col justify-center items-center  sm:w-1/3 w-full ">
+        <div className=" flex flex-col py-10 justify-center items-center  sm:w-1/3 w-full ">
           <div>
             <Link href="/">
               <Image
-                width="130"
+                width="200"
                 height="30"
                 className="cursor-pointer"
                 src={"/static/images/streamcel1.png"}
