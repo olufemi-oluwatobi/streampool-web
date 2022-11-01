@@ -137,7 +137,7 @@ const MembersComponent = ({ member }: { member: UserType }) => {
             <Avatar style={{ backgroundColor: "#000000" }}>
                 {member?.username?.split("")[0].toUpperCase()}
             </Avatar>
-            <div className="flex flex-col ml-3 justify-start items-start">
+            <div className="flex flex-col ml-3 text-left justify-start items-start">
                 <span className=" font-bold text-sm text-white-200 ">
                     {member.username}
                 </span>
@@ -308,7 +308,10 @@ const ServiceDetails = ({
             <div className="flex w-full flex-col justify-center text-center">
                 <div className="sm:flex hidden  justify-between border-0 border-b border-solid border-[#494949] mb-6 pb-4">
                     <div className="flex justify-start  items-center  ">
-                        <img className=" h-14 w-14 rounded-full " src={streamService?.icon} />
+                        <img
+                            className=" h-14 w-14 rounded-full "
+                            src={streamService?.icon}
+                        />
                         <div className="flex flex-col justify-start  items-start text-white-200 ml-3">
                             <span className=" text-lg font-bold ">{streamService?.name}</span>
                             <Tag className="mt-2 rounded-md " color="geekblue">
@@ -449,6 +452,11 @@ const ServiceDetails = ({
                                                 </svg>
                                             </button>
                                         </div>
+                                        <div className="w-full mb-10 justify-center items-center">
+                                            <Button className="bg-transparent border-solid border text-white-200 rounded-3xl border-gray-300">
+                                                Edit credentials
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -515,7 +523,8 @@ const ServiceDetails = ({
                                             height="150"
                                         />
                                         <span className="text-sm sm:w-full w-2/3 text-white-300">
-                                            Your membership pool is empty, you have no members, for now
+                                            Your membership pool is empty, you have no members, for
+                                            now
                                         </span>
                                     </div>
                                 )}
