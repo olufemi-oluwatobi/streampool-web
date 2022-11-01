@@ -45,8 +45,12 @@ const Footer = () => {
           />
         </a>
         <div className="flex sm:flex-row sm:mt-0 mt-5 flex-col text-white-300 justify-between">
-          <a className="mr-5 text-white-300 ">Privacy Policy</a>
-          <a className="text-white-300">Terms and Conditions</a>
+          <a href="/privacy" className="mr-5 text-white-300 ">
+            Privacy Policy
+          </a>
+          <a href="/terms_and_condition" className="text-white-300">
+            Terms and Conditions
+          </a>
         </div>
       </div>
       <div className="flex justify-between items-center py-6">
