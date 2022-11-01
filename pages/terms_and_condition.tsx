@@ -327,7 +327,7 @@ const IndexPage: FC<Props> = ({}) => {
               <li>(v) take any legal action.</li>
             </ul>
             <p id="92fea943-350a-4dd6-b67b-67053b1a5eb4" className="">
-              Sahreit.sg also reserves the right to terminate the User&#x27;s
+              Streamcel.ng also reserves the right to terminate the User&#x27;s
               access to the Services:
             </p>
             <p id="cf77be00-1092-41fc-86b7-af9f2404e0c2" className="">
