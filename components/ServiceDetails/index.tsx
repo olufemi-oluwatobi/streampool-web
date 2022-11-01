@@ -248,7 +248,7 @@ const ServiceDetails = ({
     status?: "pending request" | "active membership" | null | undefined;
     pool?: PoolType;
     email?: string;
-    errors: FormikErrors<{}>;
+    errors?: FormikErrors<{}>;
     poolRequestsProps?: {
         requests: PoolRequestType[];
         onAccept: (
