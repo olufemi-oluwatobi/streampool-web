@@ -56,8 +56,8 @@ const Footer = () => {
       <div className="flex justify-between items-center py-6">
         <span>© 2022 Streamcel. All Rights Reserved.</span>
         <div className="flex items-center">
-          {links.map((link) => (
-            <a className="ml-4 w-4 h-4 ">
+          {links.map((link, index) => (
+            <a key={`footer_${index}`} className="ml-4 w-4 h-4 ">
               <img src={link.icon} />
             </a>
           ))}

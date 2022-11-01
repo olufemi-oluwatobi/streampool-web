@@ -41,20 +41,25 @@ const HowItWorks = () => {
     },
   ];
   const scrollToComponent = (id: string) => {
-    const element = document.getElementById(id)
+    const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
     <div className="w-full mt-20 justify-center items-center flex flex-col">
       <span className=" font-bold mb-4 text-3xl ">How Does It Work?</span>
       <div className="w-full  flex sm:flex-row flex-col justify-between items-start">
         {steps.map((step, index) => (
-          <div className="flex mt-10 sm:px-10  justify-end items-center flex-col">
+          <div
+            key={`key_steps_${index}`}
+            className="flex mt-10 sm:px-10  justify-end items-center flex-col"
+          >
             <div className="rounded-full sm:h-32 h-20 sm:w-32 w-20 mb-10 border-2 border-[#5f6163]  border-solid flex justify-center items-center">
-              <span className=" font-bold sm:text-6xl text-3xl  ">{index + 1}</span>
+              <span className=" font-bold sm:text-6xl text-3xl  ">
+                {index + 1}
+              </span>
             </div>
             <span className="font-bold text-[#5f6163] text-2xl text-center mb-4">
               {step.heading}
@@ -124,11 +129,11 @@ const IndexPage = () => {
   };
 
   const scrollToComponent = (id: string) => {
-    const element = document.getElementById(id)
+    const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
     <Layout title="Stream more for less">
@@ -157,8 +162,6 @@ const IndexPage = () => {
     w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
             >
               <span className="">See how it works</span>
-
-
             </Button>
           </div>
         </div>
