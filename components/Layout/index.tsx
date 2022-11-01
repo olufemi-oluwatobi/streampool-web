@@ -20,7 +20,7 @@ const Layout = ({ children, title, icon }: Props) => {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <div className=' bg-black-700 overflow-hidden dark:text-white-50   w-screen min-h-screen flex '>
+            <div className=' bg-black-700 overflow-hidden dark:text-white-50 text-white-200   w-screen min-h-screen flex '>
                 <div className='w-full h-full min-h-screen  flex  flex-col'>
                     <Header onSearch={({ q }) => console.log(q)} onSideMenuClick={() => setMobileSideMenu((mobile) => !mobile)} title={title} icon={icon} user={{ name: `john`, email: "doe" }} />
                     {mobileSideMenu ? <SideBarMobile user={{ name: `john`, email: "doe" }} /> : <div style={{ minHeight: "80vh" }} className='flex flex-col h-fit-content sm:overflow-hidden '>

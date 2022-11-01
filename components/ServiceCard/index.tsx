@@ -25,7 +25,7 @@ export const ServiceCard = ({
             <div className="w-full p-3 drop-shadow-xl">
                 <Image width="450" height="250" className="rounded-2xl " src={image} />
             </div>
-            <div className="flex flex-col  p-4">
+            <div className="flex flex-col  px-4 pb-4">
                 <div className="w-full flex justify-between">
                     <div className="w-full  flex flex-col">
                         <span className=" text-sm text-[#999a9b] ">{name}</span>
