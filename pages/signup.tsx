@@ -6,8 +6,7 @@ import { FormikProvider, useFormik } from "formik";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { PersonalRegistrationPayload } from "../interfaces/http";
-import MessageIcon from "../assets/images/icons/message_icon.svg";
-import ShieldIcon from "../assets/images/icons/shield.svg";
+
 
 const { Item } = Form;
 
@@ -77,7 +76,6 @@ const LoginAccount = ({
             label="Email Address"
           >
             <Input
-              prefix={<Image src={MessageIcon} />}
               name="email"
               placeholder="Email"
               onChange={handleChange}
@@ -94,7 +92,6 @@ const LoginAccount = ({
             <Input.Password
               name="password"
               placeholder="Password"
-              prefix={<Image src={ShieldIcon} />}
               onChange={handleChange}
               value={values.password}
               type="password"

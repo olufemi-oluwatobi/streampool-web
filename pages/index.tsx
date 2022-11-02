@@ -1,23 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import PaymentOption from "@components/PaymentOption";
-import { useFormik, FormikProvider } from "formik";
 import useCheckMobileScreen from "@hooks/useIsMobile";
 import Image from "next/image";
 import Link from "next/link";
 import StreamServiceActionPage from "@components/StreamServiceAction";
-import ServiceDetails, {
-  ServiceDetailHeader,
-} from "../components/ServiceDetails";
 import Layout from "../components/Layout";
 import StreamServices from "../components/streamServices";
 import { useStreamService } from "../providers/streamServiceProvider";
-import { Button, Modal, Input } from "antd";
-import { PoolRequestType, PoolType, StreamPlan } from "../interfaces/index";
-import { useAuthContext } from "../providers/authProvider";
-import { useNotification } from "../providers/notificationProvider";
+import { Button, Modal } from "antd";
+import { StreamPlan } from "../interfaces/index";
 import FaqSection from "../components/faq";
-import classNames from "classnames";
 
 const { confirm } = Modal;
 
@@ -92,12 +83,7 @@ const IndexPage = () => {
     | "error"
   >("init");
   const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
-
-  const maxMemberCount = useMemo(() => {
-    return parseInt(selectedPlan?.max_limit) - 1;
-  }, [selectedPlan]);
-
-  const { authData } = useAuthContext();
+  console.log("in here now");
   const {
     streamService,
 
@@ -111,16 +97,6 @@ const IndexPage = () => {
       }
     }
   }, [streamService]);
-
-  const serviceRequest = useMemo<PoolRequestType | null>(() => {
-    if (!authData) return null;
-    const request = authData?.user?.poolRequests?.find(
-      (poolRequest) =>
-        poolRequest?.stream_service_id === streamService?.id &&
-        poolRequest.status === "pending"
-    );
-    return request;
-  }, [authData, streamService]);
 
   const onCloseModal = () => {
     setStreamService(null);
