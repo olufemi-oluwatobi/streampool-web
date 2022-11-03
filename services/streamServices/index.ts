@@ -1,3 +1,4 @@
+import { PoolCredentials } from "@interfaces/index";
 import BaseApi from "../api/new-index";
 
 export type PoolPayload = {
@@ -34,6 +35,18 @@ class StreamService extends BaseApi {
       ...data,
       paymentDate: new Date().toISOString(),
     });
+  }
+
+  async editPoolCredentials(
+    poolId: number,
+    data: { password: string; accountEmail: string }
+  ) {
+    this.loadRequest();
+    return this.request.post(
+      `pool/${poolId}/edit_credential
+    `,
+      data
+    );
   }
   async addToPool(
     poolRequestId: number,

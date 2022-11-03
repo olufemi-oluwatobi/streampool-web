@@ -20,7 +20,6 @@ export const ServiceCard = ({
   hasNotification?: boolean;
   buttonProp: { label: string; onClick: () => void };
 }) => {
-  console.log("here");
   return (
     <div className="drop-shadow-xl relative cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-3xl  w-full">
       <div className="w-full p-3 drop-shadow-xl">

@@ -1,4 +1,4 @@
-import CryptoJs from "crypto-js"
+import CryptoJs from "crypto-js";
 
 export const isFalsyValue = (value: any): boolean => {
   return (
@@ -10,9 +10,13 @@ export const isFalsyValue = (value: any): boolean => {
   );
 };
 
-
 export const decryptPassword = (password: string, key: string) => {
-  const bytes = CryptoJs.AES.decrypt(password, key)
-  const x = bytes.toString(CryptoJs.enc.Utf8)
-  return JSON.parse(bytes.toString(CryptoJs.enc.Utf8))
-}
+  try {
+    const bytes = CryptoJs.AES.decrypt(password, key);
+    const x = bytes.toString(CryptoJs.enc.Utf8);
+    return JSON.parse(bytes.toString(CryptoJs.enc.Utf8));
+  } catch (error) {
+    return "";
+    console.log(error);
+  }
+};

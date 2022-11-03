@@ -83,7 +83,6 @@ const IndexPage = () => {
     | "error"
   >("init");
   const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
-  console.log("in here now");
   const {
     streamService,
 
@@ -158,10 +157,10 @@ const IndexPage = () => {
         <section id="stream_services" className="flex ">
           <StreamServices />
         </section>
-        <section id="how_it_works" className="w-full my-20">
+        <section id="how_it_works" className="w-full mt-20">
           <HowItWorks />
         </section>
-        <section className=" my-10 ">
+        <section className="  ">
           <FaqSection />
         </section>
         <section className="flex w-full sm:p-10 p-5 flex-wrap    mb-20 justify-between  items-center bg-[#8F3985] rounded-2xl">
