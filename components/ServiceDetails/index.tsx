@@ -250,7 +250,7 @@ const ServiceDetails = ({
   pool?: PoolType;
   email?: string;
   errors?: FormikErrors<{}>;
-  triggerEdit: () => void;
+  triggerEdit?: () => void;
   poolRequestsProps?: {
     requests: PoolRequestType[];
     onAccept: (
@@ -456,7 +456,7 @@ const ServiceDetails = ({
                     </div>
                     <div className="w-full mb-10 justify-center items-center">
                       <Button
-                        onClick={() => triggerEdit()}
+                        onClick={() => triggerEdit && triggerEdit()}
                         className="bg-transparent border-solid border text-white-200 rounded-3xl border-gray-300"
                       >
                         Edit credentials
