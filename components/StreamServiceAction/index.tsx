@@ -109,6 +109,7 @@ const StreamServiceActionPage = ({
         await fetchUserData();
         setModalContentState("init");
       } catch (error) {
+        console.log(error);
         triggerNotification(
           "Request Error",
           "Sorry, Failed to submit request, kindly try again",
@@ -153,6 +154,7 @@ const StreamServiceActionPage = ({
       setModalContentState("init");
       setMakeOffer(false);
     } catch (error) {
+      console.log(error);
       triggerNotification(
         "Request Error",
         "Sorry, Failed to submit request, kindly try again",
