@@ -1,12 +1,12 @@
 import { ChangeEvent, useCallback, useMemo } from "react";
 import { Transition } from "@tailwindui/react";
 import Image from "next/image";
-import { Collapse, Avatar } from "antd";
-import { Tag, Input, Slider, Form, Badge } from "antd";
+import { Collapse, Avatar, DatePicker } from "antd";
+import { Tag, Input, Slider, Form } from "antd";
 import { decryptPassword } from "@utils/helpers";
 import useCopyToClipboard from "@hooks/useCopy";
 import { useNotification } from "@providers/notificationProvider";
-import { format, parseISO, addMonths } from "date-fns";
+import { format, parseISO, isBefore } from "date-fns";
 import {
   StreamService,
   StreamPlan,
@@ -15,7 +15,7 @@ import {
   PoolRequestType,
 } from "../../interfaces";
 import StreamOptions from "@components/streamplanOptions";
-import { Button, Checkbox, Modal } from "antd";
+import { Button, Modal } from "antd";
 import classNames from "classnames";
 import { FormikErrors } from "formik";
 
@@ -110,6 +110,22 @@ const SubmitPoolCredentials = ({
         ) : (
           ""
         )}
+        <Form.Item
+          validateStatus={errors?.paymentDate ? "error" : "success"}
+          help={errors?.paymentDate && errors?.paymentDate}
+          label="Next Subscription Date"
+          name="paymentDate"
+        >
+          <DatePicker
+            className="w-full"
+            disabledDate={(d) => isBefore(d.toDate(), new Date())}
+            onChange={(date) => {
+              onChange({
+                target: { name: "paymentDate", value: date.toISOString() },
+              } as ChangeEvent<HTMLInputElement>);
+            }}
+          />
+        </Form.Item>
         <Form.Item
           validateStatus={errors?.maxMemberCount ? "error" : "success"}
           help={errors?.maxMemberCount && errors?.maxMemberCount}

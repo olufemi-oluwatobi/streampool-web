@@ -237,6 +237,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
 
   useEffect(() => {
     initializePayment(() => {
+      onSuccess();
       fetchUserCardDetails();
     }, onClose);
   }, [paymentPrice]);

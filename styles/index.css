@@ -102,7 +102,7 @@
   display: none;
 }
 
-.ant-input {
+.ant-input, .ant-picker {
   border-radius: 5px !important;
   border-color: #26282c !important;
   background: #26282c !important;
@@ -115,11 +115,15 @@
 }
 .ant-input:hover,
 .ant-input:focus,
-.ant-input-focused {
+.ant-picker-focused:hover,
+.ant-picker-focused:focus
+.ant-input-focused,.ant-picker-focused {
   border-color: #49de80 !important;
   border-right-width: 1px;
 }
-
+.ant-picker-suffix{
+  color: white
+}
 .ant-form-item-label > label {
   color: white !important;
 }
@@ -157,4 +161,7 @@ strong{
   color: white;
   margin-top: 30px;
   font-size: 20px;
+}
+.ant-picker-input > input{
+  color: white !important
 }

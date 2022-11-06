@@ -68,6 +68,7 @@ const StreamServiceActionPage = ({
       password: "",
       maxMemberCount: maxMemberCount,
       requiresPassword: streamService?.entrance_type === "credentials",
+      paymentDate: "",
     },
     validationSchema: Yup.object().shape({
       requiresPassword: Yup.boolean(),
@@ -77,6 +78,7 @@ const StreamServiceActionPage = ({
         is: true,
         then: Yup.string().required("Must enter email address"),
       }),
+      paymentDate: Yup.string().required("Next payment date is required"),
     }),
     enableReinitialize: true,
     onSubmit: async (values) => {},
@@ -100,6 +102,7 @@ const StreamServiceActionPage = ({
           maxMemberCount: fields.values.maxMemberCount,
           password: fields.values.password,
           name: `${authData?.user?.username}-${streamService?.name}`,
+          paymentDate: fields.values.paymentDate,
         });
         triggerNotification(
           "Request Succesful",
@@ -136,10 +139,13 @@ const StreamServiceActionPage = ({
     }
   };
 
-  const submitOffer = useCallback(async () => {
+  console.log("field====", fields.values);
+
+  const submitOffer = async () => {
     try {
       if (!authData) return push("/login?redirect=true");
       const errors = await fields.validateForm();
+      console.log("errors exprienced", errors);
       if (Object.values(errors).some((d) => Boolean(d))) return;
       await createPool({
         streamServiceId: streamService?.id,
@@ -148,6 +154,7 @@ const StreamServiceActionPage = ({
         maxMemberCount: fields.values.maxMemberCount,
         password: fields.values.password,
         name: `${authData?.user?.username}-${streamService?.name}`,
+        paymentDate: fields.values.paymentDate,
       });
       triggerNotification("Request Succesful", "Request Succesful", "success");
       await fetchUserData();
@@ -162,7 +169,7 @@ const StreamServiceActionPage = ({
       );
       //setModalContentState("error");
     }
-  }, [authData]);
+  };
 
   const onRequestCancel = async () => {
     try {

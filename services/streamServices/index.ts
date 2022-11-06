@@ -8,6 +8,7 @@ export type PoolPayload = {
   maxMemberCount: number;
   password?: string;
   email: string;
+  paymentDate: string;
 };
 class StreamService extends BaseApi {
   constructor() {
@@ -33,7 +34,6 @@ class StreamService extends BaseApi {
     this.loadRequest();
     return this.request.post("pool", {
       ...data,
-      paymentDate: new Date().toISOString(),
     });
   }
 
