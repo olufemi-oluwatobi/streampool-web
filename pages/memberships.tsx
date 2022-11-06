@@ -104,11 +104,6 @@ const IndexPage = () => {
     return request;
   }, [authData, streamService]);
 
-  const onCloseModal = () => {
-    setStreamService(null);
-    setSelectedPlan(null);
-  };
-
   const serviceMembership = useMemo<PoolType | null>(() => {
     if (!authData) return null;
     return authData?.user?.pools?.find(
@@ -151,6 +146,11 @@ const IndexPage = () => {
       );
       return plan;
     }
+  };
+
+  const onCloseModal = () => {
+    setStreamService(null);
+    setSelectedPlan(null);
   };
 
   const getCurrentPool = () => {

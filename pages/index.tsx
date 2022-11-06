@@ -118,10 +118,8 @@ const IndexPage = () => {
             Stream More, for Less
           </span>
           <span className="my-6 text-[#95999c] text-base w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose text-justify sm:font-medium font-normal ">
-            Feel like you're losing out on a lot of shows because there are so
-            many streaming services to choose from and you can't afford them
-            all? Not to worry, we've got your back. By sharing subscriptions
-            with others, you can save money on streaming.
+            Watch all of your favorite shows without having to worry about
+            spending a lot of money. Share subscriptiions and save money now.
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
@@ -144,7 +142,7 @@ const IndexPage = () => {
           <Image
             width={800}
             height={800}
-            src="/static/images/streamcel_hero_main_3.png"
+            src="https://res.cloudinary.com/drda29q8x/image/upload/v1667763084/stream%20service%20logos/Group_28_jfpnjw.png"
           />
         </div>
       </div>
