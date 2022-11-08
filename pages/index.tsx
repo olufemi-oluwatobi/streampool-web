@@ -142,7 +142,7 @@ const IndexPage = () => {
           <Image
             width={560}
             height={560}
-            src="https://res.cloudinary.com/drda29q8x/image/upload/v1667763084/stream%20service%20logos/Group_28_jfpnjw.png"
+            src="https://res.cloudinary.com/drda29q8x/image/upload/v1667927912/stream%20service%20logos/Group_28_1_edbjui.png"
           />
         </div>
       </div>
