@@ -140,8 +140,8 @@ const IndexPage = () => {
         </div>
         <div className="sm:mt-0 mt-20 flex ">
           <Image
-            width={800}
-            height={800}
+            width={560}
+            height={560}
             src="https://res.cloudinary.com/drda29q8x/image/upload/v1667763084/stream%20service%20logos/Group_28_jfpnjw.png"
           />
         </div>
