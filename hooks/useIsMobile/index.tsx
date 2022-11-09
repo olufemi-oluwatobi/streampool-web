@@ -22,7 +22,7 @@ const useCheckMobileScreen = () => {
   useEffect(() => {}, []);
   const userAgent =
     typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
-  return getMobileDetect(userAgent);
+  return getMobileDetect(userAgent).isMobile();
 };
 
 export default useCheckMobileScreen;
