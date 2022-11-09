@@ -52,7 +52,7 @@ const SubmitPoolCredentials = ({
   const infoText =
     streamService.entrance_type === "credentials"
       ? "Your credentials will be shared only to members of your pool. Please use a password you're willing to part with"
-      : "Membership to this stream service is based invitation. Please note that you'll have to add members to your account manually ";
+      : `Memberships to this stream service are based on invitation. Please be aware that you will need to manually send an invite to members with your ${streamService?.name}.`;
   return (
     <Transition
       show={show}
