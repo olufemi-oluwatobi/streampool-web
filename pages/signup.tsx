@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import { FormikProps } from "formik";
 import { useAuthContext } from "../providers/authProvider";
@@ -6,7 +7,6 @@ import { FormikProvider, useFormik } from "formik";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { PersonalRegistrationPayload } from "../interfaces/http";
-
 
 const { Item } = Form;
 
@@ -154,6 +154,7 @@ const LoginAccount = ({
 
 const IndexPage = (props: Props) => {
   const history = useRouter();
+  const [isSubmitSuccesful, setSubmitSuccessful] = useState<boolean>(false);
   const { signUp } = useAuthContext();
   const { triggerNotification } = useNotification();
   const accountCreationFormik = useFormik({
@@ -169,7 +170,8 @@ const IndexPage = (props: Props) => {
       try {
         accountCreationFormik.setSubmitting(true);
         await signUp(values);
-        history.push("/");
+        setSubmitSuccessful(true);
+        // history.push("/");
       } catch (error) {
         const { response } = error;
         if (response) {
@@ -185,7 +187,45 @@ const IndexPage = (props: Props) => {
     validationSchema: AccountCreationValidationSchema,
   });
 
-  return (
+  const renderSuccessScreen = () => {
+    return (
+      <div className=" font-lato  ">
+        <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
+          <div className=" flex flex-col py-10 justify-center items-center  sm:w-1/3 w-full ">
+            <div>
+              <Link href="/">
+                <Image
+                  width="200"
+                  height="30"
+                  className="cursor-pointer"
+                  src={"/static/images/streamcel1.png"}
+                />
+              </Link>
+            </div>
+            <div className="mt-10 py-10 px-5 bg-white-50 rounded-md flex-col flex w-full justify-center items-center ">
+              <Image
+                width="100"
+                height="100"
+                className="cursor-pointer"
+                src={"/static/images/email_notif.svg"}
+              />
+              <span className="font-bold text-black-400 text-base my-5">
+                Verify your email address
+              </span>
+              <span className=" text-center text-base text-black-400 mb-5">
+                Please click the link that was sent to{" "}
+                {accountCreationFormik.values.email} to verify your email{" "}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return isSubmitSuccesful ? (
+    renderSuccessScreen()
+  ) : (
     <div className="  ">
       <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
         <div className=" flex flex-col py-10 justify-center items-center  sm:w-1/3 w-full ">
