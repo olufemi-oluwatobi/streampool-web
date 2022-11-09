@@ -173,6 +173,7 @@ const Index = () => {
           category={category}
           onClick={(service) => {
             setStreamService(service);
+            alert("is it really mobile", isMobile);
             if (isMobile) router.push(`/stream_service/${service.id}`);
           }}
         />
