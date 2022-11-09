@@ -19,8 +19,7 @@ import withAuth from "../utils/auth/withAuth";
 
 const calculateAmount = (amount: string, numberOfMembers: string) => {
   const amounNum = parseInt(amount, 10);
-  const numberOfMembersNum = parseInt(numberOfMembers, 10);
-  return Math.ceil((amounNum / numberOfMembersNum + 200) / 100) * 100;
+  return Math.ceil((amounNum + 200) / 100) * 100;
 };
 
 const EmptyState = () => {
