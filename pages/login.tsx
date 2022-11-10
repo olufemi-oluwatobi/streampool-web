@@ -7,17 +7,18 @@ import { useNotification } from "../providers/notificationProvider";
 import { Form, Input, Button, Checkbox } from "antd";
 import { FormikProvider, useFormik } from "formik";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 import { LoginPayload } from "../interfaces/http";
-import {
-  GoogleLogin,
-  GoogleLoginResponse,
-  useGoogleLogin,
-} from "react-google-login";
+// import {
+//   GoogleLogin,
+//   GoogleLoginResponse,
+//   useGoogleLogin,
+// } from "react-google-login";
 
 const { Item } = Form;
 
 import * as Yup from "yup";
+import jwtDecode from "jwt-decode";
 
 const AccountCreationValidationSchema = Yup.object().shape({
   password: Yup.string()
@@ -118,18 +119,23 @@ const IndexPage = (props: Props) => {
   const history = useRouter();
   const { signIn } = useAuthContext();
   const { triggerNotification } = useNotification();
-  const { signIn: googleSignIn, loaded } = useGoogleLogin({
-    onSuccess: (e: GoogleLoginResponse) =>
-      signIn({
-        email: e?.profileObj?.email,
-        password: "password123",
-        accessToken: e.accessToken,
-        authBasis: "gmail",
-      }),
-    clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    fetchBasicProfile: true,
-    onFailure: (e) => {},
-    scope: "profile",
+  const login = useGoogleLogin({
+    // onSuccess: (e: GoogleLoginResponse) => {
+    //   console.log(e);
+    //   // signIn({
+    //   //   email: e?.profileObj?.email,
+    //   //   password: "password123",
+    //   //   accessToken: e.accessToken,
+    //   //   authBasis: "gmail",
+    //   // });
+    // },
+    flow: "implicit",
+    scope:
+      "email profile openid https://www.googleapis.com/auth/userinfo.profile",
+    onSuccess: (tokenResponse) => {
+      console.log("token ===>", jwtDecode(tokenResponse.access_token));
+    },
+    onError: (err) => console.log(err),
   });
 
   const accountCreationFormik = useFormik({
@@ -162,7 +168,17 @@ const IndexPage = (props: Props) => {
       <div className=" bg-black-700 p-[5%]  h-screen flex justify-center ">
         <div className=" flex flex-col items-center  sm:w-1/3 w-full ">
           <div className=" mt-20 flex w-full flex-col justify-center items-center ">
-            <Button onClick={() => googleSignIn()}>Login With Google</Button>
+            {/* <Button onClick={() => login()}>Login With Google</Button> */}
+            <GoogleLogin
+              width="100"
+              size="large"
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
             <FormikProvider value={accountCreationFormik}>
               <LoginAccount {...accountCreationFormik} />
             </FormikProvider>
