@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { useTheme } from "next-themes";
 import { StreamServiceProvider } from "../providers/streamServiceProvider";
 import AuthProvider from "../providers/authProvider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { NotificationProvider } from "../providers/notificationProvider";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { FormWrapper, TableStyle } from "../styles/style";
@@ -34,17 +35,19 @@ const FormWrapperComponent = ({ children }: any) => {
 function MyApp({ Component, pageProps, ...props }: AppProps) {
   return (
     <div className=" font-lato ">
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class">
-          <StreamServiceProvider>
-            <NotificationProvider>
-              <AuthProvider checkOnboardingStatus>
-                <Component {...pageProps} />
-              </AuthProvider>
-            </NotificationProvider>
-          </StreamServiceProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider attribute="class">
+            <StreamServiceProvider>
+              <NotificationProvider>
+                <AuthProvider checkOnboardingStatus>
+                  <Component {...pageProps} />
+                </AuthProvider>
+              </NotificationProvider>
+            </StreamServiceProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </GoogleOAuthProvider>
     </div>
   );
 }
