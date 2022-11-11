@@ -145,7 +145,7 @@ const StreamServiceActionPage = ({
     try {
       if (!authData) return push("/login?redirect=true");
       const errors = await fields.validateForm();
-      console.log("errors exprienced", errors);
+      console.log("values ====?", fields.values);
       if (Object.values(errors).some((d) => Boolean(d))) return;
       await createPool({
         streamServiceId: streamService?.id,
@@ -528,7 +528,7 @@ const StreamServiceActionPage = ({
       return [makeOwner, isRequestButtonProps];
     if (isPoolOwner) return cancelButtonProps;
     else return isRequestButtonProps;
-  }, [authData, streamService, isMakingOffer]);
+  }, [authData, streamService, isMakingOffer, fields]);
 
   const renderContent = () => {
     switch (modalContentState) {
