@@ -7,6 +7,7 @@ import { FormikProvider, useFormik } from "formik";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { PersonalRegistrationPayload } from "../interfaces/http";
+import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 
 const { Item } = Form;
 
@@ -240,6 +241,24 @@ const IndexPage = (props: Props) => {
             </Link>
           </div>
           <div className="mt-10 flex w-full justify-center items-center ">
+            <GoogleLogin
+              width="100"
+              size="large"
+              text="signup_with"
+              onSuccess={(credentialResponse) => {
+                signUp({
+                  email: "",
+                  password: "",
+                  username: "",
+                  accessToken: credentialResponse.credential,
+                  authBasis: "google",
+                });
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
             <FormikProvider value={accountCreationFormik}>
               <LoginAccount {...accountCreationFormik} />
             </FormikProvider>

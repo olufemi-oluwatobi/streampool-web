@@ -86,7 +86,7 @@ class AuthService extends BaseApi {
     email: string;
     password: string;
     accessToken?: string;
-    authBasis?: "gmail";
+    authBasis?: "google";
   }) {
     return this.request.post(this.formUrl("login"), data);
   }
