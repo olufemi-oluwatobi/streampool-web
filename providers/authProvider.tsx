@@ -40,6 +40,8 @@ type AuthContextType = {
     email: string;
     password: string;
     username: string;
+    accessToken?: string;
+    authBasis?: string;
   }) => Promise<void>;
   setAuthLoading: (data: boolean) => void;
   signOut: () => Promise<void>;
