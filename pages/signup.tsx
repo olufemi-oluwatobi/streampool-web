@@ -176,8 +176,6 @@ const IndexPage = (props: Props) => {
     } finally {
       accountCreationFormik.setSubmitting(false);
     }
-
-    accountCreationFormik.setSubmitting(false);
   };
 
   const accountCreationFormik = useFormik({
@@ -188,7 +186,7 @@ const IndexPage = (props: Props) => {
       username: "",
       hasAgreedToToc: false,
     },
-    onSubmit: triggerLogin,
+    onSubmit: async () => await triggerLogin(),
     validationSchema: AccountCreationValidationSchema,
   });
 
@@ -232,7 +230,7 @@ const IndexPage = (props: Props) => {
     renderSuccessScreen()
   ) : (
     <div className="  ">
-      <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%]  h-screen flex justify-center ">
+      <div className=" bg-black-700 p-[8%] md:p-[8%] lg:p-[6%] flex justify-center ">
         <div className=" flex flex-col py-10 justify-center items-center  sm:w-1/3 w-full ">
           <div>
             <Link href="/">
@@ -244,25 +242,28 @@ const IndexPage = (props: Props) => {
               />
             </Link>
           </div>
-          <div className="mt-10 flex w-full justify-center items-center ">
-            <GoogleLogin
-              width="100"
-              size="large"
-              text="signup_with"
-              onSuccess={async (credentialResponse) => {
-                triggerLogin({
-                  email: "",
-                  password: "",
-                  username: "",
-                  accessToken: credentialResponse.credential,
-                  authBasis: "google",
-                });
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
+          <div className="mt-10 flex flex-col w-full justify-center items-center ">
+            <div className="w-full google_login-wrapper mb-4">
+              <GoogleLogin
+                width="100%"
+                theme="filled_black"
+                size="large"
+                text="signup_with"
+                onSuccess={async (credentialResponse) => {
+                  await triggerLogin({
+                    email: "",
+                    password: "",
+                    username: "",
+                    accessToken: credentialResponse.credential,
+                    authBasis: "google",
+                  });
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </div>
             <FormikProvider value={accountCreationFormik}>
               <LoginAccount {...accountCreationFormik} />
             </FormikProvider>

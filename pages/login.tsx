@@ -154,8 +154,6 @@ const IndexPage = (props: Props) => {
     } finally {
       accountCreationFormik.setSubmitting(false);
     }
-
-    accountCreationFormik.setSubmitting(false);
   };
 
   const accountCreationFormik = useFormik({
@@ -163,7 +161,7 @@ const IndexPage = (props: Props) => {
       email: "",
       password: "",
     },
-    onSubmit: triggerLogin,
+    onSubmit: async () => await triggerLogin(),
     validationSchema: AccountCreationValidationSchema,
   });
 
@@ -174,22 +172,25 @@ const IndexPage = (props: Props) => {
         <div className=" flex flex-col items-center  sm:w-1/3 w-full ">
           <div className=" mt-20 flex w-full flex-col justify-center items-center ">
             {/* <Button onClick={() => login()}>Login With Google</Button> */}
-            <GoogleLogin
-              width="100"
-              size="large"
-              onSuccess={(credentialResponse) => {
-                triggerLogin({
-                  email: "",
-                  password: "",
-                  accessToken: credentialResponse.credential,
-                  authBasis: "google",
-                });
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
+            <div className="w-full google_login-wrapper mb-4">
+              <GoogleLogin
+                width="100%"
+                theme="filled_black"
+                size="large"
+                onSuccess={async (credentialResponse) => {
+                  await triggerLogin({
+                    email: "",
+                    password: "",
+                    accessToken: credentialResponse.credential,
+                    authBasis: "google",
+                  });
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </div>
             <FormikProvider value={accountCreationFormik}>
               <LoginAccount {...accountCreationFormik} />
             </FormikProvider>
