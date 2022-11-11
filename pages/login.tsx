@@ -173,6 +173,12 @@ const IndexPage = (props: Props) => {
               width="100"
               size="large"
               onSuccess={(credentialResponse) => {
+                signIn({
+                  email: "",
+                  password: "",
+                  accessToken: credentialResponse.credential,
+                  authBasis: "google",
+                });
                 console.log(credentialResponse);
               }}
               onError={() => {

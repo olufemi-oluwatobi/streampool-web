@@ -31,7 +31,7 @@ type AuthContextType = {
       email: string;
       password: string;
       accessToken?: string;
-      authBasis?: "gmail";
+      authBasis?: "google";
     },
     callback?: RequestCallback
   ) => Promise<void>;
@@ -413,7 +413,7 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     email: string;
     password: string;
     accessToken?: string;
-    authBasis?: "gmail";
+    authBasis?: "google";
   }) => {
     setAuthLoading(true);
 
