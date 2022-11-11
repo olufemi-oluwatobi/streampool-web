@@ -186,7 +186,7 @@ const IndexPage = (props: Props) => {
       username: "",
       hasAgreedToToc: false,
     },
-    onSubmit: async () => await triggerLogin(),
+    onSubmit: async (data) => await triggerLogin(data),
     validationSchema: AccountCreationValidationSchema,
   });
 
