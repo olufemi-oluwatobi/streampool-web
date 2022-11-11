@@ -144,7 +144,7 @@ const IndexPage = (props: Props) => {
     try {
       accountCreationFormik.setSubmitting(true);
       await signIn(data);
-      // history.push("/");
+      history.push("/");
     } catch (error) {
       const { response } = error;
       if (response) {
@@ -161,7 +161,7 @@ const IndexPage = (props: Props) => {
       email: "",
       password: "",
     },
-    onSubmit: async () => await triggerLogin(),
+    onSubmit: async (value) => await triggerLogin(value),
     validationSchema: AccountCreationValidationSchema,
   });
 
