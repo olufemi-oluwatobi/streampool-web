@@ -138,27 +138,32 @@ const IndexPage = (props: Props) => {
     onError: (err) => console.log(err),
   });
 
+  const triggerLogin = async (
+    data: typeof accountCreationFormik.initialValues
+  ) => {
+    try {
+      accountCreationFormik.setSubmitting(true);
+      await signIn(data);
+      // history.push("/");
+    } catch (error) {
+      const { response } = error;
+      if (response) {
+        const { data } = response;
+        triggerNotification(data.message, data.message, "error");
+      }
+    } finally {
+      accountCreationFormik.setSubmitting(false);
+    }
+
+    accountCreationFormik.setSubmitting(false);
+  };
+
   const accountCreationFormik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: async (values) => {
-      try {
-        accountCreationFormik.setSubmitting(true);
-        await signIn(values);
-
-        history.push("/");
-      } catch (error) {
-        const { response } = error;
-        if (response) {
-          const { data } = response;
-          triggerNotification(data.message, data.message, "error");
-        }
-      } finally {
-        accountCreationFormik.setSubmitting(false);
-      }
-    },
+    onSubmit: triggerLogin,
     validationSchema: AccountCreationValidationSchema,
   });
 
@@ -173,7 +178,7 @@ const IndexPage = (props: Props) => {
               width="100"
               size="large"
               onSuccess={(credentialResponse) => {
-                signIn({
+                triggerLogin({
                   email: "",
                   password: "",
                   accessToken: credentialResponse.credential,

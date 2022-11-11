@@ -158,6 +158,28 @@ const IndexPage = (props: Props) => {
   const [isSubmitSuccesful, setSubmitSuccessful] = useState<boolean>(false);
   const { signUp } = useAuthContext();
   const { triggerNotification } = useNotification();
+
+  const triggerLogin = async (
+    data: typeof accountCreationFormik.initialValues
+  ) => {
+    try {
+      accountCreationFormik.setSubmitting(true);
+      await signUp(data);
+      setSubmitSuccessful(true);
+      // history.push("/");
+    } catch (error) {
+      const { response } = error;
+      if (response) {
+        const { data } = response;
+        triggerNotification(data.message, data.message, "error");
+      }
+    } finally {
+      accountCreationFormik.setSubmitting(false);
+    }
+
+    accountCreationFormik.setSubmitting(false);
+  };
+
   const accountCreationFormik = useFormik({
     initialValues: {
       email: "",
@@ -166,25 +188,7 @@ const IndexPage = (props: Props) => {
       username: "",
       hasAgreedToToc: false,
     },
-
-    onSubmit: async (values) => {
-      try {
-        accountCreationFormik.setSubmitting(true);
-        await signUp(values);
-        setSubmitSuccessful(true);
-        // history.push("/");
-      } catch (error) {
-        const { response } = error;
-        if (response) {
-          const { data } = response;
-          triggerNotification(data.message, data.message, "error");
-        }
-      } finally {
-        accountCreationFormik.setSubmitting(false);
-      }
-
-      accountCreationFormik.setSubmitting(false);
-    },
+    onSubmit: triggerLogin,
     validationSchema: AccountCreationValidationSchema,
   });
 
@@ -245,8 +249,8 @@ const IndexPage = (props: Props) => {
               width="100"
               size="large"
               text="signup_with"
-              onSuccess={(credentialResponse) => {
-                signUp({
+              onSuccess={async (credentialResponse) => {
+                triggerLogin({
                   email: "",
                   password: "",
                   username: "",
