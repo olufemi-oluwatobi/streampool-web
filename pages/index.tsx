@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import useCheckMobileScreen from "@hooks/useIsMobile";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import StreamServiceActionPage from "@components/StreamServiceAction";
 import Layout from "../components/Layout";
@@ -73,6 +74,7 @@ const HowItWorks = () => {
 };
 
 const IndexPage = () => {
+  const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
   const isMobile = useCheckMobileScreen();
   const [modalContentState, setModalContentState] = useState<
@@ -123,11 +125,11 @@ const IndexPage = () => {
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
-              onClick={() => scrollToComponent("stream_services")}
+              onClick={() => router.push("/signup")}
               className="  flex justify-center rounded-lg items-center
     w-fit-content bg-[#49DE80]  font-bold border-none text-black-500 px-7 py-5 "
             >
-              <span>Explore Services</span>
+              <span>Get Started</span>
             </Button>
             <Button
               onClick={() => scrollToComponent("how_it_works")}
