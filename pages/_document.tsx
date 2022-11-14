@@ -23,11 +23,11 @@ export default function Document() {
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
         <meta name="twitter:card" content="summary"></meta>
+        <script src="/static/scripts/index.js" />
       </Head>
       <body className="dark:bg-gray-800">
         <Main />
         <NextScript />
-        <script src="/static/scripts/index.js" />
       </body>
     </Html>
   );
