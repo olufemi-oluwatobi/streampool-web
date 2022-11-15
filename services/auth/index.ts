@@ -1,5 +1,16 @@
 import BaseApi from "../api/new-index";
 import { UserType } from "@interfaces/index";
+import { AxiosResponse } from "axios";
+
+type AccountVerificationResponse = {
+  status: true;
+  message: "Account number resolved";
+  data: {
+    account_number: "0001234567";
+    account_name: "Doe Jane Loren";
+    bank_id: 9;
+  };
+};
 class AuthService extends BaseApi {
   constructor() {
     super();
@@ -55,6 +66,20 @@ class AuthService extends BaseApi {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY}`,
       },
     });
+  }
+
+  async verifyAccount(
+    accountNumber: string,
+    bankCode: string
+  ): Promise<AxiosResponse<AccountVerificationResponse>> {
+    return this.request.get(
+      `https://api.paystack.co/bank/resolve?account_number=${accountNumber}&bank_code=${bankCode}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY}`,
+        },
+      }
+    );
   }
 
   async deletePaymentMethod(authorizationId: string) {
