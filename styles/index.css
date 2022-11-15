@@ -102,14 +102,14 @@
   display: none;
 }
 
-.ant-input, .ant-picker {
+.ant-input, .ant-picker, .ant-select-selector {
   border-radius: 5px !important;
   border-color: #26282c !important;
   background: #26282c !important;
   color: white !important;
   height: 40px !important;
 }
-.ant-input-affix-wrapper {
+.ant-input-affix-wrapper, .ant-select-selector {
   border-color: #26282c !important;
   background: #26282c !important;
 }
@@ -117,9 +117,13 @@
 .ant-input:focus,
 .ant-picker-focused:hover,
 .ant-picker-focused:focus
-.ant-input-focused,.ant-picker-focused {
+.ant-input-focused,.ant-picker-focused, .ant-select-selector:focus {
   border-color: #49de80 !important;
   border-right-width: 1px;
+}
+.ant-select-selection-item{
+  display: flex;
+  align-items: center;
 }
 .ant-picker-suffix{
   color: white

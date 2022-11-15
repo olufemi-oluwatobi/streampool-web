@@ -87,7 +87,7 @@ export type PoolType = {
   created_at: string;
   updated_at: string;
   plan_code: string;
-  members?: UserType[]
+  members?: UserType[];
   payment_date: string;
   is_disabled: boolean;
   is_at_max_capacity: boolean;
@@ -126,7 +126,10 @@ export type UserType = {
   membershipRequests: PoolRequestType[];
   pools: PoolType[];
   emails: ServiceEmails[];
-  offeredSubs: PoolType[]
+  offeredSubs: PoolType[];
+  account_name: string;
+  bank: string;
+  account_number: string;
 };
 export type AuthDataType = {
   token: TokenType;
