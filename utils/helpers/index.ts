@@ -17,6 +17,5 @@ export const decryptPassword = (password: string, key: string) => {
     return JSON.parse(bytes.toString(CryptoJs.enc.Utf8));
   } catch (error) {
     return "";
-    console.log(error);
   }
 };

@@ -7,6 +7,7 @@ import { decryptPassword } from "@utils/helpers";
 import useCopyToClipboard from "@hooks/useCopy";
 import { useNotification } from "@providers/notificationProvider";
 import { format, parseISO, isBefore } from "date-fns";
+import { Checkbox } from "antd";
 import {
   StreamService,
   StreamPlan,
@@ -18,6 +19,7 @@ import StreamOptions from "@components/streamplanOptions";
 import { Button, Modal } from "antd";
 import classNames from "classnames";
 import { FormikErrors } from "formik";
+import { useAuthContext } from "@providers/authProvider";
 
 const { confirm } = Modal;
 
@@ -131,6 +133,7 @@ const SubmitPoolCredentials = ({
           name="maxMemberCount"
         >
           <Slider
+            className="w-full"
             onChange={(value) => {
               onChange({
                 target: { name: "maxMemberCount", value },
@@ -139,6 +142,27 @@ const SubmitPoolCredentials = ({
             defaultValue={parseInt(streamPlan?.max_limit, 10) - 1}
             max={parseInt(streamPlan?.max_limit, 10) - 1}
           />
+        </Form.Item>
+        <Form.Item
+          validateStatus={errors?.maxMemberCount ? "error" : "success"}
+          help={errors?.maxMemberCount && errors?.maxMemberCount}
+        >
+          <Checkbox
+            className="w-full"
+            onChange={(e) => {
+              onChange({
+                target: {
+                  name: "type",
+                  value: e.target.checked ? "private" : "general",
+                },
+              } as ChangeEvent<HTMLInputElement>);
+            }}
+          >
+            <span className=" text-white-50 ">
+              {" "}
+              Only people with a shared link can join this membership
+            </span>
+          </Checkbox>
         </Form.Item>
       </div>
     </Transition>
@@ -282,6 +306,7 @@ const ServiceDetails = ({
   const buttons = Array.isArray(buttonProps) ? buttonProps : [buttonProps];
   const { triggerNotification } = useNotification();
   const [copiedText, copyToClipboard] = useCopyToClipboard();
+  const { authData } = useAuthContext();
 
   const copyPoolPassword = (password: string) => {
     const decryptedPassword = decryptPassword(
@@ -291,6 +316,11 @@ const ServiceDetails = ({
     copyToClipboard(decryptedPassword);
     triggerNotification("Password Copied", "Password Copied!", "success");
   };
+
+  const origin =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : "";
 
   const renderMainButton = () => {
     return (
@@ -330,9 +360,6 @@ const ServiceDetails = ({
             />
             <div className="flex flex-col justify-start  items-start text-white-200 ml-3">
               <span className=" text-lg font-bold ">{streamService?.name}</span>
-              <Tag className="mt-2 rounded-md " color="geekblue">
-                audio streaming
-              </Tag>
             </div>
           </div>
         </div>
@@ -388,6 +415,35 @@ const ServiceDetails = ({
                 </Tag>
               </span>
             </div>
+            {pool && (status === "active membership" || isPoolOwner) && (
+              <div className="w-full mt-2 flex justify-center items-center">
+                <div className="w-full mb-10 justify-center items-center">
+                  <Button
+                    onClick={() => {
+                      copyToClipboard(
+                        `${origin}/join_membership?ref=${btoa(
+                          JSON.stringify({
+                            serviceName: streamService.name,
+                            pool: pool.id,
+                            planId: pool.streamPlan.id,
+                            owner: authData.user?.username,
+                            id: streamService.id,
+                          })
+                        )}`
+                      );
+                      triggerNotification(
+                        "Copied Link",
+                        "Copied Link",
+                        "success"
+                      );
+                    }}
+                    className="bg-transparent border-solid border text-white-200 rounded-3xl border-gray-300"
+                  >
+                    Copy Request Link
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {pool &&
               (status === "active membership" || isPoolOwner) &&

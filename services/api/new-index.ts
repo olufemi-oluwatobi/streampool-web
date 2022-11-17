@@ -13,7 +13,6 @@ class BaseApi {
   }
   loadHeaders() {
     try {
-      console.log(this.headers);
       if (this.headers && Object.keys(this.headers).length) return this.headers;
       const headers: AxiosRequestHeaders = {};
       if (typeof window !== "undefined") {

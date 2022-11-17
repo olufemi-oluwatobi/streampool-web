@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { AxiosError } from 'axios';
-import { NotifyService } from '../../services';
-import { ApiResponse } from '../../interfaces'
+import { AxiosError } from "axios";
+import { NotifyService } from "../../services";
+import { ApiResponse } from "../../interfaces";
 
 /**
  * @name handleThenSuccess
@@ -11,10 +11,15 @@ import { ApiResponse } from '../../interfaces'
  * @return {Object} returns the server object
  */
 export const handleThenSuccess = (result: any, callback: Function) => {
-  if (typeof callback === 'function' && result.data !== null && result.data !== undefined) callback(result);
+  if (
+    typeof callback === "function" &&
+    result.data !== null &&
+    result.data !== undefined
+  )
+    callback(result);
 
-  return result
-}
+  return result;
+};
 
 /**
  * @name handleCatchError
@@ -30,12 +35,13 @@ export const handleCatchError = (err: Error & AxiosError<ApiResponse>) => {
     const data = err.response.data;
 
     if (data.message) errorBag.push(data.message);
-    if (data.error) errorBag.push(data.error)
+    if (data.error) errorBag.push(data.error);
 
     if (data.errMessage) {
-      const message = typeof data.errMessage === 'string'
-        ? data.errMessage
-        : data.errMessage.message;
+      const message =
+        typeof data.errMessage === "string"
+          ? data.errMessage
+          : data.errMessage.message;
 
       errorBag.push(message);
     }
@@ -43,7 +49,7 @@ export const handleCatchError = (err: Error & AxiosError<ApiResponse>) => {
 
   // Toast all the errors
   // errorBag.forEach(error => NotifyService.setTitle('Error').setMessage(error).error());
-}
+};
 
 /**
  *
@@ -54,7 +60,11 @@ export const handleCatchError = (err: Error & AxiosError<ApiResponse>) => {
  * @param {*} [initial=null]
  * @returns {Object}
  */
-export const ResolveAll = async (action = [], message = null, initial = undefined) => {
+export const ResolveAll = async (
+  action = [],
+  message = null,
+  initial = undefined
+) => {
   // if (message) {
   //   // swal('Done!', message, 'success');
   //   return Promise.all(action)
@@ -85,4 +95,4 @@ export const ResolveAll = async (action = [], message = null, initial = undefine
   //   })
   // }
   // return Promise.all(action)
-}
+};

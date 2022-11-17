@@ -7,6 +7,7 @@ import StreamServices from "@services/streamServices";
 import ServiceDetails, {
   ServiceDetailHeader,
 } from "@components/ServiceDetails";
+import { InvitationDetailsType } from "@interfaces/index";
 import { useStreamService } from "@providers/streamServiceProvider";
 import { Button, Modal, Input, Form } from "antd";
 import { PoolRequestType, PoolType, StreamPlan } from "@interfaces/index";
@@ -15,15 +16,21 @@ import { useNotification } from "@providers/notificationProvider";
 import classNames from "classnames";
 import * as Yup from "yup";
 import StreamOptions from "@components/streamplanOptions";
+import streamServices from "@services/streamServices";
 const { confirm } = Modal;
 
 const StreamServiceActionPage = ({
   onHeaderClick,
+  invitationDetails,
 }: {
   onHeaderClick: () => void;
+  invitationDetails?: InvitationDetailsType;
 }) => {
   const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
   const isMobile = useCheckMobileScreen();
+  const [invitationPoolOwner, setInvitationPoolOwner] = useState<string | null>(
+    null
+  );
   const [editCredentials, setEditCredentials] = useState(false);
   const [modalContentState, setModalContentState] = useState<
     | "init"
@@ -39,6 +46,19 @@ const StreamServiceActionPage = ({
   const maxMemberCount = useMemo(() => {
     return parseInt(selectedPlan?.max_limit) - 1;
   }, [selectedPlan]);
+
+  useEffect(() => {
+    if (invitationDetails) {
+      if (invitationDetails.id === streamService.id) {
+        const streamPlan = streamService.streamPlans.find(
+          (plan) => plan.id === invitationDetails.planId
+        );
+        setSelectedPlan(streamPlan);
+        setInvitationPoolOwner(invitationDetails.owner);
+        setModalContentState("requesting_email");
+      }
+    }
+  }, []);
 
   const {
     authData,
@@ -60,6 +80,7 @@ const StreamServiceActionPage = ({
     setStreamService,
     cancelRequest,
     acceptRequest,
+    disablePool,
   } = useStreamService();
 
   const fields = useFormik({
@@ -69,6 +90,7 @@ const StreamServiceActionPage = ({
       maxMemberCount: maxMemberCount,
       requiresPassword: streamService?.entrance_type === "credentials",
       paymentDate: "",
+      type: "general",
     },
     validationSchema: Yup.object().shape({
       requiresPassword: Yup.boolean(),
@@ -103,6 +125,7 @@ const StreamServiceActionPage = ({
           password: fields.values.password,
           name: `${authData?.user?.username}-${streamService?.name}`,
           paymentDate: fields.values.paymentDate,
+          type: fields.values.type,
         });
         triggerNotification(
           "Request Succesful",
@@ -112,7 +135,6 @@ const StreamServiceActionPage = ({
         await fetchUserData();
         setModalContentState("init");
       } catch (error) {
-        console.log(error);
         triggerNotification(
           "Request Error",
           "Sorry, Failed to submit request, kindly try again",
@@ -128,6 +150,7 @@ const StreamServiceActionPage = ({
       const data = await requestMembership({
         streamServiceId: streamService.id,
         customEmail: customEmailFormik.values.email,
+        poolId: invitationDetails?.pool,
       });
       if (data) {
         addPoolRequest(data?.data?.data);
@@ -139,29 +162,22 @@ const StreamServiceActionPage = ({
     }
   };
 
-  console.log("field====", fields.values);
-
   const submitOffer = async () => {
     try {
       if (!authData) return push("/login?redirect=true");
       const errors = await fields.validateForm();
-      console.log("values ====?", fields.values);
       if (Object.values(errors).some((d) => Boolean(d))) return;
       await createPool({
         streamServiceId: streamService?.id,
-        email: fields.values.email,
+        ...fields.values,
         planId: selectedPlan?.id,
-        maxMemberCount: fields.values.maxMemberCount,
-        password: fields.values.password,
         name: `${authData?.user?.username}-${streamService?.name}`,
-        paymentDate: fields.values.paymentDate,
       });
       triggerNotification("Request Succesful", "Request Succesful", "success");
       await fetchUserData();
       setModalContentState("init");
       setMakeOffer(false);
     } catch (error) {
-      console.log(error, selectedPlan, streamService);
       triggerNotification(
         "Request Error",
         "Sorry, Failed to submit request, kindly try again",
@@ -191,7 +207,6 @@ const StreamServiceActionPage = ({
   useEffect(() => {
     if (streamService) {
       if (streamService.streamPlans?.length) {
-        console.log("selected a plan");
         setSelectedPlan(streamService.streamPlans[0]);
       }
     }
@@ -337,7 +352,11 @@ const StreamServiceActionPage = ({
       <div className="w-full  modal-input flex flex-col">
         {!isMobile && (
           <ServiceDetailHeader
-            title="Select Email"
+            title={
+              invitationPoolOwner
+                ? `Request to join ${invitationPoolOwner}'s ${streamService?.name} membership`
+                : "Request to join a membership"
+            }
             onButtonClick={() => onCloseModal()}
           />
         )}
@@ -473,9 +492,50 @@ const StreamServiceActionPage = ({
           await fetchUserData();
         } catch (error) {
           triggerNotification(
-            "Request Sucess",
+            "Request Success",
             "User wasn't succesfully added, please try again",
-            "success"
+            "error"
+          );
+        }
+      },
+    });
+  };
+
+  const confirmDisableMembership = () => {
+    const pool = authData?.user?.offeredSubs?.find(
+      (sub) => sub.stream_service_id === streamService?.id
+    );
+    confirm({
+      title: "Are You sure you want to disable this membership",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+          />
+        </svg>
+      ),
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      async onOk() {
+        try {
+          await disablePool(pool.id);
+          triggerNotification("Request Success", "Pool Disabled", "success");
+          await fetchUserData();
+        } catch (error) {
+          triggerNotification(
+            "Request Sucesss",
+            "User wasn't succesfully added, please try again",
+            "error"
           );
         }
       },
@@ -517,7 +577,7 @@ const StreamServiceActionPage = ({
 
     const cancelButtonProps = {
       onClick: () => {
-        setMakeOffer(false);
+        isPoolOwner ? confirmDisableMembership() : setMakeOffer(false);
       },
       label: isPoolOwner ? "Disable Membership" : "Cancel",
       className: "bg-[#BA1200] text-white-400 font-bold border-none w-full",
