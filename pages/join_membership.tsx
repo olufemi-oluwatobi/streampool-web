@@ -27,30 +27,34 @@ const IndexPage = ({ inviteRef }) => {
   return (
     <div className=" bg-black-700 p-[5%]  h-screen flex justify-center ">
       <Head>
-        <meta property="og:title" content="Streamcel" />
-        <meta property="og:url" content="https://www.streamcel.com" />
         <meta
-          name="og:description"
+          property="og:url"
+          content="https://www.streamcel.com/join_membership"
+        />
+        <meta
+          property="og:description"
           content={`Join ${parseinviteRefData()?.owner || "member"}'s ${
             parseinviteRefData()?.serviceName || "stream service"
           } membership pool`}
         />
         <meta
           property="og:image"
+          itemprop="image"
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
-        <meta name="twitter:title" content="Streamcel " />
+        <meta property="og:title" content="Streamcel | Join a membership" />
+        <meta property="og:title" content="Streamcel " />
         <meta
-          name="og:description"
+          property="og:description"
           content={`Join ${parseinviteRefData()?.owner || "users"}'s ${
             parseinviteRefData()?.serviceName
           } membership pool`}
         />
         <meta
-          name="twitter:image"
+          property="twitter:image"
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
-        <meta name="twitter:card" content="summary"></meta>
+        <meta property="twitter:card" content="summary"></meta>
       </Head>
     </div>
   );

@@ -13,16 +13,16 @@ export default function Document() {
           property="og:image"
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
-        <meta name="twitter:title" content="Streamcel " />
+        <meta property="twitter:title" content="Streamcel " />
         <meta
-          name="twitter:description"
+          property="twitter:description"
           content="Stream more at a budget by sharing subscriptions to your favourite streaming services with other people"
         />
         <meta
-          name="twitter:image"
+          property="twitter:image"
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
-        <meta name="twitter:card" content="summary"></meta>
+        <meta property="twitter:card" content="summary"></meta>
         <script src="/static/scripts/index.js" />
       </Head>
       <body className="dark:bg-gray-800">
