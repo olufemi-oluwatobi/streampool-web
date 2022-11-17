@@ -8,7 +8,7 @@ import Layout from "../components/Layout";
 import StreamServices from "../components/streamServices";
 import { useStreamService } from "../providers/streamServiceProvider";
 import { Button, Modal } from "antd";
-import { StreamPlan } from "../interfaces/index";
+import { StreamPlan, InvitationDetailsType } from "../interfaces/index";
 import FaqSection from "../components/faq";
 
 const { confirm } = Modal;
@@ -75,21 +75,37 @@ const HowItWorks = () => {
 
 const IndexPage = () => {
   const router = useRouter();
+  const { streamServices, streamService, setStreamService } =
+    useStreamService();
   const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
   const isMobile = useCheckMobileScreen();
-  const [modalContentState, setModalContentState] = useState<
-    | "init"
-    | "requesting_email"
-    | "requesting_payment_details"
-    | "success"
-    | "error"
-  >("init");
-  const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
-  const {
-    streamService,
 
-    setStreamService,
-  } = useStreamService();
+  const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
+  const { ref } = router.query;
+  const [invitationDetails, setInvitationDetails] =
+    useState<InvitationDetailsType | null>(null);
+
+  useEffect(() => {
+    try {
+      if (ref) {
+        const inviteRef: InvitationDetailsType = JSON.parse(
+          atob(ref as string)
+        );
+        if (inviteRef.pool) {
+          setInvitationDetails(inviteRef);
+          console.log(inviteRef);
+          const streamService = streamServices.find(
+            (service) => service.id === inviteRef.id
+          );
+          if (streamService) {
+            setStreamService(streamService);
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
     if (streamService) {
@@ -196,7 +212,10 @@ const IndexPage = () => {
             }}
             className="flex flex-col drop-shadow-2xl bg-black-700 justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[500px] overflow-auto  text-center"
           >
-            <StreamServiceActionPage onHeaderClick={() => onCloseModal()} />
+            <StreamServiceActionPage
+              invitationDetails={invitationDetails}
+              onHeaderClick={() => onCloseModal()}
+            />
           </div>
         </Modal>
       )}

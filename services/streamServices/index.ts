@@ -9,6 +9,7 @@ export type PoolPayload = {
   password?: string;
   email: string;
   paymentDate: string;
+  type: string;
 };
 class StreamService extends BaseApi {
   constructor() {
@@ -20,7 +21,11 @@ class StreamService extends BaseApi {
     this.loadRequest();
     return this.request.get(this.formUrl(""));
   }
-  async requestToJoin(data: { streamServiceId: number; customEmail?: string }) {
+  async requestToJoin(data: {
+    streamServiceId: number;
+    customEmail?: string;
+    poolId?: string;
+  }) {
     this.loadRequest();
     return this.request.post(this.formUrl("request"), data);
   }
@@ -35,6 +40,11 @@ class StreamService extends BaseApi {
     return this.request.post("pool", {
       ...data,
     });
+  }
+
+  async disablePool(poolId: number) {
+    this.loadRequest();
+    return this.request.post(`pool/${poolId}/disable`);
   }
 
   async editPoolCredentials(

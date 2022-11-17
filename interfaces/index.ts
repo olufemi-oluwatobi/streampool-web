@@ -95,6 +95,7 @@ export type PoolType = {
   streamService: StreamService;
   streamPlan: StreamPlan;
   poolCredential: PoolCredentials;
+  type?: string;
 };
 export type PoolRequestType = {
   status: string;
@@ -135,4 +136,12 @@ export type AuthDataType = {
   token: TokenType;
   user: UserType;
   paymentDetails?: Authorization[];
+};
+
+export type InvitationDetailsType = {
+  serviceName: string;
+  pool: number;
+  planId: number;
+  owner: string;
+  id: number;
 };
