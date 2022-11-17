@@ -1,35 +1,27 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { Head } from "next/document";
+import Head from "next/head";
 import { InvitationDetailsType } from "../interfaces/index";
 
 import useIsMobile from "@hooks/useIsMobile";
-const IndexPage = () => {
-  const { query, push } = useRouter();
-  const { ref } = query;
+const IndexPage = ({ inviteRef }) => {
+  const { push } = useRouter();
   const isMobile = useIsMobile();
   useEffect(() => {
-    console.log(ref);
-    if (ref) {
-      console.log("in here");
+    if (inviteRef) {
       if (isMobile) {
-        push(`/stream_service?ref=${ref}`);
+        push(`/stream_service?ref=${inviteRef}`);
       }
-      push(`/?ref=${ref}`);
+      push(`/?ref=${inviteRef}`);
     }
-  }, [ref]);
+  }, [inviteRef]);
 
-  const parseRefData = () => {
-    const searchUrl =
-      typeof window !== "undefined" && window.location.search
-        ? window.location.origin
-        : "";
-
-    const urlSearchParams = new URLSearchParams(searchUrl);
-    const params = Object.fromEntries(urlSearchParams.entries());
-    if (params.ref) {
-      const inviteRef: InvitationDetailsType = JSON.parse(atob(ref as string));
-      return inviteRef;
+  const parseinviteRefData = () => {
+    if (inviteRef) {
+      const invitationData: InvitationDetailsType = JSON.parse(
+        atob(inviteRef as string)
+      );
+      return invitationData;
     }
   };
   return (
@@ -39,8 +31,8 @@ const IndexPage = () => {
         <meta property="og:url" content="https://www.streamcel.com" />
         <meta
           name="og:description"
-          content={`Join ${parseRefData()?.owner || "member"}'s ${
-            parseRefData()?.serviceName || "stream service"
+          content={`Join ${parseinviteRefData()?.owner || "member"}'s ${
+            parseinviteRefData()?.serviceName || "stream service"
           } membership pool`}
         />
         <meta
@@ -50,8 +42,8 @@ const IndexPage = () => {
         <meta name="twitter:title" content="Streamcel " />
         <meta
           name="og:description"
-          content={`Join ${parseRefData()?.owner || "users"}'s ${
-            parseRefData()?.serviceName
+          content={`Join ${parseinviteRefData()?.owner || "users"}'s ${
+            parseinviteRefData()?.serviceName
           } membership pool`}
         />
         <meta
@@ -62,6 +54,12 @@ const IndexPage = () => {
       </Head>
     </div>
   );
+};
+
+IndexPage.getInitialProps = async ({ query }) => {
+  const { ref } = query;
+  console.log("query ===", query);
+  return { inviteRef: ref };
 };
 
 export default IndexPage;
