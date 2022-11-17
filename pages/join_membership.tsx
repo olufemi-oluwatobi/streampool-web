@@ -58,7 +58,6 @@ const IndexPage = ({ inviteRef }) => {
 
 IndexPage.getInitialProps = async ({ query }) => {
   const { ref } = query;
-  console.log("query ===", query);
   return { inviteRef: ref };
 };
 

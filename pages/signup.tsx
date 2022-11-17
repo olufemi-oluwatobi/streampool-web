@@ -257,11 +257,8 @@ const IndexPage = (props: Props) => {
                     accessToken: credentialResponse.credential,
                     authBasis: "google",
                   });
-                  console.log(credentialResponse);
                 }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
+                onError={() => {}}
               />
             </div>
             <FormikProvider value={accountCreationFormik}>

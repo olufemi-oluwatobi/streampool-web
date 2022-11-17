@@ -132,9 +132,7 @@ const IndexPage = (props: Props) => {
     flow: "implicit",
     scope:
       "email profile openid https://www.googleapis.com/auth/userinfo.profile",
-    onSuccess: (tokenResponse) => {
-      console.log("token ===>", jwtDecode(tokenResponse.access_token));
-    },
+    onSuccess: (tokenResponse) => {},
     onError: (err) => console.log(err),
   });
 
@@ -184,11 +182,8 @@ const IndexPage = (props: Props) => {
                     accessToken: credentialResponse.credential,
                     authBasis: "google",
                   });
-                  console.log(credentialResponse);
                 }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
+                onError={() => {}}
               />
             </div>
             <FormikProvider value={accountCreationFormik}>

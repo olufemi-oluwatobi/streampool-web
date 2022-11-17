@@ -135,7 +135,6 @@ const StreamServiceActionPage = ({
         await fetchUserData();
         setModalContentState("init");
       } catch (error) {
-        console.log(error);
         triggerNotification(
           "Request Error",
           "Sorry, Failed to submit request, kindly try again",
@@ -163,13 +162,10 @@ const StreamServiceActionPage = ({
     }
   };
 
-  console.log("field====", fields.values);
-
   const submitOffer = async () => {
     try {
       if (!authData) return push("/login?redirect=true");
       const errors = await fields.validateForm();
-      console.log("values ====?", fields.values);
       if (Object.values(errors).some((d) => Boolean(d))) return;
       await createPool({
         streamServiceId: streamService?.id,
@@ -182,7 +178,6 @@ const StreamServiceActionPage = ({
       setModalContentState("init");
       setMakeOffer(false);
     } catch (error) {
-      console.log(error, selectedPlan, streamService);
       triggerNotification(
         "Request Error",
         "Sorry, Failed to submit request, kindly try again",
@@ -212,7 +207,6 @@ const StreamServiceActionPage = ({
   useEffect(() => {
     if (streamService) {
       if (streamService.streamPlans?.length) {
-        console.log("selected a plan");
         setSelectedPlan(streamService.streamPlans[0]);
       }
     }

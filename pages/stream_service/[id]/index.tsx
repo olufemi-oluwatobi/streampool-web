@@ -33,7 +33,6 @@ const IndexPage = () => {
         );
         if (inviteRef.pool) {
           setInvitationDetails(inviteRef);
-          console.log(inviteRef);
           const streamService = streamServices.find(
             (service) => service.id === inviteRef.id
           );
@@ -42,9 +41,7 @@ const IndexPage = () => {
           }
         }
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, []);
 
   useEffect(() => {

@@ -150,7 +150,6 @@ const SubmitPoolCredentials = ({
           <Checkbox
             className="w-full"
             onChange={(e) => {
-              console.log(e);
               onChange({
                 target: {
                   name: "type",
