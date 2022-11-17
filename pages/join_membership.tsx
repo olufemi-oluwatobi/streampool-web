@@ -20,7 +20,12 @@ const IndexPage = () => {
   }, [ref]);
 
   const parseRefData = () => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    const searchUrl =
+      typeof window !== "undefined" && window.location.search
+        ? window.location.origin
+        : "";
+
+    const urlSearchParams = new URLSearchParams(searchUrl);
     const params = Object.fromEntries(urlSearchParams.entries());
     if (params.ref) {
       const inviteRef: InvitationDetailsType = JSON.parse(atob(ref as string));
