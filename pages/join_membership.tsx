@@ -39,7 +39,6 @@ const IndexPage = ({ inviteRef }) => {
         />
         <meta
           property="og:image"
-          itemprop="image"
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
         <meta property="og:title" content="Streamcel | Join a membership" />
