@@ -24,7 +24,7 @@ class StreamService extends BaseApi {
   async requestToJoin(data: {
     streamServiceId: number;
     customEmail?: string;
-    poolId?: string;
+    poolId?: number;
   }) {
     this.loadRequest();
     return this.request.post(this.formUrl("request"), data);

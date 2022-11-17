@@ -53,7 +53,7 @@ type StreamServiceContextType = {
   requestMembership: (data: {
     streamServiceId: number;
     customEmail?: string;
-    poolId?: string;
+    poolId?: number;
   }) => Promise<AxiosResponse<{ success: true; data: PoolRequestType }>>;
   createPool: (d: PoolPayload) => Promise<void>;
   acceptRequest: (
@@ -150,7 +150,7 @@ export const StreamServiceProvider = ({ children }) => {
   const requestMembership = async (requestData: {
     streamServiceId: number;
     customEmail?: string;
-    poolId?: string;
+    poolId?: number;
   }): Promise<AxiosResponse<{ success: true; data: PoolRequestType }>> => {
     try {
       setLoading(true);
