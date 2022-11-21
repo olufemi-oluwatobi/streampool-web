@@ -187,9 +187,9 @@ const IndexPage = () => {
             </span>
           </div>
           <div className="px-4 sm:mt-0 mt-5  py-2 rounded-xl bg-[#FDFDFF]">
-            <Link className="text-black-400" href="/">
+            <a className="text-black-400" href="mailto:hello@streamcel.com">
               <span className=" text-black-400">Get In Touch</span>
-            </Link>
+            </a>
           </div>
         </section>
       </section>
