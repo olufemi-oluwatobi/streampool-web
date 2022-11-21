@@ -23,11 +23,26 @@ export default function Document() {
           content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
         />
         <meta property="twitter:card" content="summary"></meta>
+        <script
+          type="text/javascript"
+          id="hs-script-loader"
+          async
+          defer
+          src="//js-na1.hs-scripts.com/23176902.js"
+        ></script>
+
         <script src="/static/scripts/index.js" />
       </Head>
       <body className="dark:bg-gray-800">
         <Main />
         <NextScript />
+        <script
+          type="text/javascript"
+          id="hs-script-loader"
+          async
+          defer
+          src="//js-na1.hs-scripts.com/23176902.js"
+        ></script>
       </body>
     </Html>
   );
