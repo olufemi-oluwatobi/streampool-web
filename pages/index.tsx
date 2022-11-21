@@ -19,17 +19,17 @@ const HowItWorks = () => {
     {
       heading: "Select a Stream Service",
       content:
-        "We provide a variety of streaming options that might meet your demands, whether you want to view a movie or listen to your favorite singer.",
+        "We provide a variety of streaming options that would interest, whether you want to view a movie or listen to your favorite singer.",
     },
     {
       heading: "Request or Share a Membership",
       content:
-        "If you have an active membership, you can list it for sharing. If you want to join a membership, simply submit a membership request and you'll be added to a membership ASAP. You will only be charged a portion of the real subscription cost of the stream service that you subscribed to.",
+        "Owners of streaming service memberships can list their membership on Streamcel for sharing with other users. If you want to join a membership, you can do so by submitting a membership group request. Once you've been admitted to a  group, you'll either be emailed an invitation or allowed access to the stream service membership through credentials.",
     },
     {
       heading: "Enjoy More Streaming!",
       content:
-        "Now you can get more services at a lower cost. Membership owners will receive shared subscription costs at the end of each month.",
+        "The membership fee will be divided evenly among each members in a group, with the owner receiving the entire sum at the end of the month. Now you can get more services at a lower cost.",
     },
   ];
   const scrollToComponent = (id: string) => {
@@ -134,7 +134,7 @@ const IndexPage = () => {
           </span>
           <span className="my-6 text-[#95999c] text-base w-full lg:w-3/4 xl:w-3/4 2xl:w-3/4 leading-loose text-justify sm:font-medium font-normal ">
             Watch all of your favorite shows without having to worry about
-            spending a lot of money. Share subscriptiions and save money now.
+            spending a lot of money. Share subscriptions and save money now.
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
