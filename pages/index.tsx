@@ -29,7 +29,7 @@ const HowItWorks = () => {
     {
       heading: "Enjoy More Streaming!",
       content:
-        "The membership fee will be divided evenly among each members in a group, with the owner receiving the entire sum at the end of the month. Now you can get more services at a lower cost.",
+        "Each group member will be charged an equal share of the membership cost, with the owner receiving the entire sum at the end of the month. Now you can get more services at a lower cost.",
     },
   ];
   const scrollToComponent = (id: string) => {
