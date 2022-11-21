@@ -176,7 +176,7 @@ const IndexPage = () => {
         <section className="  ">
           <FaqSection />
         </section>
-        <section className="flex w-full sm:p-10 p-5 flex-wrap    mb-20 justify-between  items-center bg-[#8F3985] rounded-2xl">
+        <section className="flex w-full sm:p-10 p-5 flex-wrap  sm:mt-0 mt-20   mb-20 justify-between  items-center bg-[#8F3985] rounded-2xl">
           <div className="flex flex-col">
             <span className="font-bold text-[#FDFDFF] text-3xl ">
               Still have questions?
