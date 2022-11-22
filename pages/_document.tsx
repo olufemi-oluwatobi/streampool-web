@@ -16,7 +16,7 @@ export default function Document() {
         <meta property="twitter:title" content="Streamcel " />
         <meta
           property="twitter:description"
-          content="Stream more at a budget by sharing subscriptions to your favourite streaming services with other people"
+          content="Stream more on a budget by sharing subscriptions to your favourite streaming services with other people"
         />
         <meta
           property="twitter:image"
