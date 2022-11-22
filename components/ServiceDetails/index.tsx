@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useMemo } from "react";
+import { ChangeEvent } from "react";
 import { Transition } from "@tailwindui/react";
 import Image from "next/image";
 import { Collapse, Avatar, DatePicker } from "antd";
@@ -20,6 +20,7 @@ import { Button, Modal } from "antd";
 import classNames from "classnames";
 import { FormikErrors } from "formik";
 import { useAuthContext } from "@providers/authProvider";
+import { calculateAmount } from "@utils/helpers";
 
 const { confirm } = Modal;
 
@@ -28,12 +29,6 @@ type ButtonProp = {
   label: string;
   style?: React.CSSProperties;
   className: string;
-};
-
-const calculateAmount = (amount: string, numberOfMembers: string) => {
-  if (!amount) return;
-  const amounNum = parseInt(amount, 10);
-  return Math.ceil((amounNum + 200) / 100) * 100;
 };
 
 const SubmitPoolCredentials = ({

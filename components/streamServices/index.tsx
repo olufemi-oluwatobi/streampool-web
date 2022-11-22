@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useMemo, useCallback } from "react";
 import className from "classnames";
-import { decryptPassword } from "@utils/helpers";
+import { decryptPassword, calculateAmount } from "@utils/helpers";
 import { useRouter } from "next/router";
 import useCopyToClipboard from "@hooks/useCopy";
 import useCheckMobileScreen from "@hooks/useIsMobile";
@@ -12,11 +12,6 @@ import {
 } from "../../providers/streamServiceProvider";
 import { ServiceCard, ServiceCardPlaceholder } from "../ServiceCard";
 import { useAuthContext } from "@providers/authProvider";
-
-const calculateAmount = (amount: string, numberOfMembers: string) => {
-  const amounNum = parseInt(amount, 10);
-  return amounNum + 200;
-};
 
 const ServiceCategory = ({
   services,
@@ -102,9 +97,11 @@ const ServiceCategory = ({
                     hasNotification={authData?.user?.membershipRequests?.some(
                       (request) => request.stream_service_id === service.id
                     )}
+                    maxMemberCount={service.streamPlans[0]?.max_limit}
                     currency={service.streamPlans[0]?.currency}
                     image={service.icon}
                     name={service.name}
+                    commissionCost={200}
                     type="Audio Streaming Service"
                     amount={calculateAmount(
                       service.streamPlans[0]?.amount,

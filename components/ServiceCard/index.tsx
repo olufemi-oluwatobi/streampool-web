@@ -1,6 +1,16 @@
 import Image from "next/image";
 import { Button } from "antd";
 
+const getAmountSaved = (
+  amount: number,
+  maxMemberCount: number | string,
+  commissionCost: number
+) => {
+  if (typeof maxMemberCount === "string")
+    maxMemberCount = parseInt(maxMemberCount, 10);
+  const totalAmount = (amount - commissionCost) * maxMemberCount;
+  return Number(totalAmount).toLocaleString();
+};
 export const ServiceCard = ({
   image,
   oldAmount,
@@ -8,8 +18,10 @@ export const ServiceCard = ({
   amount,
   currency,
   hasNotification,
+  maxMemberCount,
   type,
   buttonProp: { label, onClick },
+  commissionCost,
 }: {
   image: string;
   name: string;
@@ -18,8 +30,14 @@ export const ServiceCard = ({
   oldAmount: string;
   currency: string;
   hasNotification?: boolean;
+  maxMemberCount?: string;
+  commissionCost?: number;
   buttonProp: { label: string; onClick: () => void };
 }) => {
+  const calculateAmountSaved: boolean = [maxMemberCount, commissionCost].every(
+    (d) => d
+  );
+  console.log(calculateAmountSaved);
   return (
     <div className="drop-shadow-2xl relative cursor-pointer text-white-500 bg-transparent border-solid border border-[#5e6163] flex flex-col rounded-3xl  w-full">
       <div className="w-full p-3">
@@ -32,6 +50,13 @@ export const ServiceCard = ({
             <span className="font-bold  text-md">
               {currency} {Number(amount).toLocaleString()}/month
             </span>
+            {calculateAmountSaved && (
+              <span className=" text-sm text-[#999a9b] ">
+                You get to save:{" "}
+                {getAmountSaved(amount, maxMemberCount, commissionCost)}
+                /month
+              </span>
+            )}
           </div>
           {hasNotification && (
             <svg

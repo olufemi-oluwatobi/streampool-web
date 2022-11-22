@@ -153,3 +153,7 @@
   font-style: normal;
   font-display: swap;
 }
+
+.launcher-right-align{
+  background: transparent !important;
+}

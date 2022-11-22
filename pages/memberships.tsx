@@ -6,6 +6,7 @@ import Image from "next/image";
 import useCheckMobileScreen from "@hooks/useIsMobile";
 import { PoolRequestType, PoolType } from "../interfaces/index";
 import className from "classnames";
+import { calculateAmount } from "@utils/helpers";
 import { ServiceCard } from "../components/ServiceCard";
 import StreamServiceActionPage from "@components/StreamServiceAction";
 import Layout from "../components/Layout";
@@ -16,11 +17,6 @@ import { useAuthContext } from "../providers/authProvider";
 import { useNotification } from "../providers/notificationProvider";
 
 import withAuth from "../utils/auth/withAuth";
-
-const calculateAmount = (amount: string, numberOfMembers: string) => {
-  const amounNum = parseInt(amount, 10);
-  return Math.ceil((amounNum + 200) / 100) * 100;
-};
 
 const EmptyState = () => {
   return (

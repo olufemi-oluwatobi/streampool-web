@@ -13,15 +13,11 @@ import { Modal } from "antd";
 import { StreamPlan } from "../interfaces/index";
 import { useAuthContext } from "../providers/authProvider";
 import { useNotification } from "../providers/notificationProvider";
+import { calculateAmount } from "@utils/helpers";
 
 import withAuth from "../utils/auth/withAuth";
 
 const { confirm } = Modal;
-
-const calculateAmount = (amount: string, numberOfMembers: string) => {
-  const amounNum = parseInt(amount, 10);
-  return Math.ceil((amounNum + 200) / 100) * 100;
-};
 
 const EmptyState = () => {
   return (

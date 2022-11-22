@@ -19,3 +19,8 @@ export const decryptPassword = (password: string, key: string) => {
     return "";
   }
 };
+
+export const calculateAmount = (amount: string, numberOfMembers: string) => {
+  const amounNum = parseInt(amount, 10);
+  return amounNum + 200;
+};
