@@ -18,6 +18,7 @@ import useStateCallback from "@hooks/useStateCallback";
 import { usePaystackPayment } from "react-paystack";
 import { useNotification } from "../providers/notificationProvider";
 import update from "immutability-helper";
+import { PaystackProps } from "react-paystack/dist/types";
 // import { authService } from "../services/authService";
 type RequestCallback = {
   onSuccess: () => void;
@@ -228,10 +229,11 @@ export const AuthProvider = ({ children, checkOnboardingStatus }) => {
     dispatch({ type: "UPDATE_POOL_CREDENTIALS", payload: data });
   };
 
-  const config = {
+  const config: PaystackProps = {
     reference,
     email: authData?.user?.email,
     amount: paymentPrice,
+    channels: ["card"],
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
   };
 
