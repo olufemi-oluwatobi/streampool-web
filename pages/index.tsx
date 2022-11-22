@@ -136,7 +136,7 @@ const IndexPage = () => {
         />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669149826/metas/WhatsApp_Image_2022-11-22_at_8.46.56_PM_lmdlhf.jpg"
         />
         <meta property="twitter:title" content="Streamcel " />
         <meta
@@ -145,7 +145,7 @@ const IndexPage = () => {
         />
         <meta
           property="twitter:image"
-          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669149826/metas/WhatsApp_Image_2022-11-22_at_8.46.56_PM_lmdlhf.jpg"
         />
         <meta property="twitter:card" content="summary"></meta>
       </Head>
