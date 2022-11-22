@@ -11,7 +11,7 @@ export default function Document() {
         <meta property="og:url" content="https://www.streamcel.com" />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
         />
         <meta property="twitter:title" content="Streamcel " />
         <meta
@@ -20,7 +20,7 @@ export default function Document() {
         />
         <meta
           property="twitter:image"
-          content="https://res.cloudinary.com/drda29q8x/image/upload/v1668419884/Artboard_1_copy_swvwml.png"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
         />
         <meta property="twitter:card" content="summary"></meta>
         <script
