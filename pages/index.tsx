@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import useCheckMobileScreen from "@hooks/useIsMobile";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import Head from "next/head";
 import StreamServiceActionPage from "@components/StreamServiceAction";
 import Layout from "../components/Layout";
 import StreamServices from "../components/streamServices";
@@ -127,6 +127,28 @@ const IndexPage = () => {
 
   return (
     <Layout title="Stream more for less">
+      <Head>
+        <meta property="og:title" content="Streamcel" />
+        <meta property="og:url" content="https://www.streamcel.com" />
+        <meta
+          property="og:description"
+          content="Stream more at a budget by sharing subscriptions to your favourite streaming services with other people"
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
+        />
+        <meta property="twitter:title" content="Streamcel " />
+        <meta
+          property="twitter:description"
+          content="Stream more at a budget by sharing subscriptions to your favourite streaming services with other people"
+        />
+        <meta
+          property="twitter:image"
+          content="https://res.cloudinary.com/drda29q8x/image/upload/v1669138720/metas/Artboard_1_copy_swvwml_11zon_2_kaxkxc.jpg"
+        />
+        <meta property="twitter:card" content="summary"></meta>
+      </Head>
       <div className=" flex sm:flex-row flex-col px-[5%] mt-10 w-full justify-between items-center ">
         <div className="flex flex-col sm:bg-transparent  rounded-xl  text-white-200 ">
           <span className=" text-[46px] leading-tight md:text-[46px] lg:text-[66px] xl:text-[76px] 2xl:text-[86px] sm:w-2/3 w-full font-bold sm:mb-2 mb-2 ">
