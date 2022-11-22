@@ -8,7 +8,7 @@ const getAmountSaved = (
 ) => {
   if (typeof maxMemberCount === "string")
     maxMemberCount = parseInt(maxMemberCount, 10);
-  const totalAmount = (amount - commissionCost) * maxMemberCount;
+  const totalAmount = (amount - commissionCost) * maxMemberCount - amount;
   return Number(totalAmount).toLocaleString();
 };
 export const ServiceCard = ({
