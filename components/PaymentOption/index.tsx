@@ -74,7 +74,7 @@ const PaymentOption = ({
           To proceed with your request, you need to add a payment method, you
           only need to do this once
         </span>
-        <div className=" bg-[#CDF7F6] font-bold text-black-500 rounded-md mt-6 p-2 ">
+        <div className=" text-white-500 bg-transparent border-solid border border-[#5e6163] font-bold  rounded-md mt-6 text-center p-2 ">
           You won't be charged until your request is accepted and your
           membership is active
         </div>
@@ -84,7 +84,7 @@ const PaymentOption = ({
         loading={isLoading}
         onClick={() => onClick()}
         className={
-          "w-full  h-10 my-6 font-bold border-none  text-md rounded-md text-white-200 bg-[#8F3985] "
+          "w-full  h-10 my-6 font-bold border-none  text-md  bg-white-200 rounded-lg text-black-500 "
         }
       >
         Add Payment Method

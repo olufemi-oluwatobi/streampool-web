@@ -39,7 +39,7 @@ const StreamServiceActionPage = ({
     | "success"
     | "error"
     | "edit_credentials"
-  >("requesting_payment_details");
+  >("init");
   const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
   // const [customEmail, setCustomEmail] = useState<string | null>(null);
 
