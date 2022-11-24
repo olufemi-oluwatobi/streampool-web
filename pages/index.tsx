@@ -65,7 +65,7 @@ const HowItWorks = () => {
       <Button
         onClick={() => scrollToComponent("stream_services")}
         className=" mt-10 flex justify-center rounded-lg items-center
-    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
+    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 "
       >
         <span className="">Explore Services</span>
       </Button>
@@ -162,14 +162,14 @@ const IndexPage = () => {
             <Button
               onClick={() => router.push("/signup")}
               className="  flex justify-center rounded-lg items-center
-    w-fit-content bg-[#49DE80]  font-bold border-none text-black-500 px-7 py-5 "
+    w-fit-content bg-[#49DE80]  font-bold border-none text-black-500 px-7 "
             >
               <span>Get Started</span>
             </Button>
             <Button
               onClick={() => scrollToComponent("how_it_works")}
               className=" ml-5  flex justify-center rounded-lg items-center
-    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7 py-5 "
+    w-fit-content border-[#49DE80]  bg-transparent border border-solid  font-bold text-white-200 px-7  "
             >
               <span className="">See how it works</span>
             </Button>
