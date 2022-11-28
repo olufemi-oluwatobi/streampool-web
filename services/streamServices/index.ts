@@ -60,7 +60,7 @@ class StreamService extends BaseApi {
   }
   async addToPool(
     poolRequestId: number,
-    data: { userId: string; poolId: number }
+    data: { userId: string; poolId: number; invitationUrl?: string }
   ) {
     this.loadRequest();
     return this.request.post(`pool/request/${poolRequestId}/resolve`, data);

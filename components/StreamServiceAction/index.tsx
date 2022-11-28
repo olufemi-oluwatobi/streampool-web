@@ -39,8 +39,15 @@ const StreamServiceActionPage = ({
     | "success"
     | "error"
     | "edit_credentials"
+    | "accept_invitation"
   >("init");
   const [isMakingOffer, setMakeOffer] = useState<boolean>(false);
+  const [poolRequestObj, setPoolRequestObj] = useState<{
+    requestId: number;
+    userId: string;
+    poolId: number;
+    invitationUrl?: string;
+  } | null>(null);
   // const [customEmail, setCustomEmail] = useState<string | null>(null);
 
   const maxMemberCount = useMemo(() => {
@@ -422,6 +429,85 @@ const StreamServiceActionPage = ({
     );
   };
 
+  const triggerAcceptRequest = async () => {
+    try {
+      const { requestId, ...requestObj } = poolRequestObj;
+      await acceptRequest(requestId, requestObj);
+      triggerNotification(
+        "Request Success",
+        "User's request has been accepted",
+        "success"
+      );
+      await fetchUserData();
+    } catch (error) {
+      triggerNotification(
+        "Request Success",
+        "User wasn't succesfully added, please try again",
+        "error"
+      );
+    }
+  };
+
+  const acceptRequestSection = () => {
+    return (
+      <div className="w-full  modal-input flex flex-col">
+        {!isMobile && (
+          <ServiceDetailHeader
+            title={"Accept request"}
+            onButtonClick={() => onCloseModal()}
+          />
+        )}
+        <Form className="w-full items-center" layout="vertical">
+          <Form.Item
+            className="mt-4"
+            label="Enter invitation link(optional)"
+            name="email"
+          >
+            <Input
+              onChange={(e) =>
+                setPoolRequestObj((v) => ({
+                  ...v,
+                  invitationUrl: e.target.value,
+                }))
+              }
+              className="h-10 "
+              name="email"
+              placeholder="Invitation Link"
+            />
+          </Form.Item>
+        </Form>
+        <Button
+          loading={isLoading}
+          onClick={async () => {
+            if (!poolRequestObj) return;
+            if (!poolRequestObj?.invitationUrl) {
+              confirmAcceptRequest(poolRequestObj);
+            } else {
+              triggerAcceptRequest();
+            }
+          }}
+          className={
+            "w-full h-12 mt-6 font-bold border-none  text-md text-black-700 rounded-3xl bg-white-500  "
+          }
+        >
+          Accept Request
+        </Button>
+        <Button
+          loading={isLoading}
+          onClick={() => {
+            setModalContentState("init");
+            setPoolRequestObj(null);
+          }}
+          className={
+            "w-full h-12 mt-2 font-bold border-none  text-md text-white-300 rounded-3xl bg-black-700  "
+          }
+        >
+          Cancel
+        </Button>
+      </div>
+    );
+  };
+
   const detailButtonLabel = useMemo(() => {
     if (serviceMembership) return "Cancel membership";
     if (serviceRequest) return "Cancel Request";
@@ -456,10 +542,8 @@ const StreamServiceActionPage = ({
     });
   };
 
-  const confirmAcceptRequest = (
-    requestId: number,
-    d: { userId: string; poolId: number }
-  ) => {
+  const confirmAcceptRequest = (d: typeof poolRequestObj) => {
+    const { requestId, ...requestData } = d;
     confirm({
       title: "Are you sure you've added the user's email to your membership?",
       icon: (
@@ -482,21 +566,7 @@ const StreamServiceActionPage = ({
       okType: "danger",
       cancelText: "No",
       async onOk() {
-        try {
-          const user = await acceptRequest(requestId, d);
-          triggerNotification(
-            "Request Sucess",
-            "User's request has been accepted",
-            "success"
-          );
-          await fetchUserData();
-        } catch (error) {
-          triggerNotification(
-            "Request Success",
-            "User wasn't succesfully added, please try again",
-            "error"
-          );
-        }
+        triggerAcceptRequest();
       },
     });
   };
@@ -612,8 +682,9 @@ const StreamServiceActionPage = ({
                 pool={currentPool}
                 poolRequestsProps={{
                   requests: authData?.user.membershipRequests,
-                  onAccept: (requestId, d) =>
-                    confirmAcceptRequest(requestId, d),
+                  onAccept: (requestId, d) => {
+                    setPoolRequestObj({ requestId, ...d });
+                  },
                 }}
                 isPoolOwner={isPoolOwner}
                 buttonProps={buttonProps}
@@ -724,6 +795,8 @@ const StreamServiceActionPage = ({
             }}
           />
         );
+      case "accept_invitation":
+        return acceptRequestSection();
     }
   };
 
