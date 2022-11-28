@@ -449,11 +449,16 @@ const StreamServiceActionPage = ({
   };
 
   const acceptRequestSection = () => {
+    if (!poolRequestObj) return;
+    const { requestId } = poolRequestObj;
+    const req = authData?.user.membershipRequests.find(
+      (d) => d.id === requestId
+    );
     return (
       <div className="w-full  modal-input flex flex-col">
         {!isMobile && (
           <ServiceDetailHeader
-            title={"Accept request"}
+            title={`Accept ${req?.user?.username} request for ${streamService?.name} membership`}
             onButtonClick={() => onCloseModal()}
           />
         )}
@@ -684,6 +689,7 @@ const StreamServiceActionPage = ({
                   requests: authData?.user.membershipRequests,
                   onAccept: (requestId, d) => {
                     setPoolRequestObj({ requestId, ...d });
+                    setModalContentState("accept_invitation");
                   },
                 }}
                 isPoolOwner={isPoolOwner}
