@@ -439,6 +439,7 @@ const StreamServiceActionPage = ({
         "success"
       );
       await fetchUserData();
+      setModalContentState("init");
     } catch (error) {
       triggerNotification(
         "Request Success",
