@@ -438,8 +438,9 @@ const StreamServiceActionPage = ({
         "User's request has been accepted",
         "success"
       );
-      await fetchUserData();
       setModalContentState("init");
+      setPoolRequestObj(null);
+      await fetchUserData();
     } catch (error) {
       triggerNotification(
         "Request Success",
