@@ -10,6 +10,7 @@ import { useStreamService } from "../providers/streamServiceProvider";
 import { Button, Modal } from "antd";
 import { StreamPlan, InvitationDetailsType } from "../interfaces/index";
 import FaqSection from "../components/faq";
+import { useAuthContext } from "@providers/authProvider";
 
 const { confirm } = Modal;
 
@@ -75,6 +76,7 @@ const HowItWorks = () => {
 
 const IndexPage = () => {
   const router = useRouter();
+  const { authData } = useAuthContext();
   const { streamServices, streamService, setStreamService } =
     useStreamService();
   const [selectedPlan, setSelectedPlan] = useState<StreamPlan | null>(null);
@@ -160,7 +162,12 @@ const IndexPage = () => {
           </span>
           <div className=" sm:w-fit-content  w-full flex justify-start items-center ">
             <Button
-              onClick={() => router.push("/signup")}
+              onClick={() => {
+                console.log(authData);
+                !authData
+                  ? router.push("/signup")
+                  : scrollToComponent("stream_services");
+              }}
               className="  flex justify-center rounded-lg items-center
     w-fit-content bg-[#49DE80]  font-bold border-none text-black-500 px-7 "
             >

@@ -6,7 +6,9 @@ import Image from "next/image";
 import { PoolRequestType, PoolType } from "../interfaces/index";
 import className from "classnames";
 import { ServiceCard } from "../components/ServiceCard";
-import ServiceDetails from "../components/ServiceDetails";
+import ServiceDetails, {
+  ServiceDetailHeader,
+} from "../components/ServiceDetails";
 import Layout from "../components/Layout";
 import { useStreamService } from "../providers/streamServiceProvider";
 import { Modal } from "antd";
@@ -252,12 +254,18 @@ const IndexPage = () => {
         <Modal
           className=" rounded-lg "
           cancelButtonProps={{ style: { display: "none" } }}
-          visible={Boolean(streamService)}
+          visible={!isMobile && Boolean(streamService)}
           footer={null}
           destroyOnClose={true}
           closable={true}
         >
           <div className="flex flex-col justify-center border border-[#999797] p-6 rounded-xl w-screen lg:w-[462px]   bg-[#242424] text-center">
+            {!isMobile && (
+              <ServiceDetailHeader
+                title="Your Request"
+                onButtonClick={() => onCloseModal()}
+              />
+            )}
             <ServiceDetails
               email={serviceEmail}
               streamService={streamService}
