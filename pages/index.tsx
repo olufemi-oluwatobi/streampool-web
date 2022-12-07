@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { hotjar } from "react-hotjar";
 import useCheckMobileScreen from "@hooks/useIsMobile";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -86,6 +87,14 @@ const IndexPage = () => {
   const { ref } = router.query;
   const [invitationDetails, setInvitationDetails] =
     useState<InvitationDetailsType | null>(null);
+
+  useEffect(() => {
+    if (authData) {
+      if (hotjar.initialized()) {
+        hotjar.identify("USER_ID", { email: authData.user.email });
+      }
+    }
+  }, [authData]);
 
   useEffect(() => {
     try {

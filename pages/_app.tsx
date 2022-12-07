@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { hotjar } from "react-hotjar";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { useTheme } from "next-themes";
@@ -33,6 +34,9 @@ const FormWrapperComponent = ({ children }: any) => {
 };
 
 function MyApp({ Component, pageProps, ...props }: AppProps) {
+  useEffect(() => {
+    hotjar.initialize(3246246, 6);
+  }, []);
   return (
     <div className=" font-lato ">
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
